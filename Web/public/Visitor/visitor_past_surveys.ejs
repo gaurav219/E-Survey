@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Reports Dashboard</title>
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet" />
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet" />
+    <link
+      href="assets/vendor/owl.carousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+      <div class="container d-flex align-items-center">
+        <h1 class="logo mr-auto"><a href="index.html">E-Survey</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+        <nav class="nav-menu d-none d-lg-block">
+          <ul>
+            <li>
+              <a href="/visitor_home">Home</a>
+            </li>
+            <li><a href="/visitor_Profile">My Profile</a></li>
+          </ul>
+        </nav>
+        <!-- .nav-menu -->
+        <form action="/visitor_logout" method="POST" style="margin-left: 1%">
+          <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
+      </div>
+    </header>
+    <!-- End Header -->
+
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div
+            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <h1>
+              <u><b> Total Surveys</b></u> <br> <br>
+              Completed : 
+              <a href="#completedSurveysDiv"><b style="color: rgb(193, 250, 101)"><%= completed_surveys.length %></b></a><br>
+              Pending : 
+              <a href="#"><b style="color: lightsalmon"><%= pending_surveys.length %></b></a>
+              <h2>
+                Email : <b style="color: rgb(150, 250, 217)"><%= useremail %> </b>
+              </h2>
+            </h1>
+          </div>
+          <div
+            class="col-lg-6 order-1 order-lg-2 hero-img"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
+            <img
+              src="assets/img/why-us.png"
+              class="img-fluid animated"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Hero -->
+
+    <main id="main">
+      <!-- ======= Cliens Section ======= -->
+      <section id="cliens" class="cliens section-bg">
+        <div class="container">
+          <div class="row" data-aos="zoom-in">
+            <div
+              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="assets/img/clients/ComingSoon.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+
+            <div
+              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="assets/img/clients/ComingSoon.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+
+            <div
+              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="assets/img/clients/ComingSoon.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+
+            <div
+              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="assets/img/clients/ComingSoon.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+
+            <div
+              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="assets/img/clients/ComingSoon.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+
+            <div
+              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="assets/img/clients/ComingSoon.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Cliens Section -->
+
+      <!-- ======= Frequently Asked Questions Section ======= -->
+      <section id="surveys" class="faq section-bg">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2>Past Surveys</h2>
+            <p>
+              Details of all the e-surveys done by the visitor with following visitor id  <p style="color: lightseagreen;"><%=
+                useremail %></p>
+            </p>
+          </div>
+
+          <div class="faq-list" id="completedSurveysDiv">
+            <center><h2>Completed Surveys</h2></center>
+            <ul>
+                <% for(var i=0; i < completed_surveys.length ; i++ ) { %>
+                    <li data-aos="fade-up" style="background-color: rgb(206, 250, 102);">
+                        <a data-toggle="collapse" class="collapse" href="#faq-list-<%= (i+1)%>"
+                          > <b style="color:rgb(2, 99, 83)"><%= completed_surveys[i].dateOfSurvey %></b> <h5><b style="color: darkslategrey;"><%= completed_surveys[i].collegeName %></b></h5>
+                          <i class="bx bx-chevron-down icon-show"></i
+                          ><i class="bx bx-chevron-up icon-close"></i
+                        ></a>
+                        <div
+                          id="faq-list-<%= (i+1) %>"
+                          class="collapse"
+                          data-parent=".faq-list"
+                        >
+                          <center>
+                            <div><br>
+                              <h4>Survey information</h4>
+                                <p><strong>Survey ID</strong>: <%= completed_surveys[i]['Sid'] %> </p>
+                                <p><strong>Submission Time</strong>: <%= completed_surveys[i].dateOfSurvey %></p>
+                                <br><a href="/survey_detail?id=<%= completed_surveys[i]['Sid'] %>" >Survey Details</a>
+                            </div>
+                          </center>
+                        </div>
+                      </li> 
+                <% } %>
+            </ul>
+          </div>
+          <br><br><br><br>
+          <div class="faq-list" >
+            <center><h2>Pending Surveys</h2></center>
+            <ul>
+                <% for(var i=0; i < pending_surveys.length ; i++ ) { %>
+                    <li data-aos="fade-up" style="background-color: rgb(253, 196, 122);">
+                        <a data-toggle="collapse" class="collapse" href="#pending-faq-list-<%= (i+1)%>"
+                          ><b style="color: darkslategrey;"><%= pending_surveys[i].collegeName %></b>
+                          <i class="bx bx-chevron-down icon-show"></i
+                          ><i class="bx bx-chevron-up icon-close"></i
+                        ></a>
+                        <div
+                          id="pending-faq-list-<%= (i+1) %>"
+                          class="collapse"
+                          data-parent=".faq-list"
+                        >
+                          <center>
+                            <div><br>
+                              <h4>Survey information</h4>
+                                <p><strong>Survey ID</strong>: <%= pending_surveys[i]['Sid'] %> </p>
+                                <p><strong>Assigned  Date</strong>: <%= pending_surveys[i].assignDateOfSurvey.getDate() %> / <%= pending_surveys[i].assignDateOfSurvey.getMonth() %> / <%= pending_surveys[i].assignDateOfSurvey.getFullYear() %> </p>
+                            </div>
+                          </center>
+                        </div>
+                      </li> 
+                <% } %>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- End Frequently Asked Questions Section -->
+
+      <!-- ======= Contact Section ======= -->
+    
+      <!-- End Contact Section -->
+    </main>
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="container footer-bottom clearfix">
+        <div class="copyright">
+          &copy; Copyright <strong><span>CSEIP19</span></strong
+          >. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: #license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: #arsha-free-bootstrap-html-template-corporate/ -->
+          Project By <a href="#">TEAM CSEIP19</a>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+
+    <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/venobox/venobox.min.js"></script>
+    <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
