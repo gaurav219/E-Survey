@@ -25,6 +25,11 @@ app.get('/', (req, res) => {
 	res.render('index.ejs');
 });
 
+//invalid routes
+app.get('*', (req, res) => {
+	res.send('404 Not Found');
+});
+
 app.listen(PORT, () => {
 	console.log('Server started at localhost ', PORT);
 });

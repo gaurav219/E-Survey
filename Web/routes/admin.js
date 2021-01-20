@@ -521,8 +521,21 @@ router.get('/show_Surveys', (req, res) => {
 										Completed_Surveys.push(survey);
 									}
 								});
-								//console.log(Pending_Surveys);
+								console.log(Pending_Surveys);
 								//console.log(Completed_Surveys);
+
+								Pending_Surveys = Pending_Surveys.sort((a, b) => {
+									return (
+										new Date(a.assignDate.seconds * 1000) - new Date(b.assignDate.seconds * 1000)
+									);
+								});
+
+								Completed_Surveys = Completed_Surveys.sort((a, b) => {
+									return (
+										new Date(b.assignDate.seconds * 1000) - new Date(a.assignDate.seconds * 1000)
+									);
+								});
+
 								res.render('Admin/showAllSureys.ejs', {
 									pending_surveys: Pending_Surveys,
 									completed_surveys: Completed_Surveys
