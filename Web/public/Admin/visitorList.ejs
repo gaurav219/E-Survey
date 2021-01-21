@@ -30,16 +30,10 @@
       rel="stylesheet"
     />
     <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
-
+ 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <!-- =======================================================
-  * Template Name: Arsha - v2.2.0
-  * Template URL: #arsha-free-bootstrap-html-template-corporate/
-  * Author: BootstrapMade.com
-  * License: #license/
-  ======================================================== -->
   </head>
 
   <body>
@@ -92,24 +86,30 @@
           <div class="section-title">
             <h2>Visiting Officers</h2>
           </div>
-          
+          <h5>Search Visitor (by Name or E-Mail ID)</h5> 
+            <input type="text" alt="Search" id="v_id" class="form-control" name="search" placeholder="Enter visitor Name or Email ID ... " />
+            <br><br>
           <div class="row content">
             <table class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">SNo</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
+                    <th scope="col">Full Name</th>
                     <th scope="col">E-Mail ID</th>
+                    <th scope="col">Contact Number</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="visitor_list">
                   <% for(var i=0; i < data.length ; i++ ) { %>
                     <tr>
                         <th scope="row"><%= i+1 %></th>
-                        <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %></a></td>
-                        <td><%= data[i].lastname %></td>
+                        <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %> <%= data[i].lastname %></a></td>
                         <td><%= data[i].gmailID %></td>
+                        <% if( data[i].contactNumber === "" ) { %>
+                          <td>-</td>
+                        <% } else { %>
+                          <td><%= data[i].contactNumber %></td>
+                        <% } %>
                       </tr>
                   <% } %>  
                 </tbody>
@@ -128,10 +128,6 @@
           >. All Rights Reserved
         </div>
         <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: #license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: #arsha-free-bootstrap-html-template-corporate/ -->
           Project By <a href="#">TEAM CSEIP19</a>
         </div>
       </div>
@@ -154,5 +150,32 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+
+    <script>
+      const v_id = document.getElementById('v_id')
+      const visitor_list_table_body = document.getElementById('visitor_list')
+     
+      v_id.addEventListener('keyup',() => {
+
+          var  filter, table, tr, td, i, txtValue;
+          filter = v_id.value.toUpperCase();
+          tr = visitor_list_table_body.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            mailID = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              emailID = mailID.textContent || mailID.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) >-1  || emailID.toUpperCase().indexOf(filter) >-1 ) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }       
+          }
+      });
+      </script>
+
   </body>
 </html>

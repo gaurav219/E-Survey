@@ -266,6 +266,7 @@ router.get('/visiting_Officer_list', (req, res) => {
 								result.forEach((tempdata) => {
 									Visiting_Officer_Data.push(tempdata.data());
 								});
+
 								console.log(Visiting_Officer_Data);
 								res.render('Admin/visitorList.ejs', { data: Visiting_Officer_Data });
 								return;
