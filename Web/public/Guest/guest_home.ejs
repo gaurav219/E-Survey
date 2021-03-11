@@ -51,6 +51,7 @@
           <ul>
             <li><a href="/guest_home">Home</a></li>
             <li><a href="/guest_profile">My Profile</a></li>
+            <li><a href="/guest_search">Search Colleges</a></li>
           </ul>
         </nav>
         <!-- .nav-menu -->
@@ -238,8 +239,7 @@
     <script src="assets/js/main.js"></script>
     
     <% var ans = data; %>
-    
-    </script>
+
     <script>let arr = []; let small = "";</script>
     <% for(var i=0; i < data.length ; i++ ) { %>
       <script>small = "<%= ans[i].collegeName %>"; 
