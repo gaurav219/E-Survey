@@ -172,34 +172,100 @@
     <script src="assets/js/main.js"></script>
    <% let scores = surveyData; %>
 
-   <script>let score1= []; let score2 = [];</script>
+   <script>let score1= []; let score2 = [];let ans, date, index;</script>
 
    <% for(var i=0; i < scores.length ; i++ ) { %>
 
     <script>
-      const ans = ("<%= scores[i].scoreOfTeaching %>").split(",");
-      const date = ("<%= scores[i].dateOfSurvey %>")
-      const index = (new Date(date).getMonth())
+       ans = ("<%= scores[i].scoreOfTeaching %>").split(",");
+       date = ("<%= scores[i].dateOfSurvey %>")
+       index = (new Date(date).getMonth())
+      // console.log(index, "YA")
       
       score1[index] = ans[0];
       score2[index] = ans[1];
 
     </script>
       
-  <% } %>
+   <% } %>
+
+   <script>
+      console.log(score1,score2)
+
+    const curr_month = new Date().getMonth();
+
+    const year = {
+       0: "Jan",
+       1: "Feb",
+       2: "Mar",
+       3: "Apr",
+       4: "May",
+       5: "Jun",
+       6: "Jul",
+       7: "Aug",
+       8: "Sep",
+       9: "Oct",
+       10: "Nov",
+       11: "Dec"
+      }
+
+    let last_date = 0;
+
+    const final_year = [];
+
+    if(curr_month == 11) {
+      last_date = 0;
+    }
+
+    else {
+      last_date = curr_month + 1;
+    }
+    
+    let x = 0;
+
+    let score3 = [];
+    let score4 = [];
+
+    while(last_date != curr_month) {
+      // console.log(x, 'x')
+      final_year[x] = year[last_date];
+      if(score1[last_date] != 0 || score2[last_date] != 0) {
+        score3[x] = score1[last_date];
+        score4[x] = score2[last_date];
+      }
+      x ++;
+      last_date ++;
+      if(last_date == 12) {
+        last_date = 0;
+      }
+    }
+
+    if(last_date == 12) {
+      last_date = 0;
+    }
+    if(score1[last_date] != 0) {
+        score3[x] = score1[last_date];
+        score4[x] = score2[last_date];
+    }
+  
+    final_year[x ++] = year[last_date];
+    score3[x ++] = score1[last_date];
+    score4[x ++] = score2[last_date];
+
+   </script>
 
     <script>
-      
+
       var trace1 = {
-        x: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        y: score1,
+        x: final_year,
+        y: score3,
           type: 'bar',
           name: 'College Environment'
       };
 
       var trace2 = {
-        x: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        y: score2,
+        x: final_year,
+        y: score4,
           type: 'bar',
           name: 'Teaching Learning Process'
       };
@@ -216,8 +282,6 @@
       }else{
         document.getElementById('msg').style.visibility="visible";
       }
-
-        
     </script>
   </body>
 </html>

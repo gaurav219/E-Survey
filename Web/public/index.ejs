@@ -34,28 +34,28 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
     <script>
-       window.ChatraSetup = {
+      window.ChatraSetup = {
         colors: {
-        buttonText: '#f0f0f0', /* chat button text color */
-        buttonBg: '#37517E'    /* chat button background color */
-        }
-       }
-       </script>
-       <% let KEY = key; %>
-       <script>
-      (function(d, w, c) {
-       
-          w.ChatraID = "<%= KEY %>";;
-          var s = d.createElement('script');
-          w[c] = w[c] || function() {
-              (w[c].q = w[c].q || []).push(arguments);
+          buttonText: "#f0f0f0" /* chat button text color */,
+          buttonBg: "#37517E" /* chat button background color */,
+        },
+      };
+    </script>
+    <% let KEY = key; %>
+    <script>
+      (function (d, w, c) {
+        w.ChatraID = "<%= process.env.CHATRA_KEY %>";
+        var s = d.createElement("script");
+        w[c] =
+          w[c] ||
+          function () {
+            (w[c].q = w[c].q || []).push(arguments);
           };
-          s.async = true;
-          s.src = 'https://call.chatra.io/chatra.js';
-          if (d.head) d.head.appendChild(s);
-      })(document, window, 'Chatra');
-  </script>
-
+        s.async = true;
+        s.src = "https://call.chatra.io/chatra.js";
+        if (d.head) d.head.appendChild(s);
+      })(document, window, "Chatra");
+    </script>
   </head>
 
   <body>
@@ -240,7 +240,11 @@
           </div>
           <br />
           <center>
-            <a href="https://docs.google.com/presentation/d/1RcMDMMbn-SlY_ToaeNiPWYmeRqXJnrZZbrmukbEbvtg/edit?usp=sharing" class="btn-learn-more">Learn More</a>
+            <a
+              href="https://docs.google.com/presentation/d/1RcMDMMbn-SlY_ToaeNiPWYmeRqXJnrZZbrmukbEbvtg/edit?usp=sharing"
+              class="btn-learn-more"
+              >Learn More</a
+            >
           </center>
         </div>
       </section>
@@ -258,7 +262,9 @@
                   <strong>Key Factors</strong>
                 </h3>
                 <p>
-                  Web Platform (Portal) for monitoring and displaying  the feedback information. Also, to make the data and report graphically interactive & expressive.
+                  Web Platform (Portal) for monitoring and displaying the
+                  feedback information. Also, to make the data and report
+                  graphically interactive & expressive.
                 </p>
               </div>
 
@@ -269,7 +275,9 @@
                       data-toggle="collapse"
                       class="collapse"
                       href="#accordion-list-1"
-                      ><span>01</span> Data as Information<i class="bx bx-chevron-down icon-show"></i
+                      ><span>01</span> Data as Information<i
+                        class="bx bx-chevron-down icon-show"
+                      ></i
                       ><i class="bx bx-chevron-up icon-close"></i
                     ></a>
                     <div
@@ -297,8 +305,10 @@
                       class="collapse"
                       data-parent=".accordion-list"
                     >
-                      <p>Based on rating, overall growth yearly, zone-wise distribution etc.</p>
-                      
+                      <p>
+                        Based on rating, overall growth yearly, zone-wise
+                        distribution etc.
+                      </p>
                     </div>
                   </li>
                   <li>
@@ -306,7 +316,9 @@
                       data-toggle="collapse"
                       href="#accordion-list-3"
                       class="collapsed"
-                      ><span>03</span> Chat Plug-in<i class="bx bx-chevron-down icon-show"></i
+                      ><span>03</span> Chat Plug-in<i
+                        class="bx bx-chevron-down icon-show"
+                      ></i
                       ><i class="bx bx-chevron-up icon-close"></i
                     ></a>
                     <div
@@ -325,7 +337,7 @@
 
             <div
               class="col-lg-5 align-items-stretch order-1 order-lg-2 img"
-              style="background-image: url('assets/img/why-us.png')"
+              style="background-image: url('assets/img/why-us.png');"
               data-aos="zoom-in"
               data-aos-delay="150"
             >
@@ -343,11 +355,15 @@
             <div class="col-lg-9 text-center text-lg-left">
               <h3>What is Teaching and Learning ??</h3>
               <p>
-                Teaching can be defined as engagement with learners to enable their understanding and application of knowledge, concepts and processes.
-                Learning can be defined as the activity or process of gaining knowledge or skill by studying, practicing, being taught, or experiencing something (Merriam-Webster dictionary). Learning is about what students do, not about what we as teachers do. 
+                Teaching can be defined as engagement with learners to enable
+                their understanding and application of knowledge, concepts and
+                processes. Learning can be defined as the activity or process of
+                gaining knowledge or skill by studying, practicing, being
+                taught, or experiencing something (Merriam-Webster dictionary).
+                Learning is about what students do, not about what we as
+                teachers do.
               </p>
             </div>
-           
           </div>
         </div>
       </section>
@@ -371,17 +387,13 @@
                 data-aos-delay="100"
               >
                 <div class="pic">
-                  <img
-                    src=""
-                    class="img-fluid"
-                    alt=""
-                  />
+                  <img src="" class="img-fluid" alt="" />
                 </div>
                 <div class="member-info">
                   <h4>Gaurav</h4>
                   <span>Developer</span>
                   <p>
-                    About me 
+                    About me
                   </p>
                   <div class="social">
                     <a href=""><i class="ri-twitter-fill"></i></a>
@@ -400,17 +412,13 @@
                 data-aos-delay="200"
               >
                 <div class="pic">
-                  <img
-                    src=""
-                    class="img-fluid"
-                    alt=""
-                  />
+                  <img src="" class="img-fluid" alt="" />
                 </div>
                 <div class="member-info">
                   <h4>Ruchir</h4>
                   <span>Developer</span>
                   <p>
-                    About me 
+                    About me
                   </p>
                   <div class="social">
                     <a href=""><i class="ri-twitter-fill"></i></a>
@@ -429,11 +437,7 @@
                 data-aos-delay="300"
               >
                 <div class="pic">
-                  <img
-                    src=""
-                    class="img-fluid"
-                    alt=""
-                  />
+                  <img src="" class="img-fluid" alt="" />
                 </div>
                 <div class="member-info">
                   <h4>Sahil</h4>
@@ -455,14 +459,14 @@
       </section>
       <!-- End Team Section -->
 
-
       <!-- ======= Frequently Asked Questions Section ======= -->
       <section id="faq" class="faq section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Guidelines for Scoring/Rating </h2>
+            <h2>Guidelines for Scoring/Rating</h2>
             <p>
-              Following section inlcudes various paramters on which one can get an overall idea of the educational body or insitute.
+              Following section inlcudes various paramters on which one can get
+              an overall idea of the educational body or insitute.
             </p>
           </div>
 
@@ -471,8 +475,7 @@
               <li data-aos="fade-up" data-aos-delay="100">
                 <i class="bx bx-help-circle icon-help"></i>
                 <a data-toggle="collapse" class="collapse" href="#faq-list-1"
-                  >Teaching Process
-                  <i class="bx bx-chevron-down icon-show"></i
+                  >Teaching Process <i class="bx bx-chevron-down icon-show"></i
                   ><i class="bx bx-chevron-up icon-close"></i
                 ></a>
                 <div
@@ -481,11 +484,16 @@
                   data-parent=".faq-list"
                 >
                   <p>
-                    To teach is to engage students in learning; thus teaching consists of getting students involved in the active construction of knowledge. 
-                    A teacher requires not only knowledge of subject matter, but knowledge of how students learn and how to transform them 
-                    into active learners. Good teaching, then, requires a commitment to systematic understanding of learning. The aim of 
-                    teaching is not only to transmit information, but also to transform students from passive recipients of other people's 
-                    knowledge into active constructors of their own and others' knowledge. 
+                    To teach is to engage students in learning; thus teaching
+                    consists of getting students involved in the active
+                    construction of knowledge. A teacher requires not only
+                    knowledge of subject matter, but knowledge of how students
+                    learn and how to transform them into active learners. Good
+                    teaching, then, requires a commitment to systematic
+                    understanding of learning. The aim of teaching is not only
+                    to transmit information, but also to transform students from
+                    passive recipients of other people's knowledge into active
+                    constructors of their own and others' knowledge.
                   </p>
                 </div>
               </li>
@@ -493,13 +501,16 @@
               <li data-aos="fade-up" data-aos-delay="200">
                 <i class="bx bx-help-circle icon-help"></i>
                 <a data-toggle="collapse" href="#faq-list-2" class="collapsed"
-                  >Learning Process
-                  <i class="bx bx-chevron-down icon-show"></i
+                  >Learning Process <i class="bx bx-chevron-down icon-show"></i
                   ><i class="bx bx-chevron-up icon-close"></i
                 ></a>
                 <div id="faq-list-2" class="collapse" data-parent=".faq-list">
                   <p>
-                    Learning can be defined as the activity or process of gaining knowledge or skill by studying, practicing, being taught, or experiencing something (Merriam-Webster dictionary). Learning is about what students do, not about what we as teachers do. 
+                    Learning can be defined as the activity or process of
+                    gaining knowledge or skill by studying, practicing, being
+                    taught, or experiencing something (Merriam-Webster
+                    dictionary). Learning is about what students do, not about
+                    what we as teachers do.
                   </p>
                 </div>
               </li>
@@ -507,14 +518,18 @@
               <li data-aos="fade-up" data-aos-delay="300">
                 <i class="bx bx-help-circle icon-help"></i>
                 <a data-toggle="collapse" href="#faq-list-3" class="collapsed"
-                  >Assessment & Curriculum 
+                  >Assessment & Curriculum
                   <i class="bx bx-chevron-down icon-show"></i
                   ><i class="bx bx-chevron-up icon-close"></i
                 ></a>
                 <div id="faq-list-3" class="collapse" data-parent=".faq-list">
                   <p>
-                    Assessment is defined as the act of judging the amount of learning that took place as a result of learning and teaching. 
-                    A well-crafted curriculum serves as a reference to ensure that you’re on the right track. Its components are designed to develop concepts, from a basic level to increasingly complex topics or skills.
+                    Assessment is defined as the act of judging the amount of
+                    learning that took place as a result of learning and
+                    teaching. A well-crafted curriculum serves as a reference to
+                    ensure that you’re on the right track. Its components are
+                    designed to develop concepts, from a basic level to
+                    increasingly complex topics or skills.
                   </p>
                 </div>
               </li>
@@ -528,7 +543,11 @@
                 ></a>
                 <div id="faq-list-4" class="collapse" data-parent=".faq-list">
                   <p>
-                    college environment incorporates all external factors related to attending college. This means that the environment is not only the physical space of attending college, such as dormitory rooms and the campus green, but the social and biological factors as well.
+                    college environment incorporates all external factors
+                    related to attending college. This means that the
+                    environment is not only the physical space of attending
+                    college, such as dormitory rooms and the campus green, but
+                    the social and biological factors as well.
                   </p>
                 </div>
               </li>
@@ -538,13 +557,11 @@
       </section>
       <!-- End Frequently Asked Questions Section -->
 
-     
       <!-- ======= Contact Section ======= -->
       <section id="contact" class="contact">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>Contact</h2>
-            
           </div>
 
           <div class="row">
@@ -571,12 +588,11 @@
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3498.994713897839!2d77.06390231503833!3d28.71970398238337!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d068dbf44ecd7%3A0xc4ce5551f8ac8360!2sMaharaja%20Agrasen%20Institute%20Of%20Technology!5e0!3m2!1sen!2sin!4v1608191881833!5m2!1sen!2sin"
                   frameborder="0"
-                  style="border: 0; width: 100%; height: 290px"
+                  style="border: 0; width: 100%; height: 290px;"
                   allowfullscreen
                 ></iframe>
               </div>
             </div>
-           
           </div>
         </div>
       </section>
