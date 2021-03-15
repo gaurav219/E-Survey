@@ -182,8 +182,9 @@
       <script>
       collegeName = "<%= ans[i].CollegeName %>";
       type = "<%= ans[i].type %>";
-      address = "<%= ans[i].address %>"; 
-      arr.push({collegeName , type , address });
+      address = "<%= ans[i].address %>";
+      id = "<%= ans[i].id %>"; 
+      arr.push({collegeName , type , address , id });
       </script>  
     <% } %>
 
@@ -197,6 +198,8 @@
 
         // filter based on the College Name
         Q_collegeName = Q_collegeName.toUpperCase();
+
+        // console.log(arr);
 
         if(Q_collegeName!=""){
           for(let i=0;i<arr.length;i++){
@@ -238,8 +241,7 @@
           
         }
         
-        
-        console.log(result);
+        //console.log(result);
         if( result && result.length > 0 ){
           document.getElementById('result').innerHTML = 
         `
@@ -254,6 +256,8 @@
         for(let i=0; i<result.length; i+=2){
 
           if(i<result.length && (i+1) < result.length){
+            let link1 = "/college_Profile?id="+result[i].id;
+            let link2 = "/college_Profile?id="+result[i+1].id;
             document.getElementById('result').innerHTML += `
             <div class="row">
                   <div class="col-sm-6">
@@ -261,7 +265,7 @@
                     <div class="card-body">
                       <h5 class="card-title">${result[i].collegeName}</h5>
                       <p class="card-text">${result[i].address}</p>
-                      <a href="#" class="btn btn-warning">Profile</a>
+                      <a href=${link1} target="_blank" class="btn btn-warning">Profile</a>
                     </div>
                   </div>
                 </div>
@@ -270,20 +274,21 @@
                     <div class="card-body">
                       <h5 class="card-title">${result[i+1].collegeName}</h5>
                       <p class="card-text">${result[i+1].address}</p>
-                      <a href="#" class="btn btn-warning">Profile</a>
+                      <a href=${link2} target="_blank" class="btn btn-warning">Profile</a>
                     </div>
                   </div>
                 </div>
               </div>
               </div>`;
           }else{
+            let link = "/college_Profile?id="+result[i].id;
             document.getElementById('result').innerHTML += `
             <div class="col-sm-6">
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">${result[i].collegeName}</h5>
                       <p class="card-text">${result[i].address}</p>
-                      <a href="#" class="btn btn-warning">Profile</a>
+                      <a href=${link} target="_blank" class="btn btn-warning">Profile</a>
                     </div>
                   </div>
                 </div>`;
@@ -301,6 +306,7 @@
           </div>
         `;
         }
+        //console.log(result);
         
       }
     </script>
