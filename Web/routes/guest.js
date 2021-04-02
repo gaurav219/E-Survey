@@ -452,6 +452,7 @@ router.post('/compare_result', (req, res) => {
 					collegesRef
 						.get()
 						.then((snapshot) => {
+							// variables to hold cllg data
 							let collegeData1 = {};
 							let collegeData2 = {};
 
@@ -469,16 +470,27 @@ router.post('/compare_result', (req, res) => {
 								}
 							});
 
+							// avg cllg rating
 							let cllg1_avg_rating = [ 0, 0 ];
 							let cllg2_avg_rating = [ 0, 0 ];
+
+							// variable to store total number of surveys count
+
 							let cllg1_total_surveys_count = 0;
 							let cllg2_total_surveys_count = 0;
+
+							// variable to store min and max rating value
+							let cllg1_min_rating = [ 10, 10 ];
+							let cllg2_min_rating = [ 10, 10 ];
+							let cllg1_max_rating = [ 0, 0 ];
+							let cllg2_max_rating = [ 0, 0 ];
+
 							//console.log(req.body);
 							surveysRef
 								.get()
 								.then((snapshot) => {
 									snapshot.forEach((temp_survey) => {
-										// extract survey ratings
+										// extract survey ratings --- for avg rating
 										if (
 											temp_survey.data().status == 'completed' &&
 											temp_survey.data().collegeName.toLowerCase() ==
@@ -487,6 +499,21 @@ router.post('/compare_result', (req, res) => {
 											cllg1_avg_rating[0] += temp_survey.data().scoreOfTeaching[0];
 											cllg1_avg_rating[1] += temp_survey.data().scoreOfTeaching[1];
 											cllg1_total_surveys_count++;
+
+											// update min rating
+											if (cllg1_min_rating[0] > temp_survey.data().scoreOfTeaching[0]) {
+												cllg1_min_rating[0] = temp_survey.data().scoreOfTeaching[0];
+											}
+											if (cllg1_min_rating[1] > temp_survey.data().scoreOfTeaching[1]) {
+												cllg1_min_rating[1] = temp_survey.data().scoreOfTeaching[1];
+											}
+											// update max rating
+											if (cllg1_max_rating[0] < temp_survey.data().scoreOfTeaching[0]) {
+												cllg1_max_rating[0] = temp_survey.data().scoreOfTeaching[0];
+											}
+											if (cllg1_max_rating[1] < temp_survey.data().scoreOfTeaching[1]) {
+												cllg1_max_rating[1] = temp_survey.data().scoreOfTeaching[1];
+											}
 										} else if (
 											temp_survey.data().status == 'completed' &&
 											temp_survey.data().collegeName.toLowerCase() ==
@@ -495,6 +522,21 @@ router.post('/compare_result', (req, res) => {
 											cllg2_avg_rating[0] += temp_survey.data().scoreOfTeaching[0];
 											cllg2_avg_rating[1] += temp_survey.data().scoreOfTeaching[1];
 											cllg2_total_surveys_count++;
+
+											// update min rating
+											if (cllg2_min_rating[0] > temp_survey.data().scoreOfTeaching[0]) {
+												cllg2_min_rating[0] = temp_survey.data().scoreOfTeaching[0];
+											}
+											if (cllg2_min_rating[1] > temp_survey.data().scoreOfTeaching[1]) {
+												cllg2_min_rating[1] = temp_survey.data().scoreOfTeaching[1];
+											}
+											// update max rating
+											if (cllg2_max_rating[0] < temp_survey.data().scoreOfTeaching[0]) {
+												cllg2_max_rating[0] = temp_survey.data().scoreOfTeaching[0];
+											}
+											if (cllg2_max_rating[1] < temp_survey.data().scoreOfTeaching[1]) {
+												cllg2_max_rating[1] = temp_survey.data().scoreOfTeaching[1];
+											}
 										}
 									});
 
@@ -514,6 +556,12 @@ router.post('/compare_result', (req, res) => {
 											Math.round((rating / cllg2_total_surveys_count + Number.EPSILON) * 100) /
 											100
 									);
+
+									// storing min and max rating values
+									collegeData1['max_rating'] = cllg1_max_rating;
+									collegeData2['max_rating'] = cllg2_max_rating;
+									collegeData1['min_rating'] = cllg1_min_rating;
+									collegeData2['min_rating'] = cllg2_min_rating;
 
 									//total survey counts
 									collegeData1['totalSurveys'] = cllg1_total_surveys_count;
