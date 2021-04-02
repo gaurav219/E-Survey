@@ -9,7 +9,7 @@
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
- 
+
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
@@ -33,6 +33,13 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+
+    <style> 
+
+      table, th, td {
+        text-align: center;
+      }
+    </style>
   </head>
 
   <body>
@@ -53,85 +60,97 @@
         </nav>
         <!-- .nav-menu -->
         <form action="/guest_logout" method="POST" style="margin-left: 1%">
-          <button class="btn btn-sm btn-danger" type="submit">Logout</button>
+          <button class="btn btn-sm  btn-danger" type="submit">Logout</button>
         </form>
       </div>
     </header>
     <!-- End Header -->
 
+
     <main id="main">
-      <!-- ======= Why Us Section ======= -->
-      <section id="hero" class="d-flex align-items-center">
-        <div class="container">
-          <div class="row">
-            <div
-              class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-            <h1 style="color: white">Guest Profile</h1>
-            <table class="table table-borderless table-hover" style="color: white;">
+        <section id="hero" class="d-flex align-items-center">
+            <div class="container">
+              <div class="row">
+                <div
+                  class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
+                  <h1>
+                    Compare Colleges 
+                  </h1>
+                  <h2> <%= data.collegeData1.CollegeName %> vs  <%= data.collegeData2.CollegeName %></h2>
+                
+                  
+                </div>
+                <div
+                  class="col-lg-6 order-1 order-lg-2 hero-img"
+                  data-aos="zoom-in"
+                  data-aos-delay="200"
+                >
+                  <img
+                    src="assets/img/hero-img.png"
+                    class="img-fluid animated"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+     
+      <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2> <%= data.collegeData1.CollegeName %> vs  <%= data.collegeData2.CollegeName %></h2>
+            <table class="table table-hover ">
+              <thead>
+                <tr>
+                  <th scope="col"><h3>Paramter</h3></th>
+                  <th scope="col"><h3><%= data.collegeData1.CollegeName %></h3></th>
+                  <th scope="col"><h3><%= data.collegeData2.CollegeName %></h3></th>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
-                  <th scope="row"><h4>Full Name</h4></th>
-                  <td><h4><%= user_data.FName %> <%= user_data.LName%></h4></td>
+                  <th scope="row">Type</th>
+                  <td><%= data.collegeData1.type %></td>
+                  <td><%= data.collegeData2.type %></td>
                 </tr>
                 <tr>
-                  <th scope="row"><h4>Email ID</h4></th>
-                  <% if(user.emailVerified) { %>
-                    <td><h4 style="color: rgb(140, 255, 125);"><%= user_data.Email %></h4></td>
-                  <% } %> 
-                  <% if(!user.emailVerified) { %>
-                    <td><h4 style="color: rgb(255, 111, 67);"><%= user_data.Email %></h4></td>
-                  <% } %> 
+                  <th scope="row">Location</th>
+                  <td><%= data.collegeData1.address %></td>
+                  <td><%= data.collegeData2.address %></td>
                 </tr>
-                <!-- <tr>
-                  <th scope="row"><h4>Age</h4></th>
-                  <td><h4><%= user_data.age %></h4></td>
-                </tr> -->
                 <tr>
-                  <th scope="row"><h4>Contact Number</h4></th>
-                  <td><h4><%= user_data.number %></h4></td>
+                  <th scope="row">Number of Survey Count</th>
+                  <td><%= data.collegeData1.totalSurveys %></td>
+                  <td><%= data.collegeData2.totalSurveys %></td>
+                </tr>
+                <tr>
+                  <th scope="row">Teaching And Learning Process (Average Rating)</th>
+                  <td><%= data.collegeData1.avg_rating[0] %></td>
+                  <td><%= data.collegeData2.avg_rating[0] %></td>
+                </tr>
+                <tr>
+                  <th scope="row">College Environment (Average Rating) </th>
+                  <td><%= data.collegeData1.avg_rating[1] %></td>
+                  <td><%= data.collegeData2.avg_rating[1] %></td>
                 </tr>
               </tbody>
             </table>
-
-            <div class="d-lg-flex">
-              <a href="/updateProfile_guest" class="btn-get-started scrollto">Update Profile</a>
-            </div>
-            </div>
-            <div
-              class="col-lg-6 order-1 order-lg-2 hero-img"
-              data-aos="zoom-in"
-              data-aos-delay="200" 
-            >
-              <img
-                src="assets/img/why-us.png"
-                class="img-fluid animated"
-                alt=""
-              />
-            </div>
           </div>
         </div>
       </section>
+    </main>
 
-      <!-- End Why Us Section -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-      
-
+     <footer id="footer">
       <div class="container footer-bottom clearfix">
         <div class="copyright">
-          &copy; Copyright <strong><span>Team Mait</span></strong
+          &copy; Copyright <strong><span>Team MAIT</span></strong
           >. All Rights Reserved
         </div>
         <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: #license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: #arsha-free-bootstrap-html-template-corporate/ -->
-          Project By <a href="#">TEAM CSEIP19</a>
+         Project By <a href="#">TEAM CSEIP19</a>
         </div>
       </div>
     </footer>
@@ -153,5 +172,6 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
   </body>
 </html>

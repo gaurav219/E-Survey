@@ -370,10 +370,168 @@ router.get('/guest_search', (req, res) => {
 								colleges.push(temp);
 							});
 
-							res.render('Guest/college_search', {
+							res.render('Guest/college_search.ejs', {
 								data: colleges
 							});
 							return;
+						})
+						.catch((err) => {
+							console.log(err.message, 'No College Data Fetched - Guest Home');
+							res.redirect('/guest_signIn');
+							return;
+						});
+				} else {
+					res.redirect('/guest_signin');
+					return;
+				}
+			})
+			.catch((err) => {
+				console.log(err, 'Not a Guest - Guest College Profile');
+				res.redirect('/');
+				return;
+			});
+	} else {
+		res.redirect('/guest_signin');
+		return;
+	}
+});
+
+//compare_colleges Page for guest
+router.get('/compare_colleges', (req, res) => {
+	var user = firebase.auth().currentUser;
+	if (user && req.query.id !== '') {
+		Guests.doc(user.email)
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					collegesRef
+						.get()
+						.then((snapshot) => {
+							let colleges = [];
+							snapshot.forEach((college_data) => {
+								let temp = college_data.data();
+								temp.type = capitalize(temp.type);
+								temp['id'] = college_data.id;
+								colleges.push(temp);
+							});
+
+							res.render('Guest/compare_colleges.ejs', {
+								data: colleges
+							});
+							return;
+						})
+						.catch((err) => {
+							console.log(err.message, 'No College Data Fetched - Guest Home');
+							res.redirect('/guest_signIn');
+							return;
+						});
+				} else {
+					res.redirect('/guest_signin');
+					return;
+				}
+			})
+			.catch((err) => {
+				console.log(err, 'Not a Guest - Guest College Profile');
+				res.redirect('/');
+				return;
+			});
+	} else {
+		res.redirect('/guest_signin');
+		return;
+	}
+});
+
+// compare colleges Result Page for guest
+router.post('/compare_result', (req, res) => {
+	var user = firebase.auth().currentUser;
+	if (user && req.query.id !== '') {
+		Guests.doc(user.email)
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					collegesRef
+						.get()
+						.then((snapshot) => {
+							let collegeData1 = {};
+							let collegeData2 = {};
+
+							snapshot.forEach((college_data) => {
+								let temp = college_data.data();
+								if (temp.CollegeName.toLowerCase() === req.body.input_college_1.toLowerCase()) {
+									temp.type = capitalize(temp.type);
+									temp['id'] = college_data.id;
+									collegeData1 = temp;
+								}
+								if (temp.CollegeName.toLowerCase() === req.body.input_college_2.toLowerCase()) {
+									temp.type = capitalize(temp.type);
+									temp['id'] = college_data.id;
+									collegeData2 = temp;
+								}
+							});
+
+							let cllg1_avg_rating = [ 0, 0 ];
+							let cllg2_avg_rating = [ 0, 0 ];
+							let cllg1_total_surveys_count = 0;
+							let cllg2_total_surveys_count = 0;
+							//console.log(req.body);
+							surveysRef
+								.get()
+								.then((snapshot) => {
+									snapshot.forEach((temp_survey) => {
+										// extract survey ratings
+										if (
+											temp_survey.data().status == 'completed' &&
+											temp_survey.data().collegeName.toLowerCase() ==
+												req.body.input_college_1.toLowerCase()
+										) {
+											cllg1_avg_rating[0] += temp_survey.data().scoreOfTeaching[0];
+											cllg1_avg_rating[1] += temp_survey.data().scoreOfTeaching[1];
+											cllg1_total_surveys_count++;
+										} else if (
+											temp_survey.data().status == 'completed' &&
+											temp_survey.data().collegeName.toLowerCase() ==
+												req.body.input_college_2.toLowerCase()
+										) {
+											cllg2_avg_rating[0] += temp_survey.data().scoreOfTeaching[0];
+											cllg2_avg_rating[1] += temp_survey.data().scoreOfTeaching[1];
+											cllg2_total_surveys_count++;
+										}
+									});
+
+									// console.log(cllg1_avg_rating);
+									// console.log(cllg2_avg_rating);
+									// console.log(cllg1_total_surveys_count);
+									// console.log(cllg2_total_surveys_count);
+
+									// calculate the avg rating
+									collegeData1['avg_rating'] = cllg1_avg_rating.map(
+										(rating) =>
+											Math.round((rating / cllg1_total_surveys_count + Number.EPSILON) * 100) /
+											100
+									);
+									collegeData2['avg_rating'] = cllg2_avg_rating.map(
+										(rating) =>
+											Math.round((rating / cllg2_total_surveys_count + Number.EPSILON) * 100) /
+											100
+									);
+
+									//total survey counts
+									collegeData1['totalSurveys'] = cllg1_total_surveys_count;
+									collegeData2['totalSurveys'] = cllg2_total_surveys_count;
+
+									console.log(collegeData1);
+									console.log(collegeData2);
+
+									res.render('Guest/compare_result.ejs', {
+										data: { collegeData1, collegeData2 }
+									});
+									return;
+								})
+								.catch((err) => {
+									console.log(err, 'Surveys Data not Fetched - Guest College Profile');
+									res.redirect('/guest_home');
+									return;
+								});
 						})
 						.catch((err) => {
 							console.log(err.message, 'No College Data Fetched - Guest Home');
