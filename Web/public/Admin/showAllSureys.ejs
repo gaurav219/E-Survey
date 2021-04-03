@@ -100,7 +100,7 @@
             <table class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">SNo</th>
+                   
                     <th scope="col">Survey ID</th>
                     <th scope="col">Date Assigned</th>
                     <th scope="col">College Name</th>
@@ -111,7 +111,7 @@
                 <tbody id="pendingSurveysTableBody">
                   <% for(var i=0; i < pending_surveys.length ; i++ ) { %>
                     <tr>
-                        <th scope="row"><%= i+1 %></th>
+                        
                         <td><a href="/survey_data?id=<%= pending_surveys[i].id %>"><%= pending_surveys[i].id %></a></td>
                         <td><%= pending_surveys[i].assignDateOfSurvey.getDate() %>/<%= pending_surveys[i].assignDateOfSurvey.getMonth()+1 %>/<%= pending_surveys[i].assignDateOfSurvey.getFullYear()%></td>
                         <td><%= pending_surveys[i].collegeName %></td>
@@ -136,7 +136,7 @@
             <table class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">SNo</th>
+                   
                     <th scope="col">Survey ID</th>
                     <th scope="col">Date of Survey</th>
                     <th scope="col">College Name</th>
@@ -147,7 +147,7 @@
                 <tbody id="completedSurveysTableBody">
                   <% for(var i=0; i < completed_surveys.length ; i++ ) { %>
                     <tr>
-                        <th scope="row"><%= i+1 %></th>
+                       
                         <td><a href="/survey_data?id=<%= completed_surveys[i].id %>"><%= completed_surveys[i].id %></a></td>
                         <td><%= completed_surveys[i].dateOfSurvey %></td>
                         <td><%= completed_surveys[i].collegeName %></td>

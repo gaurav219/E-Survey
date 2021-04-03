@@ -76,7 +76,7 @@
             <h3>
               Survey ID : <b><%= surveyData.surveyID%></b><br>
               Visitor ID : <b><%= surveyData.visitorId%></b><br>
-            </h3>
+            </h3> 
             <h2>
               <% if(surveyData.status == "Completed") { %>
                 Status : <b style="color: rgb(168, 252, 112);"><%= surveyData.status %></b> <br>
@@ -88,6 +88,12 @@
                 Date of Survey : <%= surveyData.assignDateOfSurvey.getDate()%>-<%= surveyData.assignDateOfSurvey.getMonth()+1 %>-<%= surveyData.assignDateOfSurvey.getFullYear() %>
               <% } %>
             </h2>
+            <% if(surveyData.status == "Completed") { %>
+              <form method="post" action="/generate_PDF?id=<%= surveyData.surveyID%>">
+                <p>Download the survey details using the link given below.</p>
+                <button type="submit" class="btn btn-info">Download</button>
+              </form>
+            <% } %>  
           </div>  
           </div>
           <div
