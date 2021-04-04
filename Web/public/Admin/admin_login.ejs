@@ -34,12 +34,38 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
+    
     <!-- =======================================================
   * Template Name: Arsha - v2.2.0
   * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <script>
+    window.ChatraSetup = {
+      colors: {
+        buttonText: "#f0f0f0" /* chat button text color */,
+        buttonBg: "#37517E" /* chat button background color */,
+      },
+    };
+  </script>
+  <% let KEY = key; %>
+  <script>
+    (function (d, w, c) {
+      w.ChatraID = "<%= process.env.CHATRA_KEY %>";
+      var s = d.createElement("script");
+      w[c] =
+        w[c] ||
+        function () {
+          (w[c].q = w[c].q || []).push(arguments);
+        };
+      s.async = true;
+      s.src = "https://call.chatra.io/chatra.js";
+      if (d.head) d.head.appendChild(s);
+    })(document, window, "Chatra");
+  </script>
+
+ 
   </head>
 
   <body>
@@ -117,86 +143,9 @@
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-      <!-- <div class="footer-top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 footer-contact">
-              <h3>Arsha</h3>
-              <p>
-                A108 Adam Street <br />
-                New York, NY 535022<br />
-                United States <br /><br />
-                <strong>Phone:</strong> +1 5589 55488 55<br />
-                <strong>Email:</strong> info@example.com<br />
-              </p>
-            </div>
-
-            <div class="col-lg-3 col-md-6 footer-links">
-              <h4>Useful Links</h4>
-              <ul>
-                <li>
-                  <i class="bx bx-chevron-right"></i> <a href="#">Home</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i> <a href="#">About us</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i> <a href="#">Features</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="#">Terms of service</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="#">Privacy policy</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-lg-3 col-md-6 footer-links">
-              <h4>Our Features</h4>
-              <ul>
-                <li>
-                  <i class="bx bx-chevron-right"></i> <a href="#">Web Design</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="#">Web Development</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="#">Product Management</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i> <a href="#">Marketing</a>
-                </li>
-                <li>
-                  <i class="bx bx-chevron-right"></i>
-                  <a href="#">Graphic Design</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-lg-3 col-md-6 footer-links">
-              <h4>Our Social Networks</h4>
-              <p>
-                Cras fermentum odio eu feugiat lide par naso tierra videa magna
-                derita valies
-              </p>
-              <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"
-                  ><i class="bx bxl-instagram"></i
-                ></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      <div style="background-color: #37517e;" class="footer-top">
+      </div>
+     
 
       <div class="container footer-bottom clearfix">
         <div class="copyright">

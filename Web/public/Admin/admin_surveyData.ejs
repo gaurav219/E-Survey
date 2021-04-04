@@ -40,13 +40,36 @@
     <style>
       #map { position: absolute; top: 0; bottom: 0; width: 50%;  }
     </style>
+    <script>
+      window.ChatraSetup = {
+        colors: {
+          buttonText: "#f0f0f0" /* chat button text color */,
+          buttonBg: "#37517E" /* chat button background color */,
+        },
+      };
+    </script>
+    <% let KEY = key; %>
+    <script>
+      (function (d, w, c) {
+        w.ChatraID = "<%= process.env.CHATRA_KEY %>";
+        var s = d.createElement("script");
+        w[c] =
+          w[c] ||
+          function () {
+            (w[c].q = w[c].q || []).push(arguments);
+          };
+        s.async = true;
+        s.src = "https://call.chatra.io/chatra.js";
+        if (d.head) d.head.appendChild(s);
+      })(document, window, "Chatra");
+    </script>
   </head>
 
   <body>
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
       <div class="container d-flex align-items-center">
-        <h1 class="logo mr-auto"><a href="index.html">E-Survey</a></h1>
+        <h1 class="logo mr-auto"><a href="/">E-Survey</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
