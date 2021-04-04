@@ -3,6 +3,8 @@ const router = express.Router();
 const firebase = require('firebase');
 require('dotenv').config();
 
+const key = process.env.CHATRA_KEY;
+
 // Firebase Config
 const firebaseConfig = {
 	apiKey: process.env.API_KEY,
@@ -77,7 +79,7 @@ const capitalize = (s) => {
 // @description Admin_login route
 // @access      Public
 router.get('/admin_login', (req, res) => {
-	res.render('Admin/admin_login.ejs');
+	res.render('Admin/admin_login.ejs', { key });
 });
 
 // REGISTERING THE USER IS DONE BY ADMIN
@@ -237,7 +239,10 @@ router.get('/admin_home', (req, res) => {
 				snapshot.forEach((doc) => {
 					var temp_username = doc.id;
 					if (temp_username === user.email) {
-						res.render('Admin/admin_home.ejs', { user });
+						res.render('Admin/admin_home.ejs', {
+							user,
+							key
+						});
 						return;
 					}
 				});
@@ -605,7 +610,8 @@ router.get('/survey_data', (req, res) => {
 											survey_Data['assignDateOfSurvey'] = date;
 											survey_Data['status'] = capitalize(survey_Data['status']);
 											res.render('Admin/admin_surveyData.ejs', {
-												surveyData: survey_Data
+												surveyData: survey_Data,
+												key
 											});
 											return;
 										} else {
@@ -821,47 +827,123 @@ router.get('/survey_detail', (req, res) => {
 // ----------------- End Show Surveys ---------------------
 
 // ------------ College List route ----------------------
-router.get('/colleges', (req, res) => {
-	var user = firebase.auth().currentUser;
-	if (user) {
-		visitorDataRef
-			.doc(user.email)
-			.get()
-			.then((doc) => {
-				if (doc.exists) {
-					// res.send(req.query.id)
-					collegesRef
-						.get()
-						.then((response) => {
-							var collegeData = [];
-							response.forEach((doc) => {
-								var data = doc.data();
-								data['c_id'] = doc.id;
-								collegeData.push(data);
-								data['type'] = capitalize(data['type']);
-							});
-							//console.log(collegeData);
-							res.render('Visitor/collegelist.ejs', { collegeData });
-							return;
-						})
-						.catch((err) => {
-							console.log(err, 'INvalid College Data - Colleges Data Visitor');
-							res.redirect('/');
-							return;
-						});
-				} else {
-					res.redirect('/visitor_signIn');
-					return;
-				}
-			})
-			.catch((err) => {
-				console.log(err, 'INvalid Visitor - Colleges Data Visitor');
-				res.redirect('/visitor_signIn');
-			});
-	} else {
-		res.redirect('/visitor_signIn');
-	}
-});
+// router.get("/colleges", (req, res) => {
+//   var user = firebase.auth().currentUser;
+//   if (user) {
+//     visitorDataRef
+//       .doc(user.email)
+//       .get()
+//       .then((doc) => {
+//         if (doc.exists) {
+//           // res.send(req.query.id)
+//           collegesRef
+//             .get()
+//             .then((response) => {
+//               var collegeData = [];
+//               response.forEach((doc) => {
+//                 var data = doc.data();
+//                 data["c_id"] = doc.id;
+//                 collegeData.push(data);
+//                 data["type"] = capitalize(data["type"]);
+//               });
+//               //console.log(collegeData);
+//               res.render("Visitor/collegelist.ejs", { collegeData });
+//               return;
+//             })
+//             .catch((err) => {
+//               console.log(err, "INvalid College Data - Colleges Data Visitor");
+//               res.redirect("/");
+//               return;
+//             });
+//         } else {
+//           res.redirect("/visitor_signIn");
+//           return;
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err, "INvalid Visitor - Colleges Data Visitor");
+//         res.redirect("/visitor_signIn");
+//       });
+//   } else {
+//     res.redirect("/visitor_signIn");
+//   }
+// });
+
+// college profile
+// router.get("/college_detail", (req, res) => {
+//   var user = firebase.auth().currentUser;
+//   if (user && req.query.id !== "") {
+//     visitorDataRef
+//       .doc(user.email)
+//       .get()
+//       .then((doc) => {
+//         if (doc.exists) {
+//           // send the college data
+//           collegesRef
+//             .doc(req.query.id)
+//             .get()
+//             .then((data) => {
+//               if (!data.exists) {
+//                 res.redirect("/visitor_home");
+//                 return;
+//               } else {
+//                 var collegeData = data.data();
+//                 var collegeName = data.data().CollegeName;
+
+//                 collegeData.type = capitalize(collegeData.type);
+//                 // extract all the completed sureys
+//                 var surveyData = [];
+//                 surveysRef
+//                   .get()
+//                   .then((snapshot) => {
+//                     snapshot.forEach((temp_survey) => {
+//                       // extract all the completed sureys
+//                       console.log(temp_survey.data().collegeName);
+//                       if (
+//                         temp_survey.data().status == "completed" &&
+//                         temp_survey.data().collegeName == collegeName
+//                       ) {
+//                         surveyData.push(temp_survey.data());
+//                       }
+//                     });
+//                     //console.log(surveyData);
+//                     res.render("Visitor/collegeDetails.ejs", {
+//                       collegeData,
+//                       surveyData,
+//                       key,
+//                     });
+//                     return;
+//                   })
+//                   .catch((err) => {
+//                     console.log(
+//                       err,
+//                       "INvalid Survey - Colleges Profile Visitor"
+//                     );
+//                     res.redirect("/visitor_home");
+//                     return;
+//                   });
+//               }
+//             })
+//             .catch((err) => {
+//               console.log(err, "INvalid Colleges - Colleges Profile Visitor");
+//               res.redirect("/visitor_home");
+//               return;
+//             });
+//         } else {
+//           res.redirect("/");
+//           return;
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err, "INvalid Visitor - Colleges Profile Visitor");
+//         res.redirect("/");
+//         return;
+//       });
+//   } else {
+//     res.redirect("/visitor_home");
+//     return;
+//   }
+// });
 
 // email verification all users
 router.get('/getEmailVerified', (req, res) => {

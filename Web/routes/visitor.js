@@ -3,6 +3,8 @@ const router = express.Router();
 const firebase = require('firebase');
 require('dotenv').config();
 
+const key = process.env.CHATRA_KEY;
+
 // Firebase Config
 const firebaseConfig = {
 	apiKey: process.env.API_KEY,
@@ -67,7 +69,7 @@ const capitalize = (s) => {
 
 // Get - visitor login Page
 router.get('/visitor_signIn', (req, res) => {
-	res.render('Visitor/visitor_signin.ejs', { msg: '' });
+	res.render('Visitor/visitor_signin.ejs', { msg: '', key });
 });
 
 router.post('/visitor_signIn', (req, res) => {
@@ -270,7 +272,10 @@ router.get('/visitor_home', (req, res) => {
 			.then((doc) => {
 				if (doc.exists) {
 					// console.log("DOC EXists");
-					res.render('Visitor/visitor_home.ejs', { useremail: user.email });
+					res.render('Visitor/visitor_home.ejs', {
+						useremail: user.email,
+						key
+					});
 					return;
 				} else {
 					console.log(err.message, 'Not a Visitor - Visitor Home');
@@ -302,7 +307,8 @@ router.get('/visitor_Profile', (req, res) => {
 					// console.log(user);
 					res.render('Visitor/visitor_profile.ejs', {
 						user_data: doc.data(),
-						user: user
+						user: user,
+						key
 					});
 					return;
 				} else {
@@ -368,7 +374,8 @@ router.get('/past_surveys', (req, res) => {
 							completed_surveys: completed_surveys,
 							pending_surveys: pending_surveys,
 							useremail: user.email,
-							questions: questions
+							questions: questions,
+							key
 						});
 						return;
 					})
@@ -382,6 +389,49 @@ router.get('/past_surveys', (req, res) => {
 				console.log(err.message, ' No Question Fetched - Past Surveys');
 				res.redirect('/visitor_home');
 				return;
+			});
+	} else {
+		res.redirect('/visitor_signIn');
+	}
+});
+
+// ------------ College List route ----------------------
+router.get('/colleges', (req, res) => {
+	var user = firebase.auth().currentUser;
+	if (user) {
+		visitorDataRef
+			.doc(user.email)
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					// res.send(req.query.id)
+					collegesRef
+						.get()
+						.then((response) => {
+							var collegeData = [];
+							response.forEach((doc) => {
+								var data = doc.data();
+								data['c_id'] = doc.id;
+								collegeData.push(data);
+								data['type'] = capitalize(data['type']);
+							});
+							//console.log(collegeData);
+							res.render('Visitor/collegelist.ejs', { collegeData, key });
+							return;
+						})
+						.catch((err) => {
+							console.log(err, 'INvalid College Data - Colleges Data Visitor');
+							res.redirect('/');
+							return;
+						});
+				} else {
+					res.redirect('/visitor_signIn');
+					return;
+				}
+			})
+			.catch((err) => {
+				console.log(err, 'INvalid Visitor - Colleges Data Visitor');
+				res.redirect('/visitor_signIn');
 			});
 	} else {
 		res.redirect('/visitor_signIn');
@@ -428,7 +478,8 @@ router.get('/college_detail', (req, res) => {
 										//console.log(surveyData);
 										res.render('Visitor/collegeDetails.ejs', {
 											collegeData,
-											surveyData
+											surveyData,
+											key
 										});
 										return;
 									})
