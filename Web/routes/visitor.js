@@ -28,6 +28,7 @@ const collegesRef = db.collection('colleges');
 const questionsRef = db.collection('questions');
 const visitorDataRef = db.collection('Visiting_Officer_Data');
 const surveysRef = db.collection('surveys');
+const AnswerRef = db.collection('question_wise_ratings');
 
 // survey questions - Global Variables
 var questions = {};
@@ -392,6 +393,79 @@ router.get('/past_surveys', (req, res) => {
 			});
 	} else {
 		res.redirect('/visitor_signIn');
+	}
+});
+
+// Show Survey Details
+router.get('/survey_detail', (req, res) => {
+	var user = firebase.auth().currentUser;
+	// if the user exsists
+	if (user) {
+		// if the Survey ID in query is empty ""
+		if (req.query.id.length == 0) {
+			res.redirect('/visitor_home');
+			return;
+		} else {
+			visitorDataRef
+				.doc(user.email)
+				.get()
+				.then((doc) => {
+					if (doc.exists) {
+						surveysRef
+							.doc(req.query.id)
+							.get()
+							.then((doc) => {
+								if (!doc.exists) {
+									res.redirect('/');
+									return;
+								} else {
+									// res.send(doc.data());
+									var survey_Data = doc.data();
+									if (survey_Data.status === 'open') {
+										res.redirect('/past_surveys');
+										return;
+									} else {
+										// var date = new Date(survey_Data.dateOfSurvey.seconds * 1000);
+										// survey_Data['DateOfSurvey'] = date;
+										survey_Data['surveyID'] = req.query.id;
+										//console.log(survey_Data);
+										AnswerRef.doc(req.query.id)
+											.get()
+											.then((response) => {
+												var ratings = [];
+												ratings.push(response.data()['College Environment']);
+												ratings.push(response.data()['Teaching Learning Process']);
+
+												res.render('Visitor/survey.ejs', {
+													surveyData: survey_Data,
+													questions: questions,
+													ratings: ratings
+												});
+												return;
+											})
+											.catch((err) => {
+												console.log(err, 'Invalid Answers - Visitor Survey Data');
+												res.redirect('/visitor_home');
+												return;
+											});
+									}
+								}
+							})
+							.catch((err) => {
+								console.log(err, 'Invalid Survey - Visitor Survey Data');
+								res.redirect('/visitor_home');
+								return;
+							});
+					}
+				})
+				.catch((err) => {
+					console.log(err, 'INvalid Vistior - Survey Data');
+					res.redirect('/visitor_signIn');
+					return;
+				});
+		}
+	} else {
+		res.redirect('/');
 	}
 });
 
