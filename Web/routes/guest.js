@@ -26,6 +26,7 @@ const db = firebase.firestore();
 const collegesRef = db.collection("colleges");
 const surveysRef = db.collection("surveys");
 const Guests = db.collection("Guests");
+const Queries = db.collection("queries");
 
 // survey questions - Global Variables
 const collegesNames = [];
@@ -237,6 +238,55 @@ router.post("/updateProfile_guest", (req, res) => {
 // Get - Guest signup Page
 router.get("/guest_signUp", (req, res) => {
   res.render("Guest/guest_signup.ejs", { key });
+});
+
+router.get("/submit_request", (req, res) => {
+  var user = firebase.auth().currentUser;
+  if (user) {
+    //console.log(user);
+    Guests.doc(user.email)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          res.render("Guest/submit_request", {
+            key,
+            msg: "",
+          });
+          return;
+        } else {
+          console.log("USERESD");
+          res.redirect("/guest_home");
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log("BCIUUBWUW", err.message);
+        res.redirect("/");
+        return;
+      });
+  } else {
+    console.log("JVODFE");
+    res.redirect("/guest_signIn");
+    return;
+  }
+});
+
+router.post("/submit_request", (req, res) => {
+  const query = {
+    subject: req.body.subject,
+    body: req.body.body1,
+    date: Date.now(),
+  };
+
+  Queries.doc()
+    .set(query)
+    .then(() => {
+      console.log("query created");
+      res.render("Guest/submit_request", {
+        msg: "Query has been submitted Successfully",
+      });
+    })
+    .catch((e) => console.log("Error!! can't create query", e));
 });
 
 // Post - Guest signup Page (Register the Guest)
