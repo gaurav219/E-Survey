@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const key = process.env.CHATRA_KEY;
 
+// require encrypt and decrypt methods
+const { encrypt, decrypt } = require("../Resouces/crypto");
 // Firebase Config
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -26,7 +28,7 @@ const db = firebase.firestore();
 const collegesRef = db.collection("colleges");
 const surveysRef = db.collection("surveys");
 const Guests = db.collection("Guests");
-const Queries = db.collection("queries");
+const QueriesRef = db.collection("queries");
 
 // survey questions - Global Variables
 const collegesNames = [];
@@ -103,7 +105,6 @@ router.post("/guest_signIn", (req, res) => {
 });
 
 //After successful autentication of User
-
 router.get("/guest_home", (req, res) => {
   var user = firebase.auth().currentUser;
   if (user) {
@@ -240,6 +241,7 @@ router.get("/guest_signUp", (req, res) => {
   res.render("Guest/guest_signup.ejs", { key });
 });
 
+// Get - Submit Anonymous request to Admin
 router.get("/submit_request", (req, res) => {
   var user = firebase.auth().currentUser;
   if (user) {
@@ -272,14 +274,22 @@ router.get("/submit_request", (req, res) => {
 });
 
 router.post("/submit_request", (req, res) => {
+  var user = firebase.auth().currentUser;
+
+  // hashing the user email
+  const hash = encrypt(user.email);
+
+  console.log(hash);
+
   const query = {
     subject: req.body.subject,
     body: req.body.body1,
     date: Date.now(),
-    status: "New",
+    status: "Open",
+    user: hash,
   };
 
-  Queries.doc()
+  QueriesRef.doc()
     .set(query)
     .then(() => {
       console.log("query created");
@@ -287,7 +297,10 @@ router.post("/submit_request", (req, res) => {
         msg: "Query has been submitted Successfully",
       });
     })
-    .catch((e) => console.log("Error!! can't create query", e));
+    .catch((e) => {
+      console.log("Error!! can't create query", e);
+      res.redirect("/guest_home");
+    });
 });
 
 // Post - Guest signup Page (Register the Guest)
@@ -705,6 +718,56 @@ router.post("/compare_result", (req, res) => {
       });
   } else {
     res.redirect("/guest_signin");
+    return;
+  }
+});
+
+// Show all queries
+router.get("/show_request", (req, res) => {
+  var user = firebase.auth().currentUser;
+  if (user) {
+    //console.log(user);
+    Guests.doc(user.email)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          var Queries = [];
+          QueriesRef.get()
+            .then((result) => {
+              result.forEach((tempdata) => {
+                const query = tempdata.data();
+                const text = decrypt(query.user);
+                //console.log(text);
+                if (text.toLowerCase() === user.email.toLowerCase()) {
+                  query["id"] = tempdata.id;
+                  Queries.push(query);
+                }
+              });
+
+              //console.log(Queries);
+              res.render("Guest/show_request.ejs", {
+                data: Queries,
+              });
+              return;
+            })
+            .catch((err) => {
+              console.log(err.message, "Invalid Admin -  List of Queries");
+              return;
+            });
+        } else {
+          console.log("Not a guest");
+          res.redirect("/");
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        res.redirect("/");
+        return;
+      });
+  } else {
+    console.log("JVODFE");
+    res.redirect("/guest_signIn");
     return;
   }
 });

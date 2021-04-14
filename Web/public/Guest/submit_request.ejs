@@ -53,9 +53,8 @@
         <nav class="nav-menu d-none d-lg-block">
             <ul>
                 <li><a href="/guest_home">Home</a></li>
-                <li><a href="/past_surveys">Past Surveys</a></li>
-                <li><a href="/colleges">College List</a></li>
-                <li><a href="/visitor_Profile">User Profile</a></li>
+                <li><a href="/guest_profile">User Profile</a></li>
+                <li><a href="/show_request">Show Queries</a></li>
             </ul>
         </nav>
         <form action="/visitor_logout" method="POST" style="margin-left: 1%">
@@ -76,20 +75,21 @@
           >
             <center>
               <h1>Submit Request</h1>
-              
+              <h5 style="color: lightgreen">Don't worry your Query is Anonymously Submitted</h5> 
+              <h5 style="color: lightgreen">Concern person will repond to your Query.</h5>
               <form style="width: 70%" method="POST" action="/submit_request">
                 <label for="exampleFormControlInput1">Subject</label>
                 <input name="subject" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Subject">
                  <br>
                   <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Write your Query</label>
+                        <label for="exampleFormControlTextarea1">Enter your Query</label>
                         <textarea name="body1" placeholder="Body" class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
                   </div>
 
                 <button type="submit" class="btn btn-success">
                   Submit
                 </button>
-                <a href="/visitor_Profile"> <button type="button" class="btn btn-danger">
+                <a href="/guest_home"> <button type="button" class="btn btn-danger">
                   Cancel
                 </button></a>
               </form>

@@ -30,23 +30,41 @@
       rel="stylesheet"
     />
     <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
- 
+
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
+    <style> 
+      td,th { text-align: center; }
+    </style>
   </head>
 
   <body>
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
       <div class="container d-flex align-items-center">
-        <h1 class="logo mr-auto"><a href="/">E-Survey</a></h1>
+        <h1 class="logo mr-auto"><a href="index.html">E-Survey</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
         <nav class="nav-menu d-none d-lg-block">
-            <ul>
-              <li><a href="/admin_home">Admin Home</a></li>
-              <li><a href="/admin_logout"><button class="btn btn-sm btn-danger">Logout</button></a></li>
-            </ul>
-          </nav>
+          <ul class="dropdown show">
+            <li><a href="/guest_home">Home</a></li>
+            <li><a href="/guest_profile">My Profile</a></li>
+            <li><a href="/guest_search">Search Colleges</a></li>
+            <li><a href="/compare_colleges">Compare Colleges</a></li>
+            <li class="drop-down">
+              <a href="#">Services</a>
+              <ul>
+                <li><a href="/submit_request">Submit Query (Anonymously)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- .nav-menu -->
+        <form action="/guest_logout" method="POST" style="margin-left: 1%">
+          <button class="btn btn-sm  btn-danger" type="submit">Logout</button>
+        </form>
       </div>
     </header>
     <!-- End Header -->
@@ -60,10 +78,8 @@
             data-aos="fade-up"
             data-aos-delay="200"
           >
-            <center>
-              <h1>List of all the </h1>
-              <h1 style="color: lightsalmon;"><strong>Queries</strong></h1>
-            </center>
+          <h1>Show Queries</h1>  
+          
           </div>
           <div
             class="col-lg-6 order-1 order-lg-2 hero-img"
@@ -81,48 +97,32 @@
     </section>
     <!-- End Hero -->
 
-    <section id="about" class="about">
+    
+      <!-- ======= About Us Section ======= -->
+      <section id="about" class="about">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Queries</h2>
+            <h2>List of All Queries</h2>
+            <center>
+                <% for(let i=0; i < data.length ; i++) { %>
+                    <div class="card bg-light " style="width: 50%;margin: 2%">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= data[i].subject %></h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Date of Submission :<%= new Date(data[i].date).toLocaleString("en-IN", {day: '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit', minute:'2-digit'})%></h6>
+                          <p class="card-text"><%= data[i].body %></p>
+                        </div>
+                      </div>
+
+                  <% } %>
+            </center>
           </div>
-          <h5>Search Query by Subject or Labels</h5> 
-            <input type="text" alt="Search" id="q_subject" class="form-control" name="search" placeholder="Enter Query details..." />
-            <br><br>
-          <div class="row content">
-            <table class="table table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                    <!-- <th scope="col">SNo</th> -->
-                    <th scope="col">ID</th>
-                    <th scope="col">Date and Time</th>
-                    <th scope="col">Subject</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="query_list">
-                    <% for(var i=0; i < data.length ; i++ ) { %>
-                      <tr>
-                          <!-- <th scope="row"><%= i+1 %></th> -->
-                          <!-- <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %> <%= data[i].lastname %></a></td> -->
-                          <td><%= data[i].id %></td>
-                          <td><%= new Date(data[i].date).toLocaleString("en-IN", {day: '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit', minute:'2-digit'})%></td>
-                          <td><%= data[i].subject %></td>
-                          <td>New</td>
-                          <td><a href="#">Open</a></td>
-                      </tr>
-                    <% } %>  
-                  </tbody>
-              </table>
-          </div>
-          <br />
+
         </div>
       </section>
+    
+    </main>
 
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
+     <footer id="footer">
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
@@ -138,6 +138,9 @@
     <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
     <div id="preloader"></div>
 
+      
+  
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -151,40 +154,6 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
-    <script>
-        const q_subject = document.getElementById('q_subject')
-        const query_list_table_body = document.getElementById('query_list')
-       
-        q_subject.addEventListener('keyup',() => {
-  
-            var  filter, table, tr, td, i, txtValue;
-            filter = q_subject.value.toUpperCase();
-            tr = query_list_table_body.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-              temp_query = tr[i].getElementsByTagName("td")[2];
-        
-              if (temp_query) {
-                txtValue = temp_query.textContent || temp_query.innerText;
-
-                if (txtValue.toUpperCase().indexOf(filter) >-1) {
-                  tr[i].style.display = "";
-                } else {
-                  tr[i].style.display = "none";
-                }
-              }
-
-            //   else if(status) {
-            //       status1 = status.textContent || status.innerText
-            //       if (status1.toUpperCase().indexOf(filter) >-1) {
-            //       tr[i].style.display = "";
-            //     } else {
-            //       tr[i].style.display = "none";
-            //     }
-            //   }
-            }
-        });
-        </script>
     
   </body>
 </html>
