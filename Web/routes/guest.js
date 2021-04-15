@@ -276,6 +276,7 @@ router.post("/submit_request", (req, res) => {
     subject: req.body.subject,
     body: req.body.body1,
     date: Date.now(),
+    status: "New",
   };
 
   Queries.doc()
