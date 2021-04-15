@@ -773,4 +773,54 @@ router.get('/show_request', (req, res) => {
 	}
 });
 
+// Show all queries
+router.get('/show_request', (req, res) => {
+	var user = firebase.auth().currentUser;
+	if (user) {
+		//console.log(user);
+		Guests.doc(user.email)
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					var Queries = [];
+					QueriesRef.get()
+						.then((result) => {
+							result.forEach((tempdata) => {
+								const query = tempdata.data();
+								const text = decrypt(query.user);
+								//console.log(text);
+								if (text.toLowerCase() === user.email.toLowerCase()) {
+									query['id'] = tempdata.id;
+									Queries.push(query);
+								}
+							});
+
+							//console.log(Queries);
+							res.render('Guest/show_request.ejs', {
+								data: Queries
+							});
+							return;
+						})
+						.catch((err) => {
+							console.log(err.message, 'Invalid Admin -  List of Queries');
+							return;
+						});
+				} else {
+					console.log('Not a guest');
+					res.redirect('/');
+					return;
+				}
+			})
+			.catch((err) => {
+				console.log('Error', err.message);
+				res.redirect('/');
+				return;
+			});
+	} else {
+		console.log('JVODFE');
+		res.redirect('/guest_signIn');
+		return;
+	}
+});
+
 module.exports = router;
