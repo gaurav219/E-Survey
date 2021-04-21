@@ -278,10 +278,15 @@ router.post('/submit_request', (req, res) => {
 	const query = {
 		subject: req.body.subject,
 		body: req.body.body1,
+		label: req.body.label,
 		date: Date.now(),
 		status: 'Open',
 		user: hash
 	};
+
+	// res.render('Guest/submit_request', {
+	// 	msg: 'Your query has been submitted.'
+	// });
 
 	QueriesRef.doc()
 		.set(query)

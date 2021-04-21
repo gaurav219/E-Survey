@@ -69,47 +69,66 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="col d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
             data-aos="fade-up"
             data-aos-delay="200"
           >
             <center>
               <h1>Submit Request</h1>
-              <h5 style="color: lightgreen">Don't worry your Query is Anonymously Submitted</h5> 
               <h5 style="color: lightgreen">Concern person will repond to your Query.</h5>
+              <% if(msg.length > 0) { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong><%= msg %></strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+               <% } %>
               <form style="width: 70%" method="POST" action="/submit_request">
-                <label for="exampleFormControlInput1">Subject</label>
-                <input name="subject" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Subject">
-                 <br>
+
+                <div class="row">
+                  <div class="col-5">
+                    <label for="exampleFormControlSelect1">Query Label</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="label">
+                      <option selected value="None">Select the most suitable label</option>
+                      <option value="Financial issue">Financial issue</option>
+                      <option value="Stress and Depression">Stress and Depression</option>
+                      <option value="Bullying or Mis-behaviour">Bullying or Mis-behaviour</option>
+                      <option value="College necessities">College necessities</option>
+                      <option value="Entrepreneurship">Entrepreneurship</option>
+                      <option value="Distractions">Distractions</option>
+                      <option value="Career guidance">Career guidance</option>
+                      <option value="Placements">Placements</option>
+                      <option value="Mess Food">Mess Food</option>
+                      <option value="Syllabus">Syllabus</option>
+                      <option value="Hardware Support">Hardware Support</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div class="col-7">
+                    <label for="exampleFormControlInput1">Subject</label>
+                    <input name="subject" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter the subject line" required>  
+                  </div>
+                </div>
+                <br>
                   <div class="form-group">
                         <label for="exampleFormControlTextarea1">Enter your Query</label>
-                        <textarea name="body1" placeholder="Body" class="form-control" id="exampleFormControlTextarea1" rows="8"></textarea>
+                        <textarea name="body1" placeholder="Explain your problem or Query" class="form-control" id="exampleFormControlTextarea1" rows="6" required></textarea>
                   </div>
 
                 <button type="submit" class="btn btn-success">
                   Submit
                 </button>
+                
                 <a href="/guest_home"> <button type="button" class="btn btn-danger">
                   Cancel
                 </button></a>
               </form>
               <br>
-              <% if(msg.length > 0) { %>
-               <span class="btn btn-primary"><%= msg %></span> 
-              <% } %>
+            
             </center>
           </div>
-          <div
-            class="col-lg-6 order-1 order-lg-2 hero-img"
-            data-aos="zoom-in"
-            data-aos-delay="200"
-          >
-            <img
-              src="assets/img/hero-img.png"
-              class="img-fluid animated"
-              alt=""
-            />
-          </div>
+          
         </div>
       </div>
     </section>
