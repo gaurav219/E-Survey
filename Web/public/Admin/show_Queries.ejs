@@ -84,20 +84,42 @@
     <section id="about" class="about">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Queries</h2>
+            <h2>List of Pending Queries</h2>
           </div>
-          <h5>Search Query by Subject or Labels</h5> 
-            <input type="text" alt="Search" id="q_subject" class="form-control" name="search" placeholder="Enter Query details..." />
-            <br><br>
+          <div class="row">
+            <div class="col-6">
+              <h5>Search Query by Subject</h5> 
+            <input  type="text" alt="Search" id="q_subject" class="form-control" name="search" placeholder="Enter Query details..." />
+            </div>
+            <div class="col-6">
+              <h5>Filter Query by Label</h5> 
+              <select class="form-control" id="q_label" name="label" onchange="filterByLabel()">
+                <option selected value="None">Select a label</option>
+                <option value="Financial issue">Financial issue</option>
+                <option value="Examination">Examination</option>
+                <option value="Stress and Depression">Stress and Depression</option>
+                <option value="Bullying or Mis-behaviour">Bullying or Mis-behaviour</option>
+                <option value="College necessities">College necessities</option>
+                <option value="Entrepreneurship">Entrepreneurship</option>
+                <option value="Distractions">Distractions</option>
+                <option value="Career guidance">Career guidance</option>
+                <option value="Placements">Placements</option>
+                <option value="Mess Food">Mess Food</option>
+                <option value="Syllabus">Syllabus</option>
+                <option value="Hardware Support">Hardware Support</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <br><br>
           <div class="row content">
             <table class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
                     <!-- <th scope="col">SNo</th> -->
-                    <th scope="col">ID</th>
+                    <th scope="col">Label</th>
                     <th scope="col">Date and Time</th>
                     <th scope="col">Subject</th>
-                    <th scope="col">Status</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -106,10 +128,9 @@
                       <tr>
                           <!-- <th scope="row"><%= i+1 %></th> -->
                           <!-- <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %> <%= data[i].lastname %></a></td> -->
-                          <td><%= data[i].id %></td>
+                          <th scope="row"><%= data[i].label %></th>
                           <td><%= new Date(data[i].date).toLocaleString("en-IN", {day: '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit', minute:'2-digit'})%></td>
                           <td><%= data[i].subject %></td>
-                          <td>New</td>
                           <td><a href="#">Open</a></td>
                       </tr>
                     <% } %>  
@@ -157,33 +178,91 @@
         const query_list_table_body = document.getElementById('query_list')
        
         q_subject.addEventListener('keyup',() => {
-  
             var  filter, table, tr, td, i, txtValue;
-            filter = q_subject.value.toUpperCase();
-            tr = query_list_table_body.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-              temp_query = tr[i].getElementsByTagName("td")[2];
-        
-              if (temp_query) {
-                txtValue = temp_query.textContent || temp_query.innerText;
+            var q_label = document.getElementById("q_label").value;
 
-                if (txtValue.toUpperCase().indexOf(filter) >-1) {
-                  tr[i].style.display = "";
-                } else {
-                  tr[i].style.display = "none";
+            if(q_label !=="None"){
+                filter = q_subject.value.toUpperCase();
+                filter_2 = q_label.toUpperCase();
+                tr = query_list_table_body.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                  temp_query = tr[i].getElementsByTagName("td")[1];
+            
+                  if (temp_query) {
+                    txtValue = temp_query.textContent || temp_query.innerText;
+                    temp_query_2 = tr[i].getElementsByTagName("th")[0];
+                    txtValue_2 = temp_query_2.textContent || temp_query_2.innerText;
+
+                    if (txtValue.toUpperCase().indexOf(filter) >-1 && txtValue_2.toUpperCase().indexOf(filter_2) >-1) {
+                      tr[i].style.display = "";
+                    } else {
+                      tr[i].style.display = "none";
+                    }
+                  }
+                }
+              
+            }
+            else{
+              filter = q_subject.value.toUpperCase();
+              tr = query_list_table_body.getElementsByTagName("tr");
+              for (i = 0; i < tr.length; i++) {
+                temp_query = tr[i].getElementsByTagName("td")[1];
+          
+                if (temp_query) {
+                  txtValue = temp_query.textContent || temp_query.innerText;
+                 
+                  if (txtValue.toUpperCase().indexOf(filter) >-1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+        });
+
+        function filterByLabel() {
+          var q_label = document.getElementById("q_label").value;
+    
+          if(q_label !== "None"){
+              var  filter, table, tr, td, i, txtValue;
+              filter = q_label.toUpperCase();
+              filter_2 = q_subject.value.toUpperCase();
+              tr = query_list_table_body.getElementsByTagName("tr");
+              for (i = 0; i < tr.length; i++) {
+                temp_query = tr[i].getElementsByTagName("th")[0];
+                temp_query_2 = tr[i].getElementsByTagName("td")[1];
+                if (temp_query) {
+                  txtValue = temp_query.textContent || temp_query.innerText;
+                  txtValue_2 = temp_query_2.textContent || temp_query_2.innerText;
+
+                  if (txtValue.toUpperCase().indexOf(filter) >-1 && txtValue_2.toUpperCase().indexOf(filter_2) >-1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+            
+            }
+        }else{
+          filter = q_subject.value.toUpperCase();
+              tr = query_list_table_body.getElementsByTagName("tr");
+              for (i = 0; i < tr.length; i++) {
+                temp_query = tr[i].getElementsByTagName("td")[1];
+          
+                if (temp_query) {
+                  txtValue = temp_query.textContent || temp_query.innerText;
+                 
+                  if (txtValue.toUpperCase().indexOf(filter) >-1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
                 }
               }
 
-            //   else if(status) {
-            //       status1 = status.textContent || status.innerText
-            //       if (status1.toUpperCase().indexOf(filter) >-1) {
-            //       tr[i].style.display = "";
-            //     } else {
-            //       tr[i].style.display = "none";
-            //     }
-            //   }
-            }
-        });
+        }
+      }
         </script>
     
   </body>
