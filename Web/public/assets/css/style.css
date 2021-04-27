@@ -881,7 +881,7 @@ section {
 
 .services .icon-box .icon i {
   color: #47b2e4;
-  font-size: 36px;
+  font-size: 40px;
   transition: 0.3s;
 }
 
@@ -904,10 +904,19 @@ section {
 
 .services .icon-box:hover {
   transform: translateY(-10px);
+  background-color: #37517e;
 }
 
 .services .icon-box:hover h4 a {
-  color: #47b2e4;
+  color: gold;
+}
+
+.services .icon-box:hover p {
+  color:wheat
+}
+
+.services .icon-box:hover .icon i {
+  color: gold;
 }
 
 /*--------------------------------------------------------------
