@@ -128,12 +128,11 @@
 
       <section id="about" class="about">
         <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>Fill-up the relevent fields.</h2>
-            <h4 id="block_error" style="color: red"></h4>
-          </div>
-
           <center>
+            <div class="section-title">
+              <h2>Fill-up the relevent fields.</h2>
+            </div>
+            <div id="alert" style="width: 50%"></div>
             <form id="compare_form" method="POST" action="/compare_result">
               <div class="row g-3">
                 <div class="col">
@@ -213,7 +212,7 @@
       function Compare() {
         let cllg1 = document.getElementById("input_college_1").value;
         let cllg2 = document.getElementById("input_college_2").value;
-
+        let alert = document.getElementById("alert");
         // to check if colleges selected to compare are valid and different
 
         let isValid = true,
@@ -228,15 +227,43 @@
         // console.log(isSame);
 
         if (isValid && !isSame) {
-          document.getElementById("block_error").innerText = "";
+          alert.innerHTML = "";
           let Compare_form = document.getElementById("compare_form");
           Compare_form.submit();
         } else if (isSame) {
-          document.getElementById("block_error").innerText =
-            "Inputs have same selected option !!!";
+          alert.innerHTML = `
+                              <div
+                              class="alert alert-danger alert-dismissible fade show"
+                              role="alert"
+                            >
+                              <b>Inputs have same selected option !!!</b>
+                              <button
+                                type="button"
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="Close"
+                              >
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                              `;
         } else {
-          document.getElementById("block_error").innerText =
-            "Inputs selected are Empty !!!";
+          alert.innerHTML = `
+                              <div
+                              class="alert alert-danger alert-dismissible fade show"
+                              role="alert"
+                            >
+                              <b>Inputs selected are Empty !!!</b>
+                              <button
+                                type="button"
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="Close"
+                              >
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                              `;
         }
       }
     </script>
