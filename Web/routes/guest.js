@@ -36,14 +36,14 @@ const collegesNames = [];
 // get the list of colleges from FireStore
 collegesRef
   .get()
-  .then((snapshot) => {
-    snapshot.forEach((doc) => {
+  .then(snapshot => {
+    snapshot.forEach(doc => {
       //console.log(doc.data().CollegeName);
       collegesNames.push(doc.data().CollegeName);
     });
     // console.log(collegesNames);
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(err, "getListOfColleges");
   });
 
@@ -61,7 +61,7 @@ collegesRef
 // 	});
 
 //Capital first letter of a string
-const capitalize = (s) => {
+const capitalize = s => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
@@ -96,7 +96,7 @@ router.post("/guest_signIn", (req, res) => {
         res.redirect("/guest_home");
         return;
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err.message, "Guest UnAuth");
         res.redirect("/guest_signIn");
         return;
@@ -111,13 +111,13 @@ router.get("/guest_home", (req, res) => {
     //console.log(user);
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           collegesRef
             .get()
-            .then((snapshot) => {
+            .then(snapshot => {
               let colleges = [];
-              snapshot.forEach((college_data) => {
+              snapshot.forEach(college_data => {
                 let temp = college_data.data();
                 temp.type = capitalize(temp.type);
                 temp["id"] = college_data.id;
@@ -131,7 +131,7 @@ router.get("/guest_home", (req, res) => {
               });
               return;
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err.message, "No College Data Fetched - Guest Home");
               res.redirect("/guest_signIn");
               return;
@@ -142,7 +142,7 @@ router.get("/guest_home", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log("BCIUUBWUW", err.message);
         res.redirect("/");
         return;
@@ -159,7 +159,7 @@ router.get("/guest_profile", (req, res) => {
   if (user) {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           res.render("Guest/guest_profile", {
             user_data: doc.data(),
@@ -172,7 +172,7 @@ router.get("/guest_profile", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, "Not a Guest - Guest Profile");
         res.redirect("/");
         return;
@@ -188,7 +188,7 @@ router.get("/updateProfile_guest", (req, res) => {
   if (user) {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           //console.log(doc.data());
           res.render("Guest/guest_update_profile.ejs", {
@@ -201,7 +201,7 @@ router.get("/updateProfile_guest", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, "Not a Guest - Guest Update Profile (GET)");
         res.redirect("/guest_signIn");
         return;
@@ -248,7 +248,7 @@ router.get("/submit_request", (req, res) => {
     //console.log(user);
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           res.render("Guest/submit_request", {
             key,
@@ -261,13 +261,13 @@ router.get("/submit_request", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log("BCIUUBWUW", err.message);
         res.redirect("/");
         return;
       });
   } else {
-    console.log("JVODFE");
+    //console.log("JVODFE");
     res.redirect("/guest_signIn");
     return;
   }
@@ -275,37 +275,58 @@ router.get("/submit_request", (req, res) => {
 
 router.post("/submit_request", (req, res) => {
   var user = firebase.auth().currentUser;
+  if (user) {
+    //console.log(user);
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          // hashing the user email
+          const hash = encrypt(user.email);
 
-  // hashing the user email
-  const hash = encrypt(user.email);
+          //console.log(hash);
 
-  console.log(hash);
+          const query = {
+            subject: req.body.subject,
+            body: req.body.body1,
+            label: req.body.label,
+            date: Date.now(),
+            status: "Pending",
+            user: hash,
+          };
 
-  const query = {
-    subject: req.body.subject,
-    body: req.body.body1,
-    label: req.body.label,
-    date: Date.now(),
-    status: "Pending",
-    user: hash,
-  };
+          // res.render("Guest/submit_request", {
+          //   msg: "Query has been submitted Successfully",
+          // });
 
-  // res.render('Guest/submit_request', {
-  // 	msg: 'Your query has been submitted.'
-  // });
-
-  QueriesRef.doc()
-    .set(query)
-    .then(() => {
-      console.log("query created");
-      res.render("Guest/submit_request", {
-        msg: "Query has been submitted Successfully",
+          QueriesRef.doc()
+            .set(query)
+            .then(() => {
+              //console.log("query created");
+              res.render("Guest/submit_request", {
+                msg: "Query has been submitted Successfully",
+              });
+            })
+            .catch(e => {
+              console.log("Error!! can't create query", e);
+              res.redirect("/guest_home");
+            });
+        } else {
+          console.log("USERESD");
+          res.redirect("/guest_home");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log("BCIUUBWUW", err.message);
+        res.redirect("/");
+        return;
       });
-    })
-    .catch((e) => {
-      console.log("Error!! can't create query", e);
-      res.redirect("/guest_home");
-    });
+  } else {
+    //console.log("JVODFE");
+    res.redirect("/guest_signIn");
+    return;
+  }
 });
 
 // Post - Guest signup Page (Register the Guest)
@@ -338,9 +359,9 @@ router.post("/guest_signUp", (req, res) => {
           console.log("Guest Created", guest);
           res.redirect("/guest_signIn");
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err.message, "Error in Creating Guest");
       res.redirect("/guest_signUp");
     });
@@ -355,7 +376,7 @@ router.post("/guest_logout", (req, res) => {
       // Sign-out successful.
       res.redirect("/guest_signin");
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err.message, "Error in Logging Out - Guest Logout");
     });
 });
@@ -366,13 +387,13 @@ router.get("/college_Profile", (req, res) => {
   if (user && req.query.id !== "") {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           // send the college data
           collegesRef
             .doc(req.query.id)
             .get()
-            .then((data) => {
+            .then(data => {
               if (!data.exists) {
                 res.redirect("/guest_home");
                 return;
@@ -384,8 +405,8 @@ router.get("/college_Profile", (req, res) => {
                 let surveyData = [];
                 surveysRef
                   .get()
-                  .then((snapshot) => {
-                    snapshot.forEach((temp_survey) => {
+                  .then(snapshot => {
+                    snapshot.forEach(temp_survey => {
                       // extract all the completed sureys
                       //console.log(collegeName);
                       if (
@@ -403,7 +424,7 @@ router.get("/college_Profile", (req, res) => {
                     });
                     return;
                   })
-                  .catch((err) => {
+                  .catch(err => {
                     console.log(
                       err,
                       "Surveys Data not Fetched - Guest College Profile"
@@ -413,7 +434,7 @@ router.get("/college_Profile", (req, res) => {
                   });
               }
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(
                 err,
                 "Colleges Data not Fetched - Guest College Profile"
@@ -426,7 +447,7 @@ router.get("/college_Profile", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, "NOt a Guest - Guest College Profile");
         res.redirect("/");
         return;
@@ -443,13 +464,13 @@ router.get("/guest_search", (req, res) => {
   if (user && req.query.id !== "") {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           collegesRef
             .get()
-            .then((snapshot) => {
+            .then(snapshot => {
               let colleges = [];
-              snapshot.forEach((college_data) => {
+              snapshot.forEach(college_data => {
                 let temp = college_data.data();
                 temp.type = capitalize(temp.type);
                 temp["id"] = college_data.id;
@@ -462,7 +483,7 @@ router.get("/guest_search", (req, res) => {
               });
               return;
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err.message, "No College Data Fetched - Guest Home");
               res.redirect("/guest_signIn");
               return;
@@ -472,7 +493,7 @@ router.get("/guest_search", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, "Not a Guest - Guest College Profile");
         res.redirect("/");
         return;
@@ -489,13 +510,13 @@ router.get("/compare_colleges", (req, res) => {
   if (user && req.query.id !== "") {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           collegesRef
             .get()
-            .then((snapshot) => {
+            .then(snapshot => {
               let colleges = [];
-              snapshot.forEach((college_data) => {
+              snapshot.forEach(college_data => {
                 let temp = college_data.data();
                 temp.type = capitalize(temp.type);
                 temp["id"] = college_data.id;
@@ -508,7 +529,7 @@ router.get("/compare_colleges", (req, res) => {
               });
               return;
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err.message, "No College Data Fetched - Guest Home");
               res.redirect("/guest_signIn");
               return;
@@ -518,7 +539,7 @@ router.get("/compare_colleges", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, "Not a Guest - Guest College Profile");
         res.redirect("/");
         return;
@@ -535,16 +556,16 @@ router.post("/compare_result", (req, res) => {
   if (user && req.query.id !== "") {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           collegesRef
             .get()
-            .then((snapshot) => {
+            .then(snapshot => {
               // variables to hold cllg data
               let collegeData1 = {};
               let collegeData2 = {};
 
-              snapshot.forEach((college_data) => {
+              snapshot.forEach(college_data => {
                 let temp = college_data.data();
                 if (
                   temp.CollegeName.toLowerCase() ===
@@ -582,16 +603,18 @@ router.post("/compare_result", (req, res) => {
               //console.log(req.body);
               surveysRef
                 .get()
-                .then((snapshot) => {
-                  snapshot.forEach((temp_survey) => {
+                .then(snapshot => {
+                  snapshot.forEach(temp_survey => {
                     // extract survey ratings --- for avg rating
                     if (
                       temp_survey.data().status == "completed" &&
                       temp_survey.data().collegeName.toLowerCase() ==
                         req.body.input_college_1.toLowerCase()
                     ) {
-                      cllg1_avg_rating[0] += temp_survey.data().scoreOfTeaching[0];
-                      cllg1_avg_rating[1] += temp_survey.data().scoreOfTeaching[1];
+                      cllg1_avg_rating[0] +=
+                        temp_survey.data().scoreOfTeaching[0];
+                      cllg1_avg_rating[1] +=
+                        temp_survey.data().scoreOfTeaching[1];
                       cllg1_total_surveys_count++;
 
                       // update min rating
@@ -599,34 +622,40 @@ router.post("/compare_result", (req, res) => {
                         cllg1_min_rating[0] >
                         temp_survey.data().scoreOfTeaching[0]
                       ) {
-                        cllg1_min_rating[0] = temp_survey.data().scoreOfTeaching[0];
+                        cllg1_min_rating[0] =
+                          temp_survey.data().scoreOfTeaching[0];
                       }
                       if (
                         cllg1_min_rating[1] >
                         temp_survey.data().scoreOfTeaching[1]
                       ) {
-                        cllg1_min_rating[1] = temp_survey.data().scoreOfTeaching[1];
+                        cllg1_min_rating[1] =
+                          temp_survey.data().scoreOfTeaching[1];
                       }
                       // update max rating
                       if (
                         cllg1_max_rating[0] <
                         temp_survey.data().scoreOfTeaching[0]
                       ) {
-                        cllg1_max_rating[0] = temp_survey.data().scoreOfTeaching[0];
+                        cllg1_max_rating[0] =
+                          temp_survey.data().scoreOfTeaching[0];
                       }
                       if (
                         cllg1_max_rating[1] <
                         temp_survey.data().scoreOfTeaching[1]
                       ) {
-                        cllg1_max_rating[1] = temp_survey.data().scoreOfTeaching[1];
+                        cllg1_max_rating[1] =
+                          temp_survey.data().scoreOfTeaching[1];
                       }
                     } else if (
                       temp_survey.data().status == "completed" &&
                       temp_survey.data().collegeName.toLowerCase() ==
                         req.body.input_college_2.toLowerCase()
                     ) {
-                      cllg2_avg_rating[0] += temp_survey.data().scoreOfTeaching[0];
-                      cllg2_avg_rating[1] += temp_survey.data().scoreOfTeaching[1];
+                      cllg2_avg_rating[0] +=
+                        temp_survey.data().scoreOfTeaching[0];
+                      cllg2_avg_rating[1] +=
+                        temp_survey.data().scoreOfTeaching[1];
                       cllg2_total_surveys_count++;
 
                       // update min rating
@@ -634,26 +663,30 @@ router.post("/compare_result", (req, res) => {
                         cllg2_min_rating[0] >
                         temp_survey.data().scoreOfTeaching[0]
                       ) {
-                        cllg2_min_rating[0] = temp_survey.data().scoreOfTeaching[0];
+                        cllg2_min_rating[0] =
+                          temp_survey.data().scoreOfTeaching[0];
                       }
                       if (
                         cllg2_min_rating[1] >
                         temp_survey.data().scoreOfTeaching[1]
                       ) {
-                        cllg2_min_rating[1] = temp_survey.data().scoreOfTeaching[1];
+                        cllg2_min_rating[1] =
+                          temp_survey.data().scoreOfTeaching[1];
                       }
                       // update max rating
                       if (
                         cllg2_max_rating[0] <
                         temp_survey.data().scoreOfTeaching[0]
                       ) {
-                        cllg2_max_rating[0] = temp_survey.data().scoreOfTeaching[0];
+                        cllg2_max_rating[0] =
+                          temp_survey.data().scoreOfTeaching[0];
                       }
                       if (
                         cllg2_max_rating[1] <
                         temp_survey.data().scoreOfTeaching[1]
                       ) {
-                        cllg2_max_rating[1] = temp_survey.data().scoreOfTeaching[1];
+                        cllg2_max_rating[1] =
+                          temp_survey.data().scoreOfTeaching[1];
                       }
                     }
                   });
@@ -665,14 +698,14 @@ router.post("/compare_result", (req, res) => {
 
                   // calculate the avg rating
                   collegeData1["avg_rating"] = cllg1_avg_rating.map(
-                    (rating) =>
+                    rating =>
                       Math.round(
                         (rating / cllg1_total_surveys_count + Number.EPSILON) *
                           100
                       ) / 100
                   );
                   collegeData2["avg_rating"] = cllg2_avg_rating.map(
-                    (rating) =>
+                    rating =>
                       Math.round(
                         (rating / cllg2_total_surveys_count + Number.EPSILON) *
                           100
@@ -697,7 +730,7 @@ router.post("/compare_result", (req, res) => {
                   });
                   return;
                 })
-                .catch((err) => {
+                .catch(err => {
                   console.log(
                     err,
                     "Surveys Data not Fetched - Guest College Profile"
@@ -706,7 +739,7 @@ router.post("/compare_result", (req, res) => {
                   return;
                 });
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err.message, "No College Data Fetched - Guest Home");
               res.redirect("/guest_signIn");
               return;
@@ -716,7 +749,7 @@ router.post("/compare_result", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err, "Not a Guest - Guest College Profile");
         res.redirect("/");
         return;
@@ -730,15 +763,16 @@ router.post("/compare_result", (req, res) => {
 // Show all queries
 router.get("/show_request", (req, res) => {
   var user = firebase.auth().currentUser;
+
   if (user) {
     Guests.doc(user.email)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           var Queries = [];
           QueriesRef.get()
-            .then((result) => {
-              result.forEach((tempdata) => {
+            .then(result => {
+              result.forEach(tempdata => {
                 const query = tempdata.data();
                 const text = decrypt(query.user);
                 //console.log(text);
@@ -748,13 +782,22 @@ router.get("/show_request", (req, res) => {
                 }
               });
 
-              //console.log(Queries);
+              let pending = Queries.filter(query => query.status === "Pending");
+              let rejected = Queries.filter(
+                query => query.status === "Rejected"
+              );
+              let approved = Queries.filter(
+                query => query.status === "Approved"
+              );
+
               res.render("Guest/show_request.ejs", {
-                data: Queries,
+                pending: pending.length,
+                rejected: rejected.length,
+                approved: approved.length,
               });
               return;
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err.message, "Invalid Admin -  List of Queries");
               return;
             });
@@ -764,7 +807,7 @@ router.get("/show_request", (req, res) => {
           return;
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log("Error", err.message);
         res.redirect("/");
         return;
@@ -776,104 +819,164 @@ router.get("/show_request", (req, res) => {
   }
 });
 
-// Show all queries
-// router.get("/show_request", (req, res) => {
-//   var user = firebase.auth().currentUser;
-//   if (user) {
-//     //console.log(user);
-//     Guests.doc(user.email)
-//       .get()
-//       .then((doc) => {
-//         if (doc.exists) {
-//           var Queries = [];
-//           QueriesRef.get()
-//             .then((result) => {
-//               result.forEach((tempdata) => {
-//                 const query = tempdata.data();
-//                 const text = decrypt(query.user);
-//                 //console.log(text);
-//                 if (text.toLowerCase() === user.email.toLowerCase()) {
-//                   query["id"] = tempdata.id;
-//                   Queries.push(query);
-//                 }
-//               });
+// Show all user pending queries
+router.get("/pending_request", (req, res) => {
+  var user = firebase.auth().currentUser;
 
-//               //console.log(Queries);
-//               res.render("Guest/show_request.ejs", {
-//                 data: Queries,
-//               });
-//               return;
-//             })
-//             .catch((err) => {
-//               console.log(err.message, "Invalid Admin -  List of Queries");
-//               return;
-//             });
-//         } else {
-//           console.log("Not a guest");
-//           res.redirect("/");
-//           return;
-//         }
-//       })
-//       .catch((err) => {
-//         console.log("Error", err.message);
-//         res.redirect("/");
-//         return;
-//       });
-//   } else {
-//     console.log("JVODFE");
-//     res.redirect("/guest_signIn");
-//     return;
-//   }
-// });
+  if (user) {
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          var Queries = [];
+          QueriesRef.get()
+            .then(result => {
+              result.forEach(tempdata => {
+                const query = tempdata.data();
+                const text = decrypt(query.user);
+                //console.log(text);
+                if (text.toLowerCase() === user.email.toLowerCase()) {
+                  query["id"] = tempdata.id;
+                  Queries.push(query);
+                }
+              });
 
-// Show all queries
-// router.get("/show_request", (req, res) => {
-//   var user = firebase.auth().currentUser;
-//   if (user) {
-//     //console.log(user);
-//     Guests.doc(user.email)
-//       .get()
-//       .then((doc) => {
-//         if (doc.exists) {
-//           var Queries = [];
-//           QueriesRef.get()
-//             .then((result) => {
-//               result.forEach((tempdata) => {
-//                 const query = tempdata.data();
-//                 const text = decrypt(query.user);
-//                 //console.log(text);
-//                 if (text.toLowerCase() === user.email.toLowerCase()) {
-//                   query["id"] = tempdata.id;
-//                   Queries.push(query);
-//                 }
-//               });
+              let pending = Queries.filter(query => query.status === "Pending");
 
-//               //console.log(Queries);
-//               res.render("Guest/show_request.ejs", {
-//                 data: Queries,
-//               });
-//               return;
-//             })
-//             .catch((err) => {
-//               console.log(err.message, "Invalid Admin -  List of Queries");
-//               return;
-//             });
-//         } else {
-//           console.log("Not a guest");
-//           res.redirect("/");
-//           return;
-//         }
-//       })
-//       .catch((err) => {
-//         console.log("Error", err.message);
-//         res.redirect("/");
-//         return;
-//       });
-//   } else {
-//     console.log("JVODFE");
-//     res.redirect("/guest_signIn");
-//     return;
-//   }
-// });
+              res.render("Guest/pending_queries.ejs", {
+                data: pending,
+                pending: pending.length,
+              });
+              return;
+            })
+            .catch(err => {
+              console.log(err.message, "Invalid Admin -  List of Queries");
+              return;
+            });
+        } else {
+          console.log("Not a guest");
+          res.redirect("/");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log("Error", err.message);
+        res.redirect("/");
+        return;
+      });
+  } else {
+    console.log("JVODFE");
+    res.redirect("/guest_signIn");
+    return;
+  }
+});
+
+// Show all user rejected queries
+router.get("/rejected_request", (req, res) => {
+  var user = firebase.auth().currentUser;
+
+  if (user) {
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          var Queries = [];
+          QueriesRef.get()
+            .then(result => {
+              result.forEach(tempdata => {
+                const query = tempdata.data();
+                const text = decrypt(query.user);
+                //console.log(text);
+                if (text.toLowerCase() === user.email.toLowerCase()) {
+                  query["id"] = tempdata.id;
+                  Queries.push(query);
+                }
+              });
+
+              let rejected = Queries.filter(
+                query => query.status === "Rejected"
+              );
+
+              res.render("Guest/rejected_queries.ejs", {
+                data: rejected,
+                rejected: rejected.length,
+              });
+              return;
+            })
+            .catch(err => {
+              console.log(err.message, "Invalid Admin -  List of Queries");
+              return;
+            });
+        } else {
+          console.log("Not a guest");
+          res.redirect("/");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log("Error", err.message);
+        res.redirect("/");
+        return;
+      });
+  } else {
+    console.log("JVODFE");
+    res.redirect("/guest_signIn");
+    return;
+  }
+});
+
+// Show all user approved queries
+router.get("/approved_request", (req, res) => {
+  var user = firebase.auth().currentUser;
+
+  if (user) {
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          var Queries = [];
+          QueriesRef.get()
+            .then(result => {
+              result.forEach(tempdata => {
+                const query = tempdata.data();
+                const text = decrypt(query.user);
+                //console.log(text);
+                if (text.toLowerCase() === user.email.toLowerCase()) {
+                  query["id"] = tempdata.id;
+                  Queries.push(query);
+                }
+              });
+
+              let approved = Queries.filter(
+                query => query.status === "Approved"
+              );
+
+              res.render("Guest/approved_queries.ejs", {
+                data: approved,
+                approved: approved.length,
+              });
+              return;
+            })
+            .catch(err => {
+              console.log(err.message, "Invalid Admin -  List of Queries");
+              return;
+            });
+        } else {
+          console.log("Not a guest");
+          res.redirect("/");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log("Error", err.message);
+        res.redirect("/");
+        return;
+      });
+  } else {
+    console.log("JVODFE");
+    res.redirect("/guest_signIn");
+    return;
+  }
+});
 
 module.exports = router;

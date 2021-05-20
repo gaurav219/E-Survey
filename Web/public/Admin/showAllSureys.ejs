@@ -48,11 +48,15 @@
       <div class="container d-flex align-items-center">
         <h1 class="logo mr-auto"><a href="/">E-Survey</a></h1>
         <nav class="nav-menu d-none d-lg-block">
-            <ul>
-              <li><a href="/admin_home">Admin Home</a></li>
-              <li><a href="/admin_logout"><button class="btn btn-sm btn-danger">Logout</button></a></li>
-            </ul>
-          </nav>
+          <ul>
+            <li><a href="/admin_home">Admin Home</a></li>
+            <li>
+              <a href="/admin_logout"
+                ><button class="btn btn-sm btn-danger">Logout</button></a
+              >
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
     <!-- End Header -->
@@ -62,13 +66,22 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col-lg-6
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
             <center>
-              <h1>List of all the </h1>
-              <h1 style="color: rgb(122, 255, 182);"><strong>Surveys</strong></h1>
+              <h1>List of all the</h1>
+              <h1 style="color: rgb(122, 255, 182)">
+                <strong>Surveys</strong>
+              </h1>
             </center>
           </div>
           <div
@@ -88,79 +101,100 @@
     <!-- End Hero -->
 
     <section id="about" class="about">
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>Pending Surveys</h2>
-          </div>
-          <h5>Search by Visitor Email ID</h5> 
-            <input type="text" alt="Search" id="pending_surveys_v_id" class="form-control" name="search" placeholder="eg. abc@gmail.com" />
-            <br><br>
-          
-          <div class="row content">
-            <table class="table table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                   
-                    <th scope="col">Survey ID</th>
-                    <th scope="col">Date Assigned</th>
-                    <th scope="col">College Name</th>
-                    <th scope="col">Visitor ID</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody id="pendingSurveysTableBody">
-                  <% for(var i=0; i < pending_surveys.length ; i++ ) { %>
-                    <tr>
-                        
-                        <td><a href="/survey_data?id=<%= pending_surveys[i].id %>"><%= pending_surveys[i].id %></a></td>
-                        <td><%= pending_surveys[i].assignDateOfSurvey.getDate() %>/<%= pending_surveys[i].assignDateOfSurvey.getMonth()+1 %>/<%= pending_surveys[i].assignDateOfSurvey.getFullYear()%></td>
-                        <td><%= pending_surveys[i].collegeName %></td>
-                        <td><%= pending_surveys[i].visitorId %></td>
-                        <td><%= pending_surveys[i].status %></td>
-                      </tr>
-                  <% } %>  
-                </tbody>
-              </table>
-          </div>
-          <br />
-
-          <div class="section-title">
-            <h2>Completed Surveys</h2>
-          </div>
-
-          <h5>Search by Visitor Email ID</h5> 
-            <input type="text" alt="Search" id="completed_surveys_v_id" class="form-control" name="search" placeholder="eg. abc@gmail.com" />
-            <br><br>
-           
-          <div class="row content">
-            <table class="table table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                   
-                    <th scope="col">Survey ID</th>
-                    <th scope="col">Date of Survey</th>
-                    <th scope="col">College Name</th>
-                    <th scope="col">Visitor ID</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody id="completedSurveysTableBody">
-                  <% for(var i=0; i < completed_surveys.length ; i++ ) { %>
-                    <tr>
-                       
-                        <td><a href="/survey_data?id=<%= completed_surveys[i].id %>"><%= completed_surveys[i].id %></a></td>
-                        <td><%= completed_surveys[i].dateOfSurvey %></td>
-                        <td><%= completed_surveys[i].collegeName %></td>
-                        <td><%= completed_surveys[i].visitorId %></td>
-                        <td><%= completed_surveys[i].status %></td>
-                      </tr>
-                  <% } %>  
-                </tbody>
-              </table>
-          </div>
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Pending Surveys</h2>
         </div>
-      </section>
+        <h5>Search by Visitor Email ID</h5>
+        <input
+          type="text"
+          alt="Search"
+          id="pending_surveys_v_id"
+          class="form-control"
+          name="search"
+          placeholder="eg. abc@gmail.com"
+        />
+        <br /><br />
 
+        <div class="row content">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Survey ID</th>
+                <th scope="col">Date Assigned</th>
+                <th scope="col">College Name</th>
+                <th scope="col">Visitor ID</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody id="pendingSurveysTableBody">
+              <% for(var i=0; i < pending_surveys.length ; i++ ) { %>
+              <tr>
+                <td>
+                  <a href="/survey_data?id=<%= pending_surveys[i].id %>"
+                    ><%= pending_surveys[i].id %></a
+                  >
+                </td>
+                <td>
+                  <%= pending_surveys[i].assignDateOfSurvey.getDate() %>/<%=
+                  pending_surveys[i].assignDateOfSurvey.getMonth()+1 %>/<%=
+                  pending_surveys[i].assignDateOfSurvey.getFullYear()%>
+                </td>
+                <td><%= pending_surveys[i].collegeName %></td>
+                <td><%= pending_surveys[i].visitorId %></td>
+                <td><%= pending_surveys[i].status %></td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+        <br />
+
+        <div class="section-title">
+          <h2>Completed Surveys</h2>
+        </div>
+
+        <h5>Search by Visitor Email ID</h5>
+        <input
+          type="text"
+          alt="Search"
+          id="completed_surveys_v_id"
+          class="form-control"
+          name="search"
+          placeholder="eg. abc@gmail.com"
+        />
+        <br /><br />
+
+        <div class="row content">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Survey ID</th>
+                <th scope="col">Date of Survey</th>
+                <th scope="col">College Name</th>
+                <th scope="col">Visitor ID</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody id="completedSurveysTableBody">
+              <% for(var i=0; i < completed_surveys.length ; i++ ) { %>
+              <tr>
+                <td>
+                  <a href="/survey_data?id=<%= completed_surveys[i].id %>"
+                    ><%= completed_surveys[i].id %></a
+                  >
+                </td>
+                <td><%= completed_surveys[i].dateOfSurvey %></td>
+                <td><%= completed_surveys[i].collegeName %></td>
+                <td><%= completed_surveys[i].visitorId %></td>
+                <td><%= completed_surveys[i].status %></td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
@@ -197,52 +231,55 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
 
-
     <script>
-      const completed_surveys_v_id = document.getElementById('completed_surveys_v_id')
-      const completedSurveysTableBody = document.getElementById('completedSurveysTableBody')
-     
-      completed_surveys_v_id.addEventListener('keyup',() => {
+      const completed_surveys_v_id = document.getElementById(
+        "completed_surveys_v_id"
+      );
+      const completedSurveysTableBody = document.getElementById(
+        "completedSurveysTableBody"
+      );
 
-          var  filter, table, tr, td, i, txtValue;
-          filter = completed_surveys_v_id.value.toUpperCase();
-          tr = completedSurveysTableBody.getElementsByTagName("tr");
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[3];
-           
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
-              }
-            }       
+      completed_surveys_v_id.addEventListener("keyup", () => {
+        var filter, table, tr, td, i, txtValue;
+        filter = completed_surveys_v_id.value.toUpperCase();
+        tr = completedSurveysTableBody.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[3];
+
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
+        }
       });
 
+      const pending_surveys_v_id = document.getElementById(
+        "pending_surveys_v_id"
+      );
+      const pendingSurveysTableBody = document.getElementById(
+        "pendingSurveysTableBody"
+      );
 
-      const pending_surveys_v_id = document.getElementById('pending_surveys_v_id')
-      const pendingSurveysTableBody = document.getElementById('pendingSurveysTableBody')
-     
-      pending_surveys_v_id.addEventListener('keyup',() => {
-
-          var  filter, table, tr, td, i, txtValue;
-          filter = pending_surveys_v_id.value.toUpperCase();
-          tr = pendingSurveysTableBody.getElementsByTagName("tr");
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[3];
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
-              }
-            }       
+      pending_surveys_v_id.addEventListener("keyup", () => {
+        var filter, table, tr, td, i, txtValue;
+        filter = pending_surveys_v_id.value.toUpperCase();
+        tr = pendingSurveysTableBody.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[3];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
+        }
       });
-      </script>
-
+    </script>
   </body>
 </html>

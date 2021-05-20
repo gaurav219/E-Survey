@@ -34,9 +34,10 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <style> 
-
-      table, th, td {
+    <style>
+      table,
+      th,
+      td {
         text-align: center;
       }
     </style>
@@ -60,60 +61,74 @@
         </nav>
         <!-- .nav-menu -->
         <form action="/guest_logout" method="POST" style="margin-left: 1%">
-          <button class="btn btn-sm  btn-danger" type="submit">Logout</button>
+          <button class="btn btn-sm btn-danger" type="submit">Logout</button>
         </form>
       </div>
     </header>
     <!-- End Header -->
 
-
     <main id="main">
-        <section id="hero" class="d-flex align-items-center">
-            <div class="container">
-              <div class="row">
-                <div
-                  class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <h1>
-                    Comparison Result 
-                  </h1>
-                  <h2> <%= data.collegeData1.CollegeName %> vs  <%= data.collegeData2.CollegeName %></h2>
-                
-                  
-                </div>
-                <div
-                  class="col-lg-6 order-1 order-lg-2 hero-img"
-                  data-aos="zoom-in"
-                  data-aos-delay="200"
-                >
-                  <img
-                    src="assets/img/hero-img.png"
-                    class="img-fluid animated"
-                    alt=""
-                  />
-                </div>
-              </div>
+      <section id="hero" class="d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div
+              class="
+                col-lg-6
+                d-flex
+                flex-column
+                justify-content-center
+                pt-4 pt-lg-0
+                order-2 order-lg-1
+              "
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <h1>Comparison Result</h1>
+              <h2>
+                <%= data.collegeData1.CollegeName %> vs <%=
+                data.collegeData2.CollegeName %>
+              </h2>
             </div>
-          </section>
-     
+            <div
+              class="col-lg-6 order-1 order-lg-2 hero-img"
+              data-aos="zoom-in"
+              data-aos-delay="200"
+            >
+              <img
+                src="assets/img/hero-img.png"
+                class="img-fluid animated"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="about" class="about">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2> <%= data.collegeData1.CollegeName %> vs  <%= data.collegeData2.CollegeName %></h2>
-            <table class="table table-hover ">
+            <h2>
+              <%= data.collegeData1.CollegeName %> vs <%=
+              data.collegeData2.CollegeName %>
+            </h2>
+            <table class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col"><h3>Paramter</h3></th>
-                  <th scope="col"><h3><%= data.collegeData1.CollegeName %></h3></th>
-                  <th scope="col"><h3><%= data.collegeData2.CollegeName %></h3></th>
+                  <th scope="col">
+                    <h3><%= data.collegeData1.CollegeName %></h3>
+                  </th>
+                  <th scope="col">
+                    <h3><%= data.collegeData2.CollegeName %></h3>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td align="center" colspan="3"><h3>Based on General Data</h3></td>
-               </tr>
+                  <td align="center" colspan="3">
+                    <h3>Based on General Data</h3>
+                  </td>
+                </tr>
                 <tr>
                   <th scope="row">Type</th>
                   <td><%= data.collegeData1.type %></td>
@@ -123,22 +138,16 @@
                   <th scope="row">Affiliations</th>
 
                   <% if(data.collegeData1.Affiliations.length > 0) { %>
-                    <td><%= data.collegeData1.Affiliations %></td>
-                  <% } %>  
-
-                  <% if(data.collegeData2.Affiliations.length > 0) { %>
-                    <td><%= data.collegeData2.Affiliations %></td>
-                  <% } %> 
-
-                  <% if(data.collegeData1.Affiliations.length === 0) { %>
-                    <td> - </td>
-                  <% } %>  
-
-                  <% if(data.collegeData2.Affiliations.length === 0) { %>
-                    <td> - </td>
-                  <% } %> 
-                  
-                  
+                  <td><%= data.collegeData1.Affiliations %></td>
+                  <% } %> <% if(data.collegeData2.Affiliations.length > 0) { %>
+                  <td><%= data.collegeData2.Affiliations %></td>
+                  <% } %> <% if(data.collegeData1.Affiliations.length === 0) {
+                  %>
+                  <td>-</td>
+                  <% } %> <% if(data.collegeData2.Affiliations.length === 0) {
+                  %>
+                  <td>-</td>
+                  <% } %>
                 </tr>
                 <tr>
                   <th scope="row">Location</th>
@@ -151,103 +160,187 @@
                   <td><%= data.collegeData2.totalSurveys %></td>
                 </tr>
                 <tr>
-                  <td align="center" colspan="3"><h3>Based on Average Rating</h3></td>
-               </tr>
-                <tr>
-                  <th scope="row">Teaching And Learning Process</th>
-                  <% if(  data.collegeData1.avg_rating[0] > data.collegeData2.avg_rating[0] ) { %>
-                    <td style="color:green"><%= data.collegeData1.avg_rating[0] %></td>
-                    <td style="color:red"><%= data.collegeData2.avg_rating[0] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.avg_rating[0] < data.collegeData2.avg_rating[0] ) { %>
-                    <td style="color:red"><%= data.collegeData1.avg_rating[0] %></td>
-                    <td style="color:green"><%= data.collegeData2.avg_rating[0] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.avg_rating[0] === data.collegeData2.avg_rating[0] ) { %>
-                    <td style="color:yellow"><%= data.collegeData1.avg_rating[0] %></td>
-                    <td style="color:yellow"><%= data.collegeData2.avg_rating[0] %></td>
-                  <% } %>     
-                </tr>
-                <tr>
-                  <th scope="row">College Environment </th>
-                  <% if(  data.collegeData1.avg_rating[1] > data.collegeData2.avg_rating[1] ) { %>
-                    <td style="color:green"><%= data.collegeData1.avg_rating[1] %></td>
-                    <td style="color:red"><%= data.collegeData2.avg_rating[1] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.avg_rating[1] < data.collegeData2.avg_rating[1] ) { %>
-                    <td style="color:red"><%= data.collegeData1.avg_rating[1] %></td>
-                    <td style="color:green"><%= data.collegeData2.avg_rating[1] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.avg_rating[1] === data.collegeData2.avg_rating[1] ) { %>
-                    <td style="color:yellow"><%= data.collegeData1.avg_rating[1] %></td>
-                    <td style="color:yellow"><%= data.collegeData2.avg_rating[1] %></td>
-                  <% } %>  
-                </tr>
-                <tr>
-                    <td align="center" colspan="3"><h3>Based on Minimum Rating</h3></td>
+                  <td align="center" colspan="3">
+                    <h3>Based on Average Rating</h3>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Teaching And Learning Process</th>
-                  <% if(  data.collegeData1.min_rating[0] > data.collegeData2.min_rating[0] ) { %>
-                    <td style="color:green"><%= data.collegeData1.min_rating[0] %></td>
-                    <td style="color:red"><%= data.collegeData2.min_rating[0] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.min_rating[0] < data.collegeData2.min_rating[0] ) { %>
-                    <td style="color:red"><%= data.collegeData1.min_rating[0] %></td>
-                    <td style="color:green"><%= data.collegeData2.min_rating[0] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.min_rating[0] === data.collegeData2.min_rating[0] ) { %>
-                    <td style="color:yellow"><%= data.collegeData1.min_rating[0] %></td>
-                    <td style="color:yellow"><%= data.collegeData2.min_rating[0] %></td>
-                  <% } %>     
+                  <% if( data.collegeData1.avg_rating[0] >
+                  data.collegeData2.avg_rating[0] ) { %>
+                  <td style="color: green">
+                    <%= data.collegeData1.avg_rating[0] %>
+                  </td>
+                  <td style="color: red">
+                    <%= data.collegeData2.avg_rating[0] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.avg_rating[0] <
+                  data.collegeData2.avg_rating[0] ) { %>
+                  <td style="color: red">
+                    <%= data.collegeData1.avg_rating[0] %>
+                  </td>
+                  <td style="color: green">
+                    <%= data.collegeData2.avg_rating[0] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.avg_rating[0] ===
+                  data.collegeData2.avg_rating[0] ) { %>
+                  <td style="color: yellow">
+                    <%= data.collegeData1.avg_rating[0] %>
+                  </td>
+                  <td style="color: yellow">
+                    <%= data.collegeData2.avg_rating[0] %>
+                  </td>
+                  <% } %>
                 </tr>
                 <tr>
-                  <th scope="row">College Environment </th>
-                  <% if(  data.collegeData1.min_rating[1] > data.collegeData2.min_rating[1] ) { %>
-                    <td style="color:green"><%= data.collegeData1.min_rating[1] %></td>
-                    <td style="color:red"><%= data.collegeData2.min_rating[1] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.min_rating[1] < data.collegeData2.min_rating[1] ) { %>
-                    <td style="color:red"><%= data.collegeData1.min_rating[1] %></td>
-                    <td style="color:green"><%= data.collegeData2.min_rating[1] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.min_rating[1] === data.collegeData2.min_rating[1] ) { %>
-                    <td style="color:yellow"><%= data.collegeData1.min_rating[1] %></td>
-                    <td style="color:yellow"><%= data.collegeData2.min_rating[1] %></td>
-                  <% } %>  
+                  <th scope="row">College Environment</th>
+                  <% if( data.collegeData1.avg_rating[1] >
+                  data.collegeData2.avg_rating[1] ) { %>
+                  <td style="color: green">
+                    <%= data.collegeData1.avg_rating[1] %>
+                  </td>
+                  <td style="color: red">
+                    <%= data.collegeData2.avg_rating[1] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.avg_rating[1] <
+                  data.collegeData2.avg_rating[1] ) { %>
+                  <td style="color: red">
+                    <%= data.collegeData1.avg_rating[1] %>
+                  </td>
+                  <td style="color: green">
+                    <%= data.collegeData2.avg_rating[1] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.avg_rating[1] ===
+                  data.collegeData2.avg_rating[1] ) { %>
+                  <td style="color: yellow">
+                    <%= data.collegeData1.avg_rating[1] %>
+                  </td>
+                  <td style="color: yellow">
+                    <%= data.collegeData2.avg_rating[1] %>
+                  </td>
+                  <% } %>
                 </tr>
                 <tr>
-                  <td align="center" colspan="3"><h3>Based on Maximum Rating</h3></td>
+                  <td align="center" colspan="3">
+                    <h3>Based on Minimum Rating</h3>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Teaching And Learning Process</th>
-                  <% if(  data.collegeData1.max_rating[0] > data.collegeData2.max_rating[0] ) { %>
-                    <td style="color:green"><%= data.collegeData1.max_rating[0] %></td>
-                    <td style="color:red"><%= data.collegeData2.max_rating[0] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.max_rating[0] < data.collegeData2.max_rating[0] ) { %>
-                    <td style="color:red"><%= data.collegeData1.max_rating[0] %></td>
-                    <td style="color:green"><%= data.collegeData2.max_rating[0] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.max_rating[0] === data.collegeData2.max_rating[0] ) { %>
-                    <td style="color:yellow"><%= data.collegeData1.max_rating[0] %></td>
-                    <td style="color:yellow"><%= data.collegeData2.max_rating[0] %></td>
-                  <% } %>     
+                  <% if( data.collegeData1.min_rating[0] >
+                  data.collegeData2.min_rating[0] ) { %>
+                  <td style="color: green">
+                    <%= data.collegeData1.min_rating[0] %>
+                  </td>
+                  <td style="color: red">
+                    <%= data.collegeData2.min_rating[0] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.min_rating[0] <
+                  data.collegeData2.min_rating[0] ) { %>
+                  <td style="color: red">
+                    <%= data.collegeData1.min_rating[0] %>
+                  </td>
+                  <td style="color: green">
+                    <%= data.collegeData2.min_rating[0] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.min_rating[0] ===
+                  data.collegeData2.min_rating[0] ) { %>
+                  <td style="color: yellow">
+                    <%= data.collegeData1.min_rating[0] %>
+                  </td>
+                  <td style="color: yellow">
+                    <%= data.collegeData2.min_rating[0] %>
+                  </td>
+                  <% } %>
                 </tr>
                 <tr>
-                  <th scope="row">College Environment </th>
-                  <% if(  data.collegeData1.max_rating[1] > data.collegeData2.max_rating[1] ) { %>
-                    <td style="color:green"><%= data.collegeData1.max_rating[1] %></td>
-                    <td style="color:red"><%= data.collegeData2.max_rating[1] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.max_rating[1] < data.collegeData2.max_rating[1] ) { %>
-                    <td style="color:red"><%= data.collegeData1.max_rating[1] %></td>
-                    <td style="color:green"><%= data.collegeData2.max_rating[1] %></td>
-                  <% } %> 
-                  <% if(  data.collegeData1.max_rating[1] === data.collegeData2.max_rating[1] ) { %>
-                    <td style="color:yellow"><%= data.collegeData1.max_rating[1] %></td>
-                    <td style="color:yellow"><%= data.collegeData2.max_rating[1] %></td>
-                  <% } %>  
+                  <th scope="row">College Environment</th>
+                  <% if( data.collegeData1.min_rating[1] >
+                  data.collegeData2.min_rating[1] ) { %>
+                  <td style="color: green">
+                    <%= data.collegeData1.min_rating[1] %>
+                  </td>
+                  <td style="color: red">
+                    <%= data.collegeData2.min_rating[1] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.min_rating[1] <
+                  data.collegeData2.min_rating[1] ) { %>
+                  <td style="color: red">
+                    <%= data.collegeData1.min_rating[1] %>
+                  </td>
+                  <td style="color: green">
+                    <%= data.collegeData2.min_rating[1] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.min_rating[1] ===
+                  data.collegeData2.min_rating[1] ) { %>
+                  <td style="color: yellow">
+                    <%= data.collegeData1.min_rating[1] %>
+                  </td>
+                  <td style="color: yellow">
+                    <%= data.collegeData2.min_rating[1] %>
+                  </td>
+                  <% } %>
+                </tr>
+                <tr>
+                  <td align="center" colspan="3">
+                    <h3>Based on Maximum Rating</h3>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Teaching And Learning Process</th>
+                  <% if( data.collegeData1.max_rating[0] >
+                  data.collegeData2.max_rating[0] ) { %>
+                  <td style="color: green">
+                    <%= data.collegeData1.max_rating[0] %>
+                  </td>
+                  <td style="color: red">
+                    <%= data.collegeData2.max_rating[0] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.max_rating[0] <
+                  data.collegeData2.max_rating[0] ) { %>
+                  <td style="color: red">
+                    <%= data.collegeData1.max_rating[0] %>
+                  </td>
+                  <td style="color: green">
+                    <%= data.collegeData2.max_rating[0] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.max_rating[0] ===
+                  data.collegeData2.max_rating[0] ) { %>
+                  <td style="color: yellow">
+                    <%= data.collegeData1.max_rating[0] %>
+                  </td>
+                  <td style="color: yellow">
+                    <%= data.collegeData2.max_rating[0] %>
+                  </td>
+                  <% } %>
+                </tr>
+                <tr>
+                  <th scope="row">College Environment</th>
+                  <% if( data.collegeData1.max_rating[1] >
+                  data.collegeData2.max_rating[1] ) { %>
+                  <td style="color: green">
+                    <%= data.collegeData1.max_rating[1] %>
+                  </td>
+                  <td style="color: red">
+                    <%= data.collegeData2.max_rating[1] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.max_rating[1] <
+                  data.collegeData2.max_rating[1] ) { %>
+                  <td style="color: red">
+                    <%= data.collegeData1.max_rating[1] %>
+                  </td>
+                  <td style="color: green">
+                    <%= data.collegeData2.max_rating[1] %>
+                  </td>
+                  <% } %> <% if( data.collegeData1.max_rating[1] ===
+                  data.collegeData2.max_rating[1] ) { %>
+                  <td style="color: yellow">
+                    <%= data.collegeData1.max_rating[1] %>
+                  </td>
+                  <td style="color: yellow">
+                    <%= data.collegeData2.max_rating[1] %>
+                  </td>
+                  <% } %>
                 </tr>
               </tbody>
             </table>
@@ -256,15 +349,13 @@
       </section>
     </main>
 
-     <footer id="footer">
+    <footer id="footer">
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
           >. All Rights Reserved
         </div>
-        <div class="credits">
-         Project By <a href="#">TEAM CSEIP19</a>
-        </div>
+        <div class="credits">Project By <a href="#">TEAM CSEIP19</a></div>
       </div>
     </footer>
     <!-- End Footer -->
@@ -285,6 +376,5 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
   </body>
 </html>

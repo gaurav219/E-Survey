@@ -34,8 +34,11 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <style> 
-      td,th { text-align: center; }
+    <style>
+      td,
+      th {
+        text-align: center;
+      }
     </style>
     <script>
       window.ChatraSetup = {
@@ -81,11 +84,11 @@
               <ul>
                 <!-- <li><a href="/visitor_signUp">As Visitor</a></li> -->
                 <!-- <li><a href="#">As College Admin</a></li> -->
-                <li><a href="/show_request">Show Existing Queries</a></li>
+                <li><a href="/show_request">Display Queries</a></li>
                 <li><a href="/submit_request">Submit (Anonymously)</a></li>
               </ul>
             </li>
-            
+
             <!-- <li><a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Services
               </a>
@@ -93,8 +96,8 @@
                 <a style="color:black" class="dropdown-item" href="/submit_request">Submit Request</a>
                 <a style="color:black" class="dropdown-item" href="/submit_request_anon">Submit Request (Anonymously)</a>
                  <a style="color:black" class="dropdown-item" href="#">Something else here</a> -->
-              <!-- </div> -->
-            <!-- </li> --> 
+            <!-- </div> -->
+            <!-- </li> -->
             <!-- <li><a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a></li>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <a class="dropdown-item" href="#">Action</a>
@@ -105,7 +108,7 @@
         </nav>
         <!-- .nav-menu -->
         <form action="/guest_logout" method="POST" style="margin-left: 1%">
-          <button class="btn btn-sm  btn-danger" type="submit">Logout</button>
+          <button class="btn btn-sm btn-danger" type="submit">Logout</button>
         </form>
       </div>
     </header>
@@ -116,7 +119,14 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col-lg-6
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
@@ -147,7 +157,12 @@
         <div class="container">
           <div class="row" data-aos="zoom-in">
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -157,7 +172,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -167,7 +187,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -177,7 +202,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -187,7 +217,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -197,7 +232,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -218,38 +258,46 @@
           </div>
 
           <div class="row content">
-            <h5>Enter the College Name </h5>
-            <input type="text" alt="Search" id="search" class="form-control" name="search" placeholder="Search your college" />
-            <br><br>
+            <h5>Enter the College Name</h5>
+            <input
+              type="text"
+              alt="Search"
+              id="search"
+              class="form-control"
+              name="search"
+              placeholder="Search your college"
+            />
+            <br /><br />
             <table class="table table-hover">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">SNo.</th>
-                  <th scope="col">College ID</th> 
+                  <th scope="col">College ID</th>
                   <th scope="col">Name of College</th>
                   <th scope="col">College Type</th>
                 </tr>
               </thead>
               <tbody id="filter_body">
                 <% for(var i=0; i < data.length ; i++ ) { %>
-                    <tr>
-                      
-                        <th scope="row"><%= i+1 %></th>
-                        <td><%= data[i].C_id %></td>
-                        <td><a href="/college_Profile?id=<%= data[i].id%>"><%= data[i].CollegeName %></a></td>
-                        <td><%= data[i].type %></td>
-               
-                    </tr>
+                <tr>
+                  <th scope="row"><%= i+1 %></th>
+                  <td><%= data[i].C_id %></td>
+                  <td>
+                    <a href="/college_Profile?id=<%= data[i].id%>"
+                      ><%= data[i].CollegeName %></a
+                    >
+                  </td>
+                  <td><%= data[i].type %></td>
+                </tr>
                 <% } %>
-              </tbody>  
+              </tbody>
             </table>
           </div>
         </div>
       </section>
-    
     </main>
 
-     <footer id="footer">
+    <footer id="footer">
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
@@ -269,9 +317,6 @@
     <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
     <div id="preloader"></div>
 
-      
-  
-
     <!-- Vendor JS Files -->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -285,39 +330,41 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-    
+
     <% var ans = data; %>
 
-    <script>let arr = []; let small = "";</script>
+    <script>
+      let arr = [];
+      let small = "";
+    </script>
     <% for(var i=0; i < data.length ; i++ ) { %>
-      <script>small = "<%= ans[i].collegeName %>"; 
+    <script>
+      small = "<%= ans[i].collegeName %>";
       arr.push(small);
-      </script>
-        
+    </script>
+
     <% } %>
 
     <script>
+      const search = document.getElementById("search");
+      const filter_body = document.getElementById("filter_body");
 
-      const search = document.getElementById('search')
-      const filter_body = document.getElementById('filter_body')
-      
-      search.addEventListener('keyup',() => {
-
-          var  filter, table, tr, td, i, txtValue;
-          filter = search.value.toUpperCase();
-          tr = filter_body.getElementsByTagName("tr");
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
-              }
-            }       
+      search.addEventListener("keyup", () => {
+        var filter, table, tr, td, i, txtValue;
+        filter = search.value.toUpperCase();
+        tr = filter_body.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
+        }
       });
-      </script>
+    </script>
   </body>
 </html>

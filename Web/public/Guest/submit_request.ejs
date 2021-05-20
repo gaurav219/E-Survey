@@ -51,15 +51,15 @@
         <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
         <nav class="nav-menu d-none d-lg-block">
-            <ul>
-                <li><a href="/guest_home">Home</a></li>
-                <li><a href="/guest_profile">User Profile</a></li>
-                <li><a href="/show_request">Show Queries</a></li>
-            </ul>
+          <ul>
+            <li><a href="/guest_home">Home</a></li>
+            <li><a href="/guest_profile">User Profile</a></li>
+            <li><a href="/show_request">Display Queries</a></li>
+          </ul>
         </nav>
         <form action="/visitor_logout" method="POST" style="margin-left: 1%">
-            <button class="btn btn-danger" type="submit">Logout</button>
-          </form>
+          <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
       </div>
     </header>
     <!-- End Header -->
@@ -69,33 +69,61 @@
       <div class="container">
         <div class="row">
           <div
-            class="col d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
             <center>
               <h1>Submit Request</h1>
-              <h5 style="color: lightgreen">Concern person will repond to your Query.</h5>
               <% if(msg.length > 0) { %>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  <strong><%= msg %></strong>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-               <% } %>
-              <form style="width: 70%" method="POST" action="/submit_request">
 
+              <div
+                class="alert alert-success alert-dismissible fade show"
+                style="width: 40%"
+                role="alert"
+              >
+                <p><%= msg %></p>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <% } %>
+              <form style="width: 70%" method="POST" action="/submit_request">
                 <div class="row">
                   <div class="col-5">
                     <label for="exampleFormControlSelect1">Query Label</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="label">
-                      <option selected value="None">Select the most suitable label</option>
+                    <select
+                      class="form-control"
+                      id="exampleFormControlSelect1"
+                      name="label"
+                      required
+                    >
+                      <option selected value="None">
+                        Select the most suitable label
+                      </option>
                       <option value="Financial issue">Financial issue</option>
                       <option value="Examination">Examination</option>
-                      <option value="Stress and Depression">Stress and Depression</option>
-                      <option value="Bullying or Mis-behaviour">Bullying or Mis-behaviour</option>
-                      <option value="College necessities">College necessities</option>
+                      <option value="Stress and Depression">
+                        Stress and Depression
+                      </option>
+                      <option value="Bullying or Mis-behaviour">
+                        Bullying or Mis-behaviour
+                      </option>
+                      <option value="College necessities">
+                        College necessities
+                      </option>
                       <option value="Entrepreneurship">Entrepreneurship</option>
                       <option value="Distractions">Distractions</option>
                       <option value="Career guidance">Career guidance</option>
@@ -108,38 +136,50 @@
                   </div>
                   <div class="col-7">
                     <label for="exampleFormControlInput1">Subject</label>
-                    <input name="subject" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter the subject line" required>  
+                    <input
+                      name="subject"
+                      type="text"
+                      class="form-control"
+                      id="exampleFormControlInput1"
+                      placeholder="Enter the subject line"
+                      required
+                    />
                   </div>
                 </div>
-                <br>
-                  <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Enter your Query</label>
-                        <textarea name="body1" placeholder="Explain your problem or Query" class="form-control" id="exampleFormControlTextarea1" rows="6" required></textarea>
-                  </div>
+                <br />
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1"
+                    >Enter your Query</label
+                  >
+                  <textarea
+                    name="body1"
+                    placeholder="Explain your problem or Query"
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="6"
+                    required
+                  ></textarea>
+                </div>
 
-                <button type="submit" class="btn btn-success">
-                  Submit
-                </button>
-                
-                <a href="/guest_home"> <button type="button" class="btn btn-danger">
-                  Cancel
-                </button></a>
+                <button type="submit" class="btn btn-success">Submit</button>
+
+                <a href="/guest_home">
+                  <button type="button" class="btn btn-danger">
+                    Cancel
+                  </button></a
+                >
               </form>
-              <br>
-            
+              <br />
             </center>
           </div>
-          
         </div>
       </div>
     </section>
     <!-- End Hero -->
 
-
     <!-- ======= Footer ======= -->
     <footer id="footer">
-        <div style="background-color: #37517e;" class="footer-top">
-        </div>
+      <div style="background-color: #37517e" class="footer-top"></div>
 
       <div class="container footer-bottom clearfix">
         <div class="copyright">

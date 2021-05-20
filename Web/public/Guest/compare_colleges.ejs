@@ -34,34 +34,36 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <style> 
-      td,th { text-align: center; }
+    <style>
+      td,
+      th {
+        text-align: center;
+      }
     </style>
 
-<script>
-  window.ChatraSetup = {
-    colors: {
-      buttonText: "#f0f0f0" /* chat button text color */,
-      buttonBg: "#37517E" /* chat button background color */,
-    },
-  };
-</script>
-<% let KEY = key; %>
-<script>
-  (function (d, w, c) {
-    w.ChatraID = "<%= process.env.CHATRA_KEY %>";
-    var s = d.createElement("script");
-    w[c] =
-      w[c] ||
-      function () {
-        (w[c].q = w[c].q || []).push(arguments);
+    <script>
+      window.ChatraSetup = {
+        colors: {
+          buttonText: "#f0f0f0" /* chat button text color */,
+          buttonBg: "#37517E" /* chat button background color */,
+        },
       };
-    s.async = true;
-    s.src = "https://call.chatra.io/chatra.js";
-    if (d.head) d.head.appendChild(s);
-  })(document, window, "Chatra");
-</script>
-
+    </script>
+    <% let KEY = key; %>
+    <script>
+      (function (d, w, c) {
+        w.ChatraID = "<%= process.env.CHATRA_KEY %>";
+        var s = d.createElement("script");
+        w[c] =
+          w[c] ||
+          function () {
+            (w[c].q = w[c].q || []).push(arguments);
+          };
+        s.async = true;
+        s.src = "https://call.chatra.io/chatra.js";
+        if (d.head) d.head.appendChild(s);
+      })(document, window, "Chatra");
+    </script>
   </head>
 
   <body>
@@ -81,42 +83,49 @@
         </nav>
         <!-- .nav-menu -->
         <form action="/guest_logout" method="POST" style="margin-left: 1%">
-          <button class="btn btn-sm  btn-danger" type="submit">Logout</button>
+          <button class="btn btn-sm btn-danger" type="submit">Logout</button>
         </form>
       </div>
     </header>
     <!-- End Header -->
 
-
     <main id="main">
-        <section id="hero" class="d-flex align-items-center">
-            <div class="container">
-              <div class="row">
-                <div
-                  class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <h1>
-                    Compare Colleges 
-                  </h1>
-                  <h2>Compare colleges based on various paramters like Rating , Location , Type etc.</h2>
-                </div>
-                <div
-                  class="col-lg-6 order-1 order-lg-2 hero-img"
-                  data-aos="zoom-in"
-                  data-aos-delay="200"
-                >
-                  <img
-                    src="assets/img/hero-img.png"
-                    class="img-fluid animated"
-                    alt=""
-                  />
-                </div>
-              </div>
+      <section id="hero" class="d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div
+              class="
+                col-lg-6
+                d-flex
+                flex-column
+                justify-content-center
+                pt-4 pt-lg-0
+                order-2 order-lg-1
+              "
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <h1>Compare Colleges</h1>
+              <h2>
+                Compare colleges based on various paramters like Rating ,
+                Location , Type etc.
+              </h2>
             </div>
-          </section>
-     
+            <div
+              class="col-lg-6 order-1 order-lg-2 hero-img"
+              data-aos="zoom-in"
+              data-aos-delay="200"
+            >
+              <img
+                src="assets/img/hero-img.png"
+                class="img-fluid animated"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="about" class="about">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
@@ -125,48 +134,61 @@
           </div>
 
           <center>
-           <form id="compare_form" method="POST" action="/compare_result" >
-            <div class="row g-3">
+            <form id="compare_form" method="POST" action="/compare_result">
+              <div class="row g-3">
                 <div class="col">
-                    <div class="form-group">
-                        <label for="input_college_1" style="color: black">Select College No. 1 </label>
-                        <select class="form-control" id="input_college_1" name="input_college_1">
-                          <option value="">Select a college</option>
-                          <% for(var i=0; i < data.length ; i++ ) { %>
-                            <option value="<%=data[i].CollegeName%>"><%= data[i].CollegeName %></option>
-                          <% } %>
-                        </select>
-                      </div>
-                </div>          
+                  <div class="form-group">
+                    <label for="input_college_1" style="color: black"
+                      >Select College No. 1
+                    </label>
+                    <select
+                      class="form-control"
+                      id="input_college_1"
+                      name="input_college_1"
+                    >
+                      <option value="">Select a college</option>
+                      <% for(var i=0; i < data.length ; i++ ) { %>
+                      <option value="<%=data[i].CollegeName%>">
+                        <%= data[i].CollegeName %>
+                      </option>
+                      <% } %>
+                    </select>
+                  </div>
+                </div>
                 <div class="col">
-                    <div class="form-group">
-                        <label for="input_college_2" style="color: black">Select College No. 2 </label>
-                        <select class="form-control" id="input_college_2" name="input_college_2">
-                          <option value="">Select a college</option>
-                          <% for(var i=0; i < data.length ; i++ ) { %>
-                            <option value="<%=data[i].CollegeName%>"><%= data[i].CollegeName %></option>
-                          <% } %>
-                        </select>
-                      </div>
+                  <div class="form-group">
+                    <label for="input_college_2" style="color: black"
+                      >Select College No. 2
+                    </label>
+                    <select
+                      class="form-control"
+                      id="input_college_2"
+                      name="input_college_2"
+                    >
+                      <option value="">Select a college</option>
+                      <% for(var i=0; i < data.length ; i++ ) { %>
+                      <option value="<%=data[i].CollegeName%>">
+                        <%= data[i].CollegeName %>
+                      </option>
+                      <% } %>
+                    </select>
+                  </div>
                 </div>
               </div>
             </form>
             <button class="btn btn-success" onClick="Compare()">Compare</button>
-       
           </center>
         </div>
       </section>
     </main>
 
-     <footer id="footer">
+    <footer id="footer">
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
           >. All Rights Reserved
         </div>
-        <div class="credits">
-         Project By <a href="#">TEAM CSEIP19</a>
-        </div>
+        <div class="credits">Project By <a href="#">TEAM CSEIP19</a></div>
       </div>
     </footer>
     <!-- End Footer -->
@@ -188,34 +210,35 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script>
-      function Compare(){
+      function Compare() {
         let cllg1 = document.getElementById("input_college_1").value;
         let cllg2 = document.getElementById("input_college_2").value;
 
-        // to check if colleges selected to compare are valid and different 
-        
-        let isValid = true , isSame = false;
+        // to check if colleges selected to compare are valid and different
 
-        if( cllg1 == "" || cllg2 == ""){
-            isValid = false;
-        }
-        else if(cllg1 == cllg2){
-            isSame = true;
+        let isValid = true,
+          isSame = false;
+
+        if (cllg1 == "" || cllg2 == "") {
+          isValid = false;
+        } else if (cllg1 == cllg2) {
+          isSame = true;
         }
         // console.log(isValid);
         // console.log(isSame);
 
-        if(isValid && !isSame){
-            document.getElementById("block_error").innerText = "";
-            let Compare_form = document.getElementById("compare_form");
-            Compare_form.submit();
-        }else if(isSame){
-           document.getElementById("block_error").innerText = "Inputs have same selected option !!!";
-        }else{
-           document.getElementById("block_error").innerText = "Inputs selected are Empty !!!";
+        if (isValid && !isSame) {
+          document.getElementById("block_error").innerText = "";
+          let Compare_form = document.getElementById("compare_form");
+          Compare_form.submit();
+        } else if (isSame) {
+          document.getElementById("block_error").innerText =
+            "Inputs have same selected option !!!";
+        } else {
+          document.getElementById("block_error").innerText =
+            "Inputs selected are Empty !!!";
         }
       }
     </script>
-
   </body>
 </html>

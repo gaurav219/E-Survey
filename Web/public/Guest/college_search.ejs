@@ -34,34 +34,36 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
-    <style> 
-      td,th { text-align: center; }
+    <style>
+      td,
+      th {
+        text-align: center;
+      }
     </style>
 
-<script>
-  window.ChatraSetup = {
-    colors: {
-      buttonText: "#f0f0f0" /* chat button text color */,
-      buttonBg: "#37517E" /* chat button background color */,
-    },
-  };
-</script>
-<% let KEY = key; %>
-<script>
-  (function (d, w, c) {
-    w.ChatraID = "<%= process.env.CHATRA_KEY %>";
-    var s = d.createElement("script");
-    w[c] =
-      w[c] ||
-      function () {
-        (w[c].q = w[c].q || []).push(arguments);
+    <script>
+      window.ChatraSetup = {
+        colors: {
+          buttonText: "#f0f0f0" /* chat button text color */,
+          buttonBg: "#37517E" /* chat button background color */,
+        },
       };
-    s.async = true;
-    s.src = "https://call.chatra.io/chatra.js";
-    if (d.head) d.head.appendChild(s);
-  })(document, window, "Chatra");
-</script>
-
+    </script>
+    <% let KEY = key; %>
+    <script>
+      (function (d, w, c) {
+        w.ChatraID = "<%= process.env.CHATRA_KEY %>";
+        var s = d.createElement("script");
+        w[c] =
+          w[c] ||
+          function () {
+            (w[c].q = w[c].q || []).push(arguments);
+          };
+        s.async = true;
+        s.src = "https://call.chatra.io/chatra.js";
+        if (d.head) d.head.appendChild(s);
+      })(document, window, "Chatra");
+    </script>
   </head>
 
   <body>
@@ -82,42 +84,49 @@
         </nav>
         <!-- .nav-menu -->
         <form action="/guest_logout" method="POST" style="margin-left: 1%">
-          <button class="btn btn-sm  btn-danger" type="submit">Logout</button>
+          <button class="btn btn-sm btn-danger" type="submit">Logout</button>
         </form>
       </div>
     </header>
     <!-- End Header -->
 
-
     <main id="main">
-        <section id="hero" class="d-flex align-items-center">
-            <div class="container">
-              <div class="row">
-                <div
-                  class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <h1>
-                    Search College - of your choice 
-                  </h1>
-                  <h2>Filter colleges based on various factors such as Rating , Location , Type etc.</h2>
-                </div>
-                <div
-                  class="col-lg-6 order-1 order-lg-2 hero-img"
-                  data-aos="zoom-in"
-                  data-aos-delay="200"
-                >
-                  <img
-                    src="assets/img/hero-img.png"
-                    class="img-fluid animated"
-                    alt=""
-                  />
-                </div>
-              </div>
+      <section id="hero" class="d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div
+              class="
+                col-lg-6
+                d-flex
+                flex-column
+                justify-content-center
+                pt-4 pt-lg-0
+                order-2 order-lg-1
+              "
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <h1>Search College - of your choice</h1>
+              <h2>
+                Filter colleges based on various factors such as Rating ,
+                Location , Type etc.
+              </h2>
             </div>
-          </section>
-     
+            <div
+              class="col-lg-6 order-1 order-lg-2 hero-img"
+              data-aos="zoom-in"
+              data-aos-delay="200"
+            >
+              <img
+                src="assets/img/hero-img.png"
+                class="img-fluid animated"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="about" class="about">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
@@ -128,7 +137,9 @@
             <div>
               <form style="width: 50%">
                 <div class="form-group">
-                  <label for="Q_collegeName" style="color: black">College Name</label>
+                  <label for="Q_collegeName" style="color: black"
+                    >College Name</label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -145,12 +156,14 @@
                     <option value="Private">Private</option>
                     <option value="Deemed">Deemed</option>
                     <option value="Central">Central</option>
-                    <option value="State">State</option>    
+                    <option value="State">State</option>
                     <option value="Autonomous">Autonomous</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="Q_address" style="color: black">College Location</label>
+                  <label for="Q_address" style="color: black"
+                    >College Location</label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -163,24 +176,21 @@
               <button class="btn btn-info" onclick="filterColleges()">
                 Search
               </button>
-             </div>
-             <br><br>
-             <div id="result" class="container"></div>
-
+            </div>
+            <br /><br />
+            <div id="result" class="container"></div>
           </center>
         </div>
       </section>
     </main>
 
-     <footer id="footer">
+    <footer id="footer">
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
           >. All Rights Reserved
         </div>
-        <div class="credits">
-         Project By <a href="#">TEAM CSEIP19</a>
-        </div>
+        <div class="credits">Project By <a href="#">TEAM CSEIP19</a></div>
       </div>
     </footer>
     <!-- End Footer -->
@@ -202,24 +212,28 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
 
-    <script>let arr = [];let collegeName = "" , type = "" , address = ""; </script>
-    <% var ans = data; %>
-    <% for(var i=0; i < data.length ; i++ ) { %>
-      <script>
+    <script>
+      let arr = [];
+      let collegeName = "",
+        type = "",
+        address = "";
+    </script>
+    <% var ans = data; %> <% for(var i=0; i < data.length ; i++ ) { %>
+    <script>
       collegeName = "<%= ans[i].CollegeName %>";
       type = "<%= ans[i].type %>";
       address = "<%= ans[i].address %>";
-      id = "<%= ans[i].id %>"; 
-      arr.push({collegeName , type , address , id });
-      </script>  
+      id = "<%= ans[i].id %>";
+      arr.push({ collegeName, type, address, id });
+    </script>
     <% } %>
 
     <script>
-      function filterColleges(){
-        let Q_collegeName = document.getElementById('Q_collegeName').value;
-        let Q_Type = document.getElementById('Q_Type').value;
-        let Q_address = document.getElementById('Q_address').value;
-    
+      function filterColleges() {
+        let Q_collegeName = document.getElementById("Q_collegeName").value;
+        let Q_Type = document.getElementById("Q_Type").value;
+        let Q_address = document.getElementById("Q_address").value;
+
         let result = [];
 
         // filter based on the College Name
@@ -227,50 +241,48 @@
 
         // console.log(arr);
 
-        if(Q_collegeName!=""){
-          for(let i=0;i<arr.length;i++){
-              if(arr[i].collegeName.toUpperCase().indexOf(Q_collegeName) > -1){
-                result.push(arr[i]);
-              }
+        if (Q_collegeName != "") {
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].collegeName.toUpperCase().indexOf(Q_collegeName) > -1) {
+              result.push(arr[i]);
+            }
           }
         }
 
         // filter based on the College Type
-        if(Q_Type!=""){
+        if (Q_Type != "") {
           // the Result is empty
-          if(Q_collegeName!=""){
-            result = result.filter((college)=>college.type == Q_Type);
-          }else{
-            result = arr.filter((college)=>college.type == Q_Type);
+          if (Q_collegeName != "") {
+            result = result.filter(college => college.type == Q_Type);
+          } else {
+            result = arr.filter(college => college.type == Q_Type);
           }
         }
 
         // filter based on the College Name
         Q_address = Q_address.toUpperCase();
 
-        if(Q_address!=""){
+        if (Q_address != "") {
           let temp = [];
-          if(Q_Type!="" || Q_collegeName!=""){
-            for(let i=0;i<result.length;i++){
-              if(result[i].address.toUpperCase().indexOf(Q_address) > -1){
+          if (Q_Type != "" || Q_collegeName != "") {
+            for (let i = 0; i < result.length; i++) {
+              if (result[i].address.toUpperCase().indexOf(Q_address) > -1) {
                 temp.push(result[i]);
               }
-          }
-          result = temp;
-          }else{
-            for(let i=0;i<arr.length;i++){
-              if(arr[i].address.toUpperCase().indexOf(Q_address) > -1){
+            }
+            result = temp;
+          } else {
+            for (let i = 0; i < arr.length; i++) {
+              if (arr[i].address.toUpperCase().indexOf(Q_address) > -1) {
                 result.push(arr[i]);
               }
+            }
           }
-          }
-          
         }
-        
+
         //console.log(result);
-        if( result && result.length > 0 ){
-          document.getElementById('result').innerHTML = 
-        `
+        if (result && result.length > 0) {
+          document.getElementById("result").innerHTML = `
           <div class="section-title">
             <h2>Search Results</h2>
             <span class="badge rounded-pill bg-info" style="color: white" >College Name : ${Q_collegeName}</span>
@@ -278,13 +290,12 @@
             <span class="badge rounded-pill bg-info" style="color: white" >College Location : ${Q_address}</span>
           </div>
           <div class="row">
-        `  
-        for(let i=0; i<result.length; i+=2){
-
-          if(i<result.length && (i+1) < result.length){
-            let link1 = "/college_Profile?id="+result[i].id;
-            let link2 = "/college_Profile?id="+result[i+1].id;
-            document.getElementById('result').innerHTML += `
+        `;
+          for (let i = 0; i < result.length; i += 2) {
+            if (i < result.length && i + 1 < result.length) {
+              let link1 = "/college_Profile?id=" + result[i].id;
+              let link2 = "/college_Profile?id=" + result[i + 1].id;
+              document.getElementById("result").innerHTML += `
             <div class="row">
                   <div class="col-sm-6">
                   <div class="card">
@@ -298,17 +309,17 @@
                 <div class="col-sm-6">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">${result[i+1].collegeName}</h5>
-                      <p class="card-text">${result[i+1].address}</p>
+                      <h5 class="card-title">${result[i + 1].collegeName}</h5>
+                      <p class="card-text">${result[i + 1].address}</p>
                       <a href=${link2} target="_blank" class="btn btn-warning">Profile</a>
                     </div>
                   </div>
                 </div>
               </div>
               </div>`;
-          }else{
-            let link = "/college_Profile?id="+result[i].id;
-            document.getElementById('result').innerHTML += `
+            } else {
+              let link = "/college_Profile?id=" + result[i].id;
+              document.getElementById("result").innerHTML += `
             <div class="col-sm-6">
                   <div class="card">
                     <div class="card-body">
@@ -318,11 +329,10 @@
                     </div>
                   </div>
                 </div>`;
+            }
           }
-        }
-        }else{
-          document.getElementById('result').innerHTML = 
-        `
+        } else {
+          document.getElementById("result").innerHTML = `
         <div class="section-title">
             <h2>Search Results</h2>
             <span class="badge rounded-pill bg-info" style="color: white">College Name : ${Q_collegeName}</span>
@@ -333,9 +343,7 @@
         `;
         }
         //console.log(result);
-        
       }
     </script>
-
   </body>
 </html>

@@ -40,29 +40,29 @@
   * Author: BootstrapMade.com
   * License: #license/
   ======================================================== -->
-  <script>
-    window.ChatraSetup = {
-      colors: {
-        buttonText: "#f0f0f0" /* chat button text color */,
-        buttonBg: "#37517E" /* chat button background color */,
-      },
-    };
-  </script>
-  <% let KEY = key; %>
-  <script>
-    (function (d, w, c) {
-      w.ChatraID = "<%= process.env.CHATRA_KEY %>";
-      var s = d.createElement("script");
-      w[c] =
-        w[c] ||
-        function () {
-          (w[c].q = w[c].q || []).push(arguments);
-        };
-      s.async = true;
-      s.src = "https://call.chatra.io/chatra.js";
-      if (d.head) d.head.appendChild(s);
-    })(document, window, "Chatra");
-  </script>
+    <script>
+      window.ChatraSetup = {
+        colors: {
+          buttonText: "#f0f0f0" /* chat button text color */,
+          buttonBg: "#37517E" /* chat button background color */,
+        },
+      };
+    </script>
+    <% let KEY = key; %>
+    <script>
+      (function (d, w, c) {
+        w.ChatraID = "<%= process.env.CHATRA_KEY %>";
+        var s = d.createElement("script");
+        w[c] =
+          w[c] ||
+          function () {
+            (w[c].q = w[c].q || []).push(arguments);
+          };
+        s.async = true;
+        s.src = "https://call.chatra.io/chatra.js";
+        if (d.head) d.head.appendChild(s);
+      })(document, window, "Chatra");
+    </script>
   </head>
 
   <body>
@@ -90,7 +90,9 @@
               <ul>
                 <!-- <li><a href="/visitor_signUp">As Visitor</a></li> -->
                 <!-- <li><a href="#">As College Admin</a></li> -->
-                <li class="active"><a href="/guest_signUp">As Guest(Student|Teachers)</a></li>
+                <li class="active">
+                  <a href="/guest_signUp">As Guest(Student|Teachers)</a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -106,7 +108,14 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col-lg-6
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
@@ -183,9 +192,7 @@
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-success">
-                  Register
-                </button>
+                <button type="submit" class="btn btn-success">Register</button>
               </form>
             </center>
           </div>
@@ -211,7 +218,12 @@
         <div class="container">
           <div class="row" data-aos="zoom-in">
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -221,7 +233,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -231,7 +248,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -241,7 +263,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -251,7 +278,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -261,7 +293,12 @@
             </div>
 
             <div
-              class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center"
+              class="
+                col-lg-2 col-md-4 col-6
+                d-flex
+                align-items-center
+                justify-content-center
+              "
             >
               <img
                 src="assets/img/clients/ComingSoon.png"
@@ -278,7 +315,6 @@
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>Contact</h2>
-            
           </div>
 
           <div class="row">
@@ -310,7 +346,6 @@
                 ></iframe>
               </div>
             </div>
-           
           </div>
         </div>
       </section>
@@ -325,9 +360,7 @@
           &copy; Copyright <strong><span>Team Mait</span></strong
           >. All Rights Reserved
         </div>
-        <div class="credits">
-           Project By <a href="#">TEAM CSEIP19</a>
-        </div>
+        <div class="credits">Project By <a href="#">TEAM CSEIP19</a></div>
       </div>
     </footer>
     <!-- End Footer -->

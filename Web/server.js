@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 
 //invalid routes
 app.get("*", (req, res) => {
-  res.send("404 Not Found");
+  res.redirect("/");
 });
 
 app.listen(PORT, () => {

@@ -30,10 +30,9 @@
       rel="stylesheet"
     />
     <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
- 
+
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
-
   </head>
 
   <body>
@@ -42,11 +41,15 @@
       <div class="container d-flex align-items-center">
         <h1 class="logo mr-auto"><a href="/">E-Survey</a></h1>
         <nav class="nav-menu d-none d-lg-block">
-            <ul>
-              <li><a href="/admin_home">Admin Home</a></li>
-              <li><a href="/admin_logout"><button class="btn btn-sm btn-danger">Logout</button></a></li>
-            </ul>
-          </nav>
+          <ul>
+            <li><a href="/admin_home">Admin Home</a></li>
+            <li>
+              <a href="/admin_logout"
+                ><button class="btn btn-sm btn-danger">Logout</button></a
+              >
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
     <!-- End Header -->
@@ -56,13 +59,20 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col-lg-6
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
             <center>
-              <h1>List of all the </h1>
-              <h1 style="color: lightsalmon;"><strong>Queries</strong></h1>
+              <h1>List of all the</h1>
+              <h1 style="color: lightsalmon"><strong>Queries</strong></h1>
             </center>
           </div>
           <div
@@ -82,65 +92,84 @@
     <!-- End Hero -->
 
     <section id="about" class="about">
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>List of Pending Queries</h2>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <h5>Search Query by Subject</h5> 
-            <input  type="text" alt="Search" id="q_subject" class="form-control" name="search" placeholder="Enter Query details..." />
-            </div>
-            <div class="col-6">
-              <h5>Filter Query by Label</h5> 
-              <select class="form-control" id="q_label" name="label" onchange="filterByLabel()">
-                <option selected value="None">Select a label</option>
-                <option value="Financial issue">Financial issue</option>
-                <option value="Examination">Examination</option>
-                <option value="Stress and Depression">Stress and Depression</option>
-                <option value="Bullying or Mis-behaviour">Bullying or Mis-behaviour</option>
-                <option value="College necessities">College necessities</option>
-                <option value="Entrepreneurship">Entrepreneurship</option>
-                <option value="Distractions">Distractions</option>
-                <option value="Career guidance">Career guidance</option>
-                <option value="Placements">Placements</option>
-                <option value="Mess Food">Mess Food</option>
-                <option value="Syllabus">Syllabus</option>
-                <option value="Hardware Support">Hardware Support</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-          <br><br>
-          <div class="row content">
-            <table class="table table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                    <!-- <th scope="col">SNo</th> -->
-                    <th scope="col">Label</th>
-                    <th scope="col">Date and Time</th>
-                    <th scope="col">Subject</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="query_list">
-                    <% for(var i=0; i < data.length ; i++ ) { %>
-                      <tr>
-                          <!-- <th scope="row"><%= i+1 %></th> -->
-                          <!-- <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %> <%= data[i].lastname %></a></td> -->
-                          <th scope="row"><%= data[i].label %></th>
-                          <td><%= new Date(data[i].date).toLocaleString("en-IN", {day: '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit', minute:'2-digit'})%></td>
-                          <td><%= data[i].subject %></td>
-                          <td><a href="/query?id=<%= data[i].id%>">Open</a></td>
-                      </tr>
-                    <% } %>  
-                  </tbody>
-              </table>
-          </div>
-          <br />
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>List of Pending Queries</h2>
         </div>
-      </section>
-
+        <div class="row">
+          <div class="col-6">
+            <h5>Search Query by Subject</h5>
+            <input
+              type="text"
+              alt="Search"
+              id="q_subject"
+              class="form-control"
+              name="search"
+              placeholder="Enter Query details..."
+            />
+          </div>
+          <div class="col-6">
+            <h5>Filter Query by Label</h5>
+            <select
+              class="form-control"
+              id="q_label"
+              name="label"
+              onchange="filterByLabel()"
+            >
+              <option selected value="None">Select a label</option>
+              <option value="Financial issue">Financial issue</option>
+              <option value="Examination">Examination</option>
+              <option value="Stress and Depression">
+                Stress and Depression
+              </option>
+              <option value="Bullying or Mis-behaviour">
+                Bullying or Mis-behaviour
+              </option>
+              <option value="College necessities">College necessities</option>
+              <option value="Entrepreneurship">Entrepreneurship</option>
+              <option value="Distractions">Distractions</option>
+              <option value="Career guidance">Career guidance</option>
+              <option value="Placements">Placements</option>
+              <option value="Mess Food">Mess Food</option>
+              <option value="Syllabus">Syllabus</option>
+              <option value="Hardware Support">Hardware Support</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <br /><br />
+        <div class="row content">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <!-- <th scope="col">SNo</th> -->
+                <th scope="col">Label</th>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="query_list">
+              <% for(var i=0; i < data.length ; i++ ) { %>
+              <tr>
+                <!-- <th scope="row"><%= i+1 %></th> -->
+                <!-- <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %> <%= data[i].lastname %></a></td> -->
+                <th scope="row"><%= data[i].label %></th>
+                <td>
+                  <%= new Date(data[i].date).toLocaleString("en-IN", {day:
+                  '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit',
+                  minute:'2-digit'})%>
+                </td>
+                <td><%= data[i].subject %></td>
+                <td><a href="/query?id=<%= data[i].id%>">Open</a></td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+        <br />
+      </div>
+    </section>
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
@@ -149,9 +178,7 @@
           &copy; Copyright <strong><span>Team MAIT</span></strong
           >. All Rights Reserved
         </div>
-        <div class="credits">
-          Project By <a href="#">TEAM CSEIP19</a>
-        </div>
+        <div class="credits">Project By <a href="#">TEAM CSEIP19</a></div>
       </div>
     </footer>
     <!-- End Footer -->
@@ -174,96 +201,97 @@
     <script src="assets/js/main.js"></script>
 
     <script>
-        const q_subject = document.getElementById('q_subject')
-        const query_list_table_body = document.getElementById('query_list')
-       
-        q_subject.addEventListener('keyup',() => {
-            var  filter, table, tr, td, i, txtValue;
-            var q_label = document.getElementById("q_label").value;
+      const q_subject = document.getElementById("q_subject");
+      const query_list_table_body = document.getElementById("query_list");
 
-            if(q_label !=="None"){
-                filter = q_subject.value.toUpperCase();
-                filter_2 = q_label.toUpperCase();
-                tr = query_list_table_body.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                  temp_query = tr[i].getElementsByTagName("td")[1];
-            
-                  if (temp_query) {
-                    txtValue = temp_query.textContent || temp_query.innerText;
-                    temp_query_2 = tr[i].getElementsByTagName("th")[0];
-                    txtValue_2 = temp_query_2.textContent || temp_query_2.innerText;
+      q_subject.addEventListener("keyup", () => {
+        var filter, table, tr, td, i, txtValue;
+        var q_label = document.getElementById("q_label").value;
 
-                    if (txtValue.toUpperCase().indexOf(filter) >-1 && txtValue_2.toUpperCase().indexOf(filter_2) >-1) {
-                      tr[i].style.display = "";
-                    } else {
-                      tr[i].style.display = "none";
-                    }
-                  }
-                }
-              
-            }
-            else{
-              filter = q_subject.value.toUpperCase();
-              tr = query_list_table_body.getElementsByTagName("tr");
-              for (i = 0; i < tr.length; i++) {
-                temp_query = tr[i].getElementsByTagName("td")[1];
-          
-                if (temp_query) {
-                  txtValue = temp_query.textContent || temp_query.innerText;
-                 
-                  if (txtValue.toUpperCase().indexOf(filter) >-1) {
-                    tr[i].style.display = "";
-                  } else {
-                    tr[i].style.display = "none";
-                  }
-                }
-              }
-            }
-        });
-
-        function filterByLabel() {
-          var q_label = document.getElementById("q_label").value;
-    
-          if(q_label !== "None"){
-              var  filter, table, tr, td, i, txtValue;
-              filter = q_label.toUpperCase();
-              filter_2 = q_subject.value.toUpperCase();
-              tr = query_list_table_body.getElementsByTagName("tr");
-              for (i = 0; i < tr.length; i++) {
-                temp_query = tr[i].getElementsByTagName("th")[0];
-                temp_query_2 = tr[i].getElementsByTagName("td")[1];
-                if (temp_query) {
-                  txtValue = temp_query.textContent || temp_query.innerText;
-                  txtValue_2 = temp_query_2.textContent || temp_query_2.innerText;
-
-                  if (txtValue.toUpperCase().indexOf(filter) >-1 && txtValue_2.toUpperCase().indexOf(filter_2) >-1) {
-                    tr[i].style.display = "";
-                  } else {
-                    tr[i].style.display = "none";
-                  }
-                }
-            
-            }
-        }else{
+        if (q_label !== "None") {
           filter = q_subject.value.toUpperCase();
-              tr = query_list_table_body.getElementsByTagName("tr");
-              for (i = 0; i < tr.length; i++) {
-                temp_query = tr[i].getElementsByTagName("td")[1];
-          
-                if (temp_query) {
-                  txtValue = temp_query.textContent || temp_query.innerText;
-                 
-                  if (txtValue.toUpperCase().indexOf(filter) >-1) {
-                    tr[i].style.display = "";
-                  } else {
-                    tr[i].style.display = "none";
-                  }
-                }
-              }
+          filter_2 = q_label.toUpperCase();
+          tr = query_list_table_body.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            temp_query = tr[i].getElementsByTagName("td")[1];
 
+            if (temp_query) {
+              txtValue = temp_query.textContent || temp_query.innerText;
+              temp_query_2 = tr[i].getElementsByTagName("th")[0];
+              txtValue_2 = temp_query_2.textContent || temp_query_2.innerText;
+
+              if (
+                txtValue.toUpperCase().indexOf(filter) > -1 &&
+                txtValue_2.toUpperCase().indexOf(filter_2) > -1
+              ) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        } else {
+          filter = q_subject.value.toUpperCase();
+          tr = query_list_table_body.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            temp_query = tr[i].getElementsByTagName("td")[1];
+
+            if (temp_query) {
+              txtValue = temp_query.textContent || temp_query.innerText;
+
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+      });
+
+      function filterByLabel() {
+        var q_label = document.getElementById("q_label").value;
+
+        if (q_label !== "None") {
+          var filter, table, tr, td, i, txtValue;
+          filter = q_label.toUpperCase();
+          filter_2 = q_subject.value.toUpperCase();
+          tr = query_list_table_body.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            temp_query = tr[i].getElementsByTagName("th")[0];
+            temp_query_2 = tr[i].getElementsByTagName("td")[1];
+            if (temp_query) {
+              txtValue = temp_query.textContent || temp_query.innerText;
+              txtValue_2 = temp_query_2.textContent || temp_query_2.innerText;
+
+              if (
+                txtValue.toUpperCase().indexOf(filter) > -1 &&
+                txtValue_2.toUpperCase().indexOf(filter_2) > -1
+              ) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        } else {
+          filter = q_subject.value.toUpperCase();
+          tr = query_list_table_body.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            temp_query = tr[i].getElementsByTagName("td")[1];
+
+            if (temp_query) {
+              txtValue = temp_query.textContent || temp_query.innerText;
+
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
         }
       }
-        </script>
-    
+    </script>
   </body>
 </html>
