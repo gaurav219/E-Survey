@@ -64,6 +64,9 @@
               <a href="#">Services</a>
               <ul>
                 <li>
+                  <a href="/show_request">Display Queries</a>
+                </li>
+                <li>
                   <a href="/submit_request">Submit Query (Anonymously)</a>
                 </li>
               </ul>
@@ -128,8 +131,8 @@
                 style="width: 70%"
               >
                 <div class="card-body">
-                  <h5 class="card-title"><%= data[i].subject %></h5>
-                  <span class="badge badge-primary"
+                  <h4 class="card-title"><%= data[i].subject %></h4>
+                  <span class="badge badge-danger m-4"
                     ><strong><%= data[i].label %></strong></span
                   >
                   <h6>

@@ -64,6 +64,9 @@
               <a href="#">Services</a>
               <ul>
                 <li>
+                  <a href="/show_request">Display Queries</a>
+                </li>
+                <li>
                   <a href="/submit_request">Submit Query (Anonymously)</a>
                 </li>
               </ul>
@@ -123,50 +126,14 @@
             </div>
 
             <div class="container">
-              <form
-                id="compare_form"
-                method="POST"
-                action="/compare_result"
-                style="width: 50%"
-              >
-                <div class="form-group">
-                  <label for="inputLabel" class="text-dark"
-                    ><b>Filter queries based on label</b></label
-                  >
-                  <select class="form-control" id="inputLabel" name="label">
-                    <option selected value="None">Select a label</option>
-                    <option value="Financial issue">Financial issue</option>
-                    <option value="Examination">Examination</option>
-                    <option value="Stress and Depression">
-                      Stress and Depression
-                    </option>
-                    <option value="Bullying or Mis-behaviour">
-                      Bullying or Mis-behaviour
-                    </option>
-                    <option value="College necessities">
-                      College necessities
-                    </option>
-                    <option value="Entrepreneurship">Entrepreneurship</option>
-                    <option value="Distractions">Distractions</option>
-                    <option value="Career guidance">Career guidance</option>
-                    <option value="Placements">Placements</option>
-                    <option value="Mess Food">Mess Food</option>
-                    <option value="Syllabus">Syllabus</option>
-                    <option value="Hardware Support">Hardware Support</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <button class="btn btn-sm btn-primary">Filter</button>
-              </form>
-              <br />
               <% for(let i=0; i < data.length ; i++) { %>
               <div
                 class="card text-center m-3 border-primary query-card"
                 style="width: 70%"
               >
                 <div class="card-body">
-                  <h5 class="card-title"><%= data[i].subject %></h5>
-                  <span class="badge badge-primary"
+                  <h4 class="card-title"><%= data[i].subject %></h4>
+                  <span class="badge badge-primary m-4"
                     ><strong><%= data[i].label %></strong></span
                   >
                   <h6>
@@ -180,25 +147,7 @@
                   <p class="card-text"><%= data[i].body%></p>
                 </div>
               </div>
-              <!-- <div class="card border-primary" style="margin: 2%">
-                <div class="card-body">
-                  <h5 class="card-title"><%= data[i].subject %></h5>
-                  <h6 class="card-subtitle mb-2 text-muted">
-                    Date of Submission: <%= new
-                    Date(data[i].date).toLocaleString("en-IN", {day:
-                    '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit',
-                    minute:'2-digit'})%>
-                  </h6>
-                  <p class="card-text"><%= data[i].body %></p>
-                  <%= data[i].label %>
-                  <h6 class="card-body">
-                    Status:
-                    <span style="color: lightseagreen"
-                      ><%= data[i].status %></span
-                    >
-                  </h6>
-                </div>
-              </div> -->
+
               <% } %>
             </div>
           </center>
