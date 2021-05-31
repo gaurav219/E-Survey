@@ -112,6 +112,23 @@
           >
             <center>
               <h1>Login as Guest (Teacher/Student)</h1>
+              <% if (locals.alert_msg) { %>
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                style="width: 50%"
+                role="alert"
+              >
+                <strong><%= alert_msg %></strong>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <% } %>
 
               <form style="width: 70%" method="POST" action="/guest_signIn">
                 <div class="form-group">

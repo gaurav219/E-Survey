@@ -807,6 +807,7 @@ router.post("/add_college", (req, res) => {
                 coordinates: new firebase.firestore.GeoPoint(lat, long),
                 type: req.body.Type,
                 website: "",
+                views: [],
               })
               .then(function (docRef) {
                 console.log("College Add with ID: ", docRef.id);

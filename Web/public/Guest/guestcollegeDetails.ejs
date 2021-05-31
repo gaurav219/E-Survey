@@ -44,6 +44,17 @@
       h1 {
         text-decoration: underline;
       }
+      #viewcount{
+        animation: color-change 3s infinite;
+      }
+
+      @keyframes color-change {
+        0% { background-color: lightcoral; }
+        25% { background-color: orange }
+        50% { background-color: lawngreen }
+        75% { background-color: lightseagreen }
+        100% { background-color: lightsalmon }
+      }
     </style>
 
 <script>
@@ -107,13 +118,14 @@
               data-aos-delay="200"
             >
             <h1 style="color: white">College Profile</h1>
+            <h4 class="p-3"><span id="viewcount" class="badge badge-pill" style="color:black">Total Views : <%= collegeData.views.length %></span></h4>
     
             <table class="table table-borderless table-hover" style="color: white;">
               <tbody>
                 <tr>
-                    <th scope="row"><h4>College Code</h4></th>
-                    <td><h4><%= collegeData.C_id %></h4></td>
-                  </tr>
+                  <th scope="row"><h4>College ID</h4></th>
+                  <td><h4><%= collegeData.C_id %></h4></td>
+                </tr>
                 <tr>
                   <th scope="row"><h4>College Name</h4></th>
                   <td><h4><%= collegeData.CollegeName %></h4></td>
@@ -126,6 +138,15 @@
                     <th scope="row"><h4>College Type</h4></th>
                     <td><h4><%= collegeData.type %></h4></td>
                   </tr>
+                  <tr>
+                <tr>
+                  <th scope="row"><h4>Website</h4></th>
+                  <% if(collegeData.website.length > 0 ) { %>
+                    <td><h4><%= collegeData.website %></h4></td>
+                  <% } else { %>
+                    <td><h4> - </h4></td>
+                  <% } %>
+                </tr>
               </tbody>
             </table>
 

@@ -98,7 +98,10 @@ router.post("/guest_signIn", (req, res) => {
       })
       .catch(err => {
         console.log(err.message, "Guest UnAuth");
-        res.redirect("/guest_signIn");
+        res.render("Guest/guest_signin.ejs", {
+          key,
+          alert_msg: "Invalid credentials",
+        });
         return;
       });
   }
@@ -123,9 +126,19 @@ router.get("/guest_home", (req, res) => {
                 temp["id"] = college_data.id;
                 colleges.push(temp);
               });
-              //console.log('Hell Yeah');
-              res.render("Guest/guest_home", {
-                data: colleges,
+
+              // college selecting value
+              const n = 5;
+              // filter top-visited colleges 3-5
+              colleges.sort((a, b) => {
+                return b.views.length - a.views.length;
+              });
+
+              let mostVisited = colleges.slice(0, n);
+
+              // console.log(mostVisited);
+              res.render("Guest/guest_home.ejs", {
+                data: mostVisited,
                 useremail: user.email,
                 key,
               });
@@ -161,7 +174,7 @@ router.get("/guest_profile", (req, res) => {
       .get()
       .then(doc => {
         if (doc.exists) {
-          res.render("Guest/guest_profile", {
+          res.render("Guest/guest_profile.ejs", {
             user_data: doc.data(),
             user: user,
             key,
@@ -399,39 +412,92 @@ router.get("/college_Profile", (req, res) => {
                 return;
               } else {
                 var collegeData = data.data();
-                var collegeName = data.data().CollegeName;
-                collegeData.type = capitalize(collegeData.type);
-                // extract all the completed sureys
-                let surveyData = [];
-                surveysRef
-                  .get()
-                  .then(snapshot => {
-                    snapshot.forEach(temp_survey => {
+                var collegeName = collegeData.CollegeName;
+                var { views } = collegeData;
+                // update the view count
+                if (!views.includes(user.email)) {
+                  // set new view - user email
+                  collegesRef
+                    .doc(req.query.id)
+                    .set(
+                      {
+                        views: [...views, user.email],
+                      },
+                      { merge: true }
+                    )
+                    .then(() => {
+                      collegeData.type = capitalize(collegeData.type);
                       // extract all the completed sureys
-                      //console.log(collegeName);
-                      if (
-                        temp_survey.data().status == "completed" &&
-                        temp_survey.data().collegeName == collegeName
-                      ) {
-                        surveyData.push(temp_survey.data());
-                      }
+                      let surveyData = [];
+                      surveysRef
+                        .get()
+                        .then(snapshot => {
+                          snapshot.forEach(temp_survey => {
+                            // extract all the completed sureys
+                            //console.log(collegeName);
+                            if (
+                              temp_survey.data().status == "completed" &&
+                              temp_survey.data().collegeName == collegeName
+                            ) {
+                              surveyData.push(temp_survey.data());
+                            }
+                          });
+                          //console.log(surveyData);
+                          res.render("Guest/guestcollegeDetails.ejs", {
+                            collegeData,
+                            surveyData,
+                            key,
+                          });
+                          return;
+                        })
+                        .catch(err => {
+                          console.log(
+                            err,
+                            "Surveys Data not Fetched - Guest College Profile"
+                          );
+                          res.redirect("/guest_home");
+                          return;
+                        });
+                    })
+                    .catch(error => {
+                      console.error("Error while updating views: ", error);
                     });
-                    //console.log(surveyData);
-                    res.render("Guest/guestcollegeDetails.ejs", {
-                      collegeData,
-                      surveyData,
-                      key,
+                }
+                // else continue
+                else {
+                  collegeData.type = capitalize(collegeData.type);
+                  // extract all the completed sureys
+                  let surveyData = [];
+                  surveysRef
+                    .get()
+                    .then(snapshot => {
+                      snapshot.forEach(temp_survey => {
+                        // extract all the completed sureys
+                        //console.log(collegeName);
+                        if (
+                          temp_survey.data().status == "completed" &&
+                          temp_survey.data().collegeName == collegeName
+                        ) {
+                          surveyData.push(temp_survey.data());
+                        }
+                      });
+                      //console.log(surveyData);
+                      res.render("Guest/guestcollegeDetails.ejs", {
+                        collegeData,
+                        surveyData,
+                        key,
+                      });
+                      return;
+                    })
+                    .catch(err => {
+                      console.log(
+                        err,
+                        "Surveys Data not Fetched - Guest College Profile"
+                      );
+                      res.redirect("/guest_home");
+                      return;
                     });
-                    return;
-                  })
-                  .catch(err => {
-                    console.log(
-                      err,
-                      "Surveys Data not Fetched - Guest College Profile"
-                    );
-                    res.redirect("/guest_home");
-                    return;
-                  });
+                }
               }
             })
             .catch(err => {

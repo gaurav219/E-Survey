@@ -131,7 +131,7 @@
             data-aos-delay="200"
           >
             <h1>
-              Welcome <b style="color: lightsalmon"><%= useremail %></b> to
+              Welcome <b style="color: lightseagreen"><%= useremail %></b> to
               Digital College Surveys
             </h1>
           </div>
@@ -251,47 +251,83 @@
       <!-- End Cliens Section -->
 
       <!-- ======= About Us Section ======= -->
-      <section id="about" class="about">
+      <section class="top-college">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>List of Colleges</h2>
-          </div>
-
-          <div class="row content">
-            <h5>Enter the College Name</h5>
-            <input
-              type="text"
-              alt="Search"
-              id="search"
-              class="form-control"
-              name="search"
-              placeholder="Search your college"
-            />
-            <br /><br />
-            <table class="table table-hover">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">SNo.</th>
-                  <th scope="col">College ID</th>
-                  <th scope="col">Name of College</th>
-                  <th scope="col">College Type</th>
-                </tr>
-              </thead>
-              <tbody id="filter_body">
-                <% for(var i=0; i < data.length ; i++ ) { %>
-                <tr>
-                  <th scope="row"><%= i+1 %></th>
-                  <td><%= data[i].C_id %></td>
-                  <td>
-                    <a href="/college_Profile?id=<%= data[i].id%>"
-                      ><%= data[i].CollegeName %></a
-                    >
-                  </td>
-                  <td><%= data[i].type %></td>
-                </tr>
-                <% } %>
-              </tbody>
-            </table>
+            <h2>Most visited colleges</h2>
+            <% for( let i = 0; i < data.length ; i++) { %>
+            <hr class="w-4" />
+            <% if(i%2==0) { %>
+            <div class="row m-2">
+              <div class="col-md-5">
+                <img
+                  class="featurette-image img-fluid mx-auto"
+                  src="../assets/img/c2.png"
+                  alt="Generic placeholder image"
+                />
+              </div>
+              <div class="col-md-7 p-2">
+                <b
+                  ><h3 style="color: darkslategrey">
+                    <%= data[i].CollegeName %>
+                  </h3></b
+                >
+                <br />
+                <span class="badge badge-pill badge-dark"
+                  >ID - <%= data[i].C_id %></span
+                >
+                <br />
+                <div class="p-3">
+                  <h5>College Type - <%= data[i].type %></h5>
+                  <h5>College Address - <%= data[i].address %></h5>
+                  <br />
+                  <a
+                    href="/college_Profile?id=<%= data[i].id%>"
+                    class="btn btn-sm btn-success"
+                    >Profile
+                    <span class="badge badge-light"
+                      ><%= data[i].views.length%></span
+                    ></a
+                  >
+                </div>
+              </div>
+            </div>
+            <% } %> <% if(i%2!=0) { %>
+            <div class="row">
+              <div class="col-md-7 p-3">
+                <b
+                  ><h3 style="color: darkslategrey">
+                    <%= data[i].CollegeName %>
+                  </h3></b
+                >
+                <br />
+                <span class="badge badge-pill badge-dark"
+                  >ID - <%= data[i].C_id %></span
+                >
+                <br />
+                <div class="p-3">
+                  <h5>College Type - <%= data[i].type %></h5>
+                  <h5>College Address - <%= data[i].address %></h5>
+                  <br />
+                  <a
+                    href="/college_Profile?id=<%= data[i].id%>"
+                    class="btn btn-sm btn-success"
+                    >Profile
+                    <span class="badge badge-light"
+                      ><%= data[i].views.length%></span
+                    ></a
+                  >
+                </div>
+              </div>
+              <div class="col-md-5">
+                <img
+                  class="featurette-image img-fluid mx-auto"
+                  src="../assets/img/c3.jpg"
+                  alt="Generic placeholder image"
+                />
+              </div>
+            </div>
+            <% } %> <% } %>
           </div>
         </div>
       </section>
@@ -303,13 +339,7 @@
           &copy; Copyright <strong><span>Team MAIT</span></strong
           >. All Rights Reserved
         </div>
-        <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: #license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: #arsha-free-bootstrap-html-template-corporate/ -->
-          Project By <a href="#">TEAM CSEIP19</a>
-        </div>
+        <div class="credits">Project By <a href="#">TEAM CSEIP19</a></div>
       </div>
     </footer>
     <!-- End Footer -->
@@ -330,41 +360,5 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
-    <% var ans = data; %>
-
-    <script>
-      let arr = [];
-      let small = "";
-    </script>
-    <% for(var i=0; i < data.length ; i++ ) { %>
-    <script>
-      small = "<%= ans[i].collegeName %>";
-      arr.push(small);
-    </script>
-
-    <% } %>
-
-    <script>
-      const search = document.getElementById("search");
-      const filter_body = document.getElementById("filter_body");
-
-      search.addEventListener("keyup", () => {
-        var filter, table, tr, td, i, txtValue;
-        filter = search.value.toUpperCase();
-        tr = filter_body.getElementsByTagName("tr");
-        for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[1];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
-      });
-    </script>
   </body>
 </html>
