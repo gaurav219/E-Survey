@@ -29,6 +29,7 @@ const collegesRef = db.collection("colleges");
 const surveysRef = db.collection("surveys");
 const Guests = db.collection("Guests");
 const QueriesRef = db.collection("queries");
+const UserSearchHistoryRef = db.collection("User_Search_History");
 
 // survey questions - Global Variables
 const collegesNames = [];
@@ -100,7 +101,7 @@ router.post("/guest_signIn", (req, res) => {
         console.log(err.message, "Guest UnAuth");
         res.render("Guest/guest_signin.ejs", {
           key,
-          alert_msg: "Invalid credentials",
+          alert_msg: err.message,
         });
         return;
       });
@@ -161,7 +162,7 @@ router.get("/guest_home", (req, res) => {
         return;
       });
   } else {
-    console.log("JVODFE");
+    console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }
@@ -280,7 +281,7 @@ router.get("/submit_request", (req, res) => {
         return;
       });
   } else {
-    //console.log("JVODFE");
+    //console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }
@@ -336,7 +337,7 @@ router.post("/submit_request", (req, res) => {
         return;
       });
   } else {
-    //console.log("JVODFE");
+    //console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }
@@ -369,10 +370,26 @@ router.post("/guest_signUp", (req, res) => {
           number: req.body.number,
         })
         .then(() => {
-          console.log("Guest Created", guest);
-          res.redirect("/guest_signIn");
+          UserSearchHistoryRef.doc(req.body.email)
+            .set({
+              History: [],
+              date: Date.now(),
+            })
+            .then(() => {
+              console.log("Guest Created", guest);
+              res.redirect("/guest_signIn");
+              return;
+            })
+            .catch(err => {
+              console.log(err.message, "Error in Creating Guest");
+              res.redirect("/guest_signUp");
+              return;
+            });
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+          res.redirect("/guest_signUp");
+          console.log(e);
+        });
     })
     .catch(err => {
       console.log(err.message, "Error in Creating Guest");
@@ -532,26 +549,181 @@ router.get("/guest_search", (req, res) => {
       .get()
       .then(doc => {
         if (doc.exists) {
-          collegesRef
+          UserSearchHistoryRef.doc(user.email)
             .get()
             .then(snapshot => {
-              let colleges = [];
-              snapshot.forEach(college_data => {
-                let temp = college_data.data();
-                temp.type = capitalize(temp.type);
-                temp["id"] = college_data.id;
-                colleges.push(temp);
-              });
-
-              res.render("Guest/college_search.ejs", {
-                data: colleges,
-                key,
-              });
-              return;
+              if (snapshot.data()) {
+                let date = snapshot.data().date;
+                // x 1000for chorome TimeStamp to Date
+                date = new Date(date.seconds * 1000);
+                res.render("Guest/college_search.ejs", {
+                  key,
+                  lastSearchDate: date,
+                });
+                return;
+              }
             })
             .catch(err => {
               console.log(err.message, "No College Data Fetched - Guest Home");
               res.redirect("/guest_signIn");
+              return;
+            });
+        } else {
+          res.redirect("/guest_signin");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log(err, "Not a Guest - Guest College Profile");
+        res.redirect("/");
+        return;
+      });
+  } else {
+    res.redirect("/guest_signin");
+    return;
+  }
+});
+
+//view search results
+router.get("/search_result", (req, res) => {
+  var user = firebase.auth().currentUser;
+  if (user && req.query.id !== "") {
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          res.redirect("guest_home");
+        } else {
+          res.redirect("/guest_signin");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log(err, "Not a Guest - Guest College Profile");
+        res.redirect("/");
+        return;
+      });
+  } else {
+    res.redirect("/guest_signin");
+    return;
+  }
+});
+
+// filter the college based on user parameters
+router.post("/search_result", (req, res) => {
+  var user = firebase.auth().currentUser;
+  if (user && req.query.id !== "") {
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          collegesRef
+            .get()
+            .then(querySnapshot => {
+              let User_collegeName = req.body.Q_collegeName;
+              let User_type = req.body.Q_type;
+              let User_address = req.body.Q_address;
+              let colleges = [];
+
+              querySnapshot.forEach(doc => {
+                let temp = doc.data();
+                temp.id = doc.id;
+                colleges.push(temp);
+              });
+
+              if (User_collegeName.length > 0) {
+                colleges = colleges.filter(cllg =>
+                  cllg.CollegeName.toLowerCase().includes(
+                    User_collegeName.toLowerCase()
+                  )
+                );
+              }
+              if (User_type.length > 0) {
+                colleges = colleges.filter(
+                  cllg => cllg.type.toLowerCase() === User_type.toLowerCase()
+                );
+              }
+              if (User_address.length > 0) {
+                colleges = colleges.filter(cllg =>
+                  cllg.address
+                    .toLowerCase()
+                    .includes(User_address.toLowerCase())
+                );
+              }
+
+              // update the user search History
+
+              UserSearchHistoryRef.doc(user.email)
+                .get()
+                .then(doc => {
+                  if (doc.exists) {
+                    //console.log(doc.data());
+                    let History = doc.data().History;
+                    let userSearch = {
+                      User_collegeName,
+                      User_type,
+                      User_address,
+                    };
+                    // Update History -- Select only top 10
+                    if (colleges.length > 0) {
+                      if (History.length > 10) {
+                        History = History.splice(-1);
+                        History = [userSearch, ...History];
+                        //console.log(History);
+                      } else {
+                        History = [userSearch, ...History];
+                      }
+                      UserSearchHistoryRef.doc(user.email)
+                        .set(
+                          {
+                            History,
+                            date: new Date(),
+                          },
+                          { merge: true }
+                        )
+                        .then(() => {
+                          res.render("Guest/search_result.ejs", {
+                            User_collegeName,
+                            User_type,
+                            User_address,
+                            count: colleges.length,
+                            data: colleges,
+                            key,
+                          });
+                          return;
+                        })
+                        .catch(err => {
+                          console.log(err.message);
+                          res.redirect("/guest_home");
+                        });
+                    } else {
+                      res.render("Guest/search_result.ejs", {
+                        User_collegeName,
+                        User_type,
+                        User_address,
+                        count: colleges.length,
+                        data: colleges,
+                        key,
+                      });
+                      return;
+                    }
+                  } else {
+                    res.redirect("/guest_signin");
+                    return;
+                  }
+                })
+                .catch(err => {
+                  console.log(
+                    err.message,
+                    "No College Data Fetched - Guest Home"
+                  );
+                  res.redirect("/guest_home");
+                  return;
+                });
+            })
+            .catch(err => {
+              console.log(err.message, "No College Data Fetched - Guest Home");
+              res.redirect("/guest_home");
               return;
             });
         } else {
@@ -788,8 +960,8 @@ router.post("/compare_result", (req, res) => {
                   collegeData1["totalSurveys"] = cllg1_total_surveys_count;
                   collegeData2["totalSurveys"] = cllg2_total_surveys_count;
 
-                  console.log(collegeData1);
-                  console.log(collegeData2);
+                  //console.log(collegeData1);
+                  //console.log(collegeData2);
 
                   res.render("Guest/compare_result.ejs", {
                     data: { collegeData1, collegeData2 },
@@ -829,8 +1001,8 @@ router.post("/compare_result", (req, res) => {
 // Show all queries
 router.get("/show_request", (req, res) => {
   var user = firebase.auth().currentUser;
-
-  if (user) {
+  if (user && user.email) {
+    //console.log(user.email);
     Guests.doc(user.email)
       .get()
       .then(doc => {
@@ -847,7 +1019,6 @@ router.get("/show_request", (req, res) => {
                   Queries.push(query);
                 }
               });
-
               let pending = Queries.filter(query => query.status === "Pending");
               let rejected = Queries.filter(
                 query => query.status === "Rejected"
@@ -861,10 +1032,12 @@ router.get("/show_request", (req, res) => {
                 rejected: rejected.length,
                 approved: approved.length,
               });
+
               return;
             })
             .catch(err => {
-              console.log(err.message, "Invalid Admin -  List of Queries");
+              c;
+              console.log(err.message, "Invalid Guest -  List of Queries");
               return;
             });
         } else {
@@ -879,7 +1052,7 @@ router.get("/show_request", (req, res) => {
         return;
       });
   } else {
-    console.log("JVODFE");
+    console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }
@@ -888,7 +1061,6 @@ router.get("/show_request", (req, res) => {
 // Show all user pending queries
 router.get("/pending_request", (req, res) => {
   var user = firebase.auth().currentUser;
-
   if (user) {
     Guests.doc(user.email)
       .get()
@@ -931,7 +1103,7 @@ router.get("/pending_request", (req, res) => {
         return;
       });
   } else {
-    console.log("JVODFE");
+    console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }
@@ -985,7 +1157,7 @@ router.get("/rejected_request", (req, res) => {
         return;
       });
   } else {
-    console.log("JVODFE");
+    console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }
@@ -1039,7 +1211,109 @@ router.get("/approved_request", (req, res) => {
         return;
       });
   } else {
-    console.log("JVODFE");
+    console.log("Not Auth User Found");
+    res.redirect("/guest_signIn");
+    return;
+  }
+});
+
+// College Recommendations
+router.get("/recommendations", (req, res) => {
+  var user = firebase.auth().currentUser;
+
+  if (user) {
+    Guests.doc(user.email)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          UserSearchHistoryRef.doc(user.email)
+            .get()
+            .then(snapshot => {
+              if (snapshot.data()) {
+                let user_history = snapshot.data().History;
+                if (user_history && user_history.length > 0) {
+                  user_history = user_history.map(a => a.User_type);
+                  user_history = user_history.filter(el => el !== "");
+                  let map = {};
+                  user_history.forEach((value, i) => {
+                    if (!map[value]) {
+                      map[value] = 0;
+                    }
+                    map[value] += 1;
+                  });
+                  // console.log(user_history);
+                  let sortList = [];
+                  sortList = Object.entries(map).sort((a, b) => {
+                    if (b[1] > a[1]) return 1;
+                    else if (b[1] < a[1]) return -1;
+                    else return 0;
+                  });
+
+                  sortList = sortList.map(el => el[0].toLocaleLowerCase());
+                  let labels = [];
+                  if (sortList.length == 1) labels = sortList.slice(0, 1);
+                  else {
+                    labels = sortList.slice(0, 2);
+                  }
+                  //res.render("Guest/recommendation.ejs");
+
+                  collegesRef
+                    .get()
+                    .then(cllgDoc => {
+                      let recomd_cllgs = [];
+                      cllgDoc.forEach(doc => {
+                        recomd_cllgs.push({ id: doc.id, ...doc.data() });
+                      });
+                      // filter colleges based on labels
+                      recomd_cllgs = recomd_cllgs.filter(cllg =>
+                        labels.includes(cllg.type.toLowerCase())
+                      );
+                      // res.send({ sortList, labels, recomd_cllgs });
+                      res.render("Guest/recommendation.ejs", {
+                        data: recomd_cllgs,
+                        key,
+                      });
+                      return;
+                    })
+                    .catch(err => {
+                      console.log("Recommendations Cllg not fetch");
+                      console.log(err.message);
+                      res.redirect("/guest_home");
+                      return;
+                    });
+                  return;
+                } else {
+                  res.render("Guest/recommendation.ejs", {
+                    data: [],
+                    key,
+                  });
+                  return;
+                }
+              } else {
+                res.render("Guest/recommendation.ejs", {
+                  data: [],
+                  key,
+                });
+                return;
+              }
+            })
+            .catch(err => {
+              console.log(err.message, "Invalid Admin -  Recommendations");
+              return;
+            });
+        } else {
+          console.log("Not a guest");
+          res.redirect("/");
+          return;
+        }
+      })
+      .catch(err => {
+        console.log("Error", err.message);
+        res.redirect("/");
+        return;
+      });
+  } else {
+    console.log("Not Auth User Found");
     res.redirect("/guest_signIn");
     return;
   }

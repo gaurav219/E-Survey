@@ -39,6 +39,11 @@
       th {
         text-align: center;
       }
+
+      .card:hover {
+        background-color: lightseagreen;
+        color: white;
+      }
     </style>
 
     <script>
@@ -77,10 +82,17 @@
         <nav class="nav-menu d-none d-lg-block">
           <ul>
             <li><a href="/guest_home">Home</a></li>
-            <li><a href="/recommendations">Recommendations</a></li>
-            <li><a href="/guest_profile">My Profile</a></li>
             <li><a href="/guest_search">Search Colleges</a></li>
             <li><a href="/compare_colleges">Compare Colleges</a></li>
+            <li class="drop-down">
+              <a href="#">Queries</a>
+              <ul>
+                <li><a href="/show_request">Display Queries</a></li>
+                <li><a href="/submit_request">Submit (Anonymously)</a></li>
+              </ul>
+            </li>
+
+            <li><a href="/guest_profile">My Profile</a></li>
           </ul>
         </nav>
         <!-- .nav-menu -->
@@ -107,17 +119,10 @@
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <h1>Search College of your choice</h1>
+              <h1>College Recommendations</h1>
               <h2>
-                Filter colleges based on various factors such as College Name ,
-                Location & Type. <br />
-                <br />
-                Last Search On :
-                <strong style="color: whitesmoke"
-                  ><%= new Date(lastSearchDate).toLocaleString("en-IN", {day:
-                  '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit',
-                  minute:'2-digit'})%></strong
-                >
+                System automatically recommends colleges based on the user
+                search history.
               </h2>
             </div>
             <div
@@ -138,50 +143,87 @@
       <section id="about" class="about">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
-            <h2>Fill-up the relevent fields.</h2>
+            <h2>Recommendations</h2>
+            <h5 style="color: lightslategray">
+              Total Count : <%= data.length %>
+            </h5>
+            <% if( data.length === 0) { %>
+            <h6>
+              No search history found. Search colleges to help system understand
+              your interest.
+            </h6>
+            <img src="../assets/img/noResult.png" style="height: 15rem" />
+            <a href="/guest_search" class="btn btn-sm btn-dark"
+              >Search College</a
+            >
+            <% } %>
           </div>
-
           <center>
-            <div>
-              <form style="width: 50%" method="POST" action="/search_result">
-                <div class="form-group">
-                  <label for="Q_collegeName" style="color: black"
-                    >College Name</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="Q_collegeName"
-                    name="Q_collegeName"
-                    placeholder="Enter the college name"
-                  />
+            <div id="result" class="container">
+              <% for (let i = 0; i < data.length; i += 2) { %> <% if (i <
+              data.length && i + 1 < data.length) { %>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card border-success" style="height: 12rem">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= data[i].CollegeName%></h5>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        <%= data[i].type%>
+                      </h6>
+                      <p class="card-text">
+                        College Address: <%= data[i].address%>
+                      </p>
+                      <a
+                        href="/college_Profile?id=<%=data[i].id%>"
+                        class="btn btn-sm btn-warning"
+                        >College Profile</a
+                      >
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="Q_type" style="color: black">College Type</label>
-                  <select class="form-control" id="Q_Type" name="Q_type">
-                    <option value="" selected>Select a type</option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Private</option>
-                    <option value="Deemed">Deemed</option>
-                    <option value="Central">Central</option>
-                    <option value="State">State</option>
-                    <option value="Autonomous">Autonomous</option>
-                  </select>
+                <div class="col-sm-6">
+                  <div class="card border-success" style="height: 12rem">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= data[i+1].CollegeName%></h5>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        <%= data[i+1].type%>
+                      </h6>
+                      <p class="card-text">
+                        College Address: <%= data[i+1].address%>
+                      </p>
+                      <a
+                        href="/college_Profile?id=<%=data[i+1].id %>"
+                        class="btn btn-sm btn-warning"
+                        >College Profile</a
+                      >
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="Q_address" style="color: black"
-                    >College Location</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="Q_address"
-                    name="Q_address"
-                    placeholder="Enter the college Location"
-                  />
+              </div>
+              <br />
+              <% } %> <% if(i == data.length-1) { %>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="card border-success" style="height: 12rem">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= data[i].CollegeName%></h5>
+                      <h6 class="card-subtitle mb-2 text-muted">
+                        <%= data[i].type%>
+                      </h6>
+                      <p class="card-text">
+                        College Address: <%= data[i].address%>
+                      </p>
+                      <a
+                        href="/college_Profile?id=<%=data[i].id%>"
+                        class="btn btn-sm btn-warning"
+                        >College Profile</a
+                      >
+                    </div>
+                  </div>
                 </div>
-                <button class="btn btn-info" type="submit">Search</button>
-              </form>
+              </div>
+              <br />
+              <%}%> <%}%>
             </div>
           </center>
         </div>

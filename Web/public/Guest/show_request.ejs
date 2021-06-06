@@ -90,7 +90,7 @@
             data-aos="fade-up"
             data-aos-delay="200"
           >
-            <h1>Show Queries</h1>
+            <h1>Your Queries</h1>
           </div>
           <div
             class="col-lg-6 order-1 order-lg-2 hero-img"
@@ -114,6 +114,7 @@
         <div class="container" data-aos="fade-up">
           <center>
             <div class="section-title">
+              <% if ( pending > 0 || rejected > 0 || approved >0) { %>
               <h2>List of All Queries</h2>
               <div class="row">
                 <div class="col-sm-4">
@@ -176,6 +177,18 @@
                   </div>
                 </div>
               </div>
+              <% } %> <% if ( pending ==0 && rejected ==0 && approved ==0) { %>
+              <h2>No Queries found.</h2>
+              <p>
+                Want to submit a new query ?
+                <a href="/submit_request">Click here</a>
+              </p>
+              <center>
+                <div class="container p-3">
+                  <img src="../assets/img/empty.png"/ style="height: 300px;">
+                </div>
+              </center>
+              <% } %>
             </div>
           </center>
         </div>
