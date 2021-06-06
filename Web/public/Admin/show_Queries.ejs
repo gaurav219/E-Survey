@@ -33,6 +33,8 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+
+
   </head>
 
   <body>
@@ -173,6 +175,18 @@
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
+      <div class="footer-newsletter">
+        <div class="container">
+          <div style="margin-left: 6vw;"  class="row justify-content-center">
+            <!-- CHARTS  -->
+            <h2 id="msg" style="visibility: hidden;">No Pending Queries</h2>
+            <div class="col-lg-10" id="pie">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
@@ -196,6 +210,9 @@
     <script src="assets/vendor/venobox/venobox.min.js"></script>
     <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
+ 
+     <!-- Plotly.JS CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
@@ -292,6 +309,69 @@
           }
         }
       }
+    </script>
+     <% let query = data; %>
+     
+    <script>let curr = {}; let ans = {};</script>
+
+   <% for(var i=0; i < query.length ; i++ ) { %>
+
+    <script>
+       curr = ("<%= query[i].label %>")
+      if(curr in  ans) {
+        ans[curr] += 1
+      } else {
+        ans[curr] = 1;
+      }
+
+    </script>
+      
+   <% } %>
+
+    <script>
+      if(ans !== null) {
+
+          let keys = []
+          let values = []
+          for (const key of Object.keys(ans)) {
+              keys.push(key)
+            }
+          for (const value of Object.values(ans)) {
+                values.push(value)
+            }
+
+        var data = [{
+            values,
+            labels: keys,
+            domain: {column: 0},
+            name: 'Queries',
+            hoverinfo: 'label+percent+name',
+            hole: .5,
+            type: 'pie'
+          }];
+
+            var layout = {
+              title: `Pending Queries ${new Date().getFullYear()}`,
+              annotations: [
+                {
+                  font: {
+                    size: 20
+                  },
+                  showarrow: false,
+                  text: 'Queries',
+                  x: 0.50,
+                  y: 0.5
+                },
+              ],
+              height: 400,
+              width: 600,
+              showlegend: true,
+              grid: {rows: 1, columns: 1}
+            };
+            Plotly.newPlot('pie', data, layout, {displayModeBar: false});
+          } else {
+             document.getElementById('msg').style.visibility="visible";
+          }
     </script>
   </body>
 </html>
