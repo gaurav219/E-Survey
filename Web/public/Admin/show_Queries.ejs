@@ -33,8 +33,6 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
-
-
   </head>
 
   <body>
@@ -96,7 +94,17 @@
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="section-title">
-          <h2>List of Pending Queries</h2>
+          <h2>Statistical Data based on Student Queries.</h2>
+        </div>
+        <div class="container">
+          <div style="margin-left: 6vw" class="row justify-content-center">
+            <!-- CHARTS  -->
+            <h2 id="msg" style="visibility: hidden">No Pending Queries</h2>
+            <div class="col-lg-10" id="pie"></div>
+          </div>
+        </div>
+        <div class="section-title">
+          <h2>List of <b style="color: orange">Pending</b> Queries</h2>
         </div>
         <div class="row">
           <div class="col-6">
@@ -152,41 +160,98 @@
               </tr>
             </thead>
             <tbody id="query_list">
-              <% for(var i=0; i < data.length ; i++ ) { %>
+              <% for(var i=0; i < pending.length ; i++ ) { %>
               <tr>
                 <!-- <th scope="row"><%= i+1 %></th> -->
-                <!-- <td><a href="visitor_data?id=<%= data[i].gmailID %>"><%= data[i].firstname %> <%= data[i].lastname %></a></td> -->
-                <th scope="row"><%= data[i].label %></th>
+                <!-- <td><a href="visitor_pending?id=<%= pending[i].gmailID %>"><%= pending[i].firstname %> <%= pending[i].lastname %></a></td> -->
+                <th scope="row"><%= pending[i].label %></th>
                 <td>
-                  <%= new Date(data[i].date).toLocaleString("en-IN", {day:
+                  <%= new Date(pending[i].date).toLocaleString("en-IN", {day:
                   '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit',
                   minute:'2-digit'})%>
                 </td>
-                <td><%= data[i].subject %></td>
-                <td><a href="/query?id=<%= data[i].id%>">Open</a></td>
+                <td><%= pending[i].subject %></td>
+                <td><a href="/query?id=<%= pending[i].id%>">Open</a></td>
               </tr>
               <% } %>
             </tbody>
           </table>
         </div>
         <br />
+        <div class="section-title">
+          <h2>List of <b style="color: green">Approved</b> Queries</h2>
+        </div>
+        <div class="row content">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <!-- <th scope="col">SNo</th> -->
+                <th scope="col">Label</th>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="query_list">
+              <% for(var i=0; i < approved.length ; i++ ) { %>
+              <tr>
+                <!-- <th scope="row"><%= i+1 %></th> -->
+                <!-- <td><a href="visitor_approved?id=<%= approved[i].gmailID %>"><%= approved[i].firstname %> <%= approved[i].lastname %></a></td> -->
+                <th scope="row"><%= approved[i].label %></th>
+                <td>
+                  <%= new Date(approved[i].date).toLocaleString("en-IN", {day:
+                  '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit',
+                  minute:'2-digit'})%>
+                </td>
+                <td><%= approved[i].subject %></td>
+                <td>
+                  <a href="/query?id=<%= approved[i].id%>">More Details</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div class="section-title">
+          <h2>List of <b style="color: red">Rejected</b> Queries</h2>
+        </div>
+        <div class="row content">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <!-- <th scope="col">SNo</th> -->
+                <th scope="col">Label</th>
+                <th scope="col">Date and Time</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="query_list">
+              <% for(var i=0; i < rejected.length ; i++ ) { %>
+              <tr>
+                <!-- <th scope="row"><%= i+1 %></th> -->
+                <!-- <td><a href="visitor_approved?id=<%= approved[i].gmailID %>"><%= approved[i].firstname %> <%= approved[i].lastname %></a></td> -->
+                <th scope="row"><%= rejected[i].label %></th>
+                <td>
+                  <%= new Date(rejected[i].date).toLocaleString("en-IN", {day:
+                  '2-digit',month: '2-digit', year: 'numeric',hour: '2-digit',
+                  minute:'2-digit'})%>
+                </td>
+                <td><%= rejected[i].subject %></td>
+                <td>
+                  <a href="/query?id=<%= rejected[i].id%>">More Details</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-      <div class="footer-newsletter">
-        <div class="container">
-          <div style="margin-left: 6vw;"  class="row justify-content-center">
-            <!-- CHARTS  -->
-            <h2 id="msg" style="visibility: hidden;">No Pending Queries</h2>
-            <div class="col-lg-10" id="pie">
-
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="container footer-bottom clearfix">
         <div class="copyright">
           &copy; Copyright <strong><span>Team MAIT</span></strong
@@ -210,8 +275,8 @@
     <script src="assets/vendor/venobox/venobox.min.js"></script>
     <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
- 
-     <!-- Plotly.JS CDN -->
+
+    <!-- Plotly.JS CDN -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- Template Main JS File -->
@@ -310,68 +375,71 @@
         }
       }
     </script>
-     <% let query = data; %>
-     
-    <script>let curr = {}; let ans = {};</script>
-
-   <% for(var i=0; i < query.length ; i++ ) { %>
+    <% let query = data; %>
 
     <script>
-       curr = ("<%= query[i].label %>")
-      if(curr in  ans) {
-        ans[curr] += 1
+      let curr = {};
+      let ans = {};
+    </script>
+
+    <% for(var i=0; i < query.length ; i++ ) { %>
+
+    <script>
+      curr = "<%= query[i].label %>";
+      if (curr in ans) {
+        ans[curr] += 1;
       } else {
         ans[curr] = 1;
       }
-
     </script>
-      
-   <% } %>
+
+    <% } %>
 
     <script>
-      if(ans !== null) {
+      if (ans !== null) {
+        let keys = [];
+        let values = [];
+        for (const key of Object.keys(ans)) {
+          keys.push(key);
+        }
+        for (const value of Object.values(ans)) {
+          values.push(value);
+        }
 
-          let keys = []
-          let values = []
-          for (const key of Object.keys(ans)) {
-              keys.push(key)
-            }
-          for (const value of Object.values(ans)) {
-                values.push(value)
-            }
-
-        var data = [{
+        var data = [
+          {
             values,
             labels: keys,
-            domain: {column: 0},
-            name: 'Queries',
-            hoverinfo: 'label+percent+name',
-            hole: .5,
-            type: 'pie'
-          }];
+            domain: { column: 0 },
+            name: "Queries",
+            hoverinfo: "label+percent+name",
+            hole: 0.5,
+            type: "pie",
+          },
+        ];
 
-            var layout = {
-              title: `Pending Queries ${new Date().getFullYear()}`,
-              annotations: [
-                {
-                  font: {
-                    size: 20
-                  },
-                  showarrow: false,
-                  text: 'Queries',
-                  x: 0.50,
-                  y: 0.5
-                },
-              ],
-              height: 400,
-              width: 600,
-              showlegend: true,
-              grid: {rows: 1, columns: 1}
-            };
-            Plotly.newPlot('pie', data, layout, {displayModeBar: false});
-          } else {
-             document.getElementById('msg').style.visibility="visible";
-          }
+        var layout = {
+          title: `Pending & Approved Queries ${new Date().getFullYear()}`,
+          annotations: [
+            {
+              font: {
+                size: 20,
+              },
+              showarrow: false,
+              text: "Queries",
+              x: 0.5,
+              y: 0.5,
+            },
+          ],
+          height: 400,
+          width: 600,
+          showlegend: true,
+          grid: { rows: 1, columns: 1 },
+        };
+        Plotly.newPlot("pie", data, layout, { displayModeBar: false });
+      } else {
+        document.getElementById("msg").style.visibility = "visible";
+      }
     </script>
   </body>
 </html>

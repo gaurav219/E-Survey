@@ -598,7 +598,6 @@ router.get("/show_Surveys", (req, res) => {
 });
 
 // Show Queries made Anonymously
-
 router.get("/show_Queries", (req, res) => {
   //   console.log("INSIDE Quer");
   var user = firebase.auth().currentUser;
@@ -622,10 +621,23 @@ router.get("/show_Queries", (req, res) => {
                   //   console.log(tempdata.data(), "tempddata");
                   Queries.push(query);
                 });
+                let rejected = Queries.filter(
+                  query => query.status === "Rejected"
+                );
+                let approved = Queries.filter(
+                  query => query.status === "Approved"
+                );
+                let pending = Queries.filter(
+                  query => query.status === "Pending"
+                );
 
-                console.log(Queries);
+                Queries = Queries.filter(query => query.status !== "Rejected");
+                //console.log(Queries);
                 res.render("Admin/show_Queries.ejs", {
                   data: Queries,
+                  rejected,
+                  pending,
+                  approved,
                 });
                 return;
               })
