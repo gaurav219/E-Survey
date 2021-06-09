@@ -28,6 +28,8 @@ const collegesRef = db.collection("colleges");
 const questionsRef = db.collection("questions");
 const visitorDataRef = db.collection("Visiting_Officer_Data");
 const surveysRef = db.collection("surveys");
+const commentsRef = db.collection("comments");
+const surveyImagesRef = db.collection("images");
 const AnswerRef = db.collection("question_wise_ratings");
 
 // survey questions - Global Variables
@@ -441,12 +443,73 @@ router.get("/survey_detail", (req, res) => {
                           response.data()["Teaching Learning Process"]
                         );
 
-                        res.render("Visitor/survey.ejs", {
-                          surveyData: survey_Data,
-                          questions: questions,
-                          ratings: ratings,
-                        });
-                        return;
+                        // comments
+                        commentsRef
+                          .doc(req.query.id)
+                          .get()
+                          .then(commentsRes => {
+                            let comments = [];
+                            if (commentsRes.exists) {
+                              comments = commentsRes.data();
+                            }
+                            // get images if present
+                            surveyImagesRef
+                              .doc(req.query.id)
+                              .get()
+                              .then(img_res => {
+                                if (img_res.exists) {
+                                  console.log("Document data:", img_res.data());
+                                  // get images
+                                  db.collection(
+                                    "/images/" + req.query.id + "/images"
+                                  )
+                                    .get()
+                                    .then(querySnapshot => {
+                                      let imgList = [];
+                                      querySnapshot.forEach(doc => {
+                                        imgList.push(doc.data().url);
+                                      });
+
+                                      res.render("Visitor/survey.ejs", {
+                                        surveyData: survey_Data,
+                                        questions: questions,
+                                        ratings: ratings,
+                                        imgData: imgList,
+                                        comments,
+                                      });
+                                      return;
+                                    })
+                                    .catch(err => {
+                                      console.log(err);
+                                      res.redirect("/visitor_home");
+                                      return;
+                                    });
+                                } else {
+                                  console.log("No images found.!");
+                                  res.render("Visitor/survey.ejs", {
+                                    surveyData: survey_Data,
+                                    questions: questions,
+                                    ratings: ratings,
+                                    imgData: [],
+                                    comments,
+                                  });
+                                  return;
+                                }
+                              })
+                              .catch(err => {
+                                console.log(
+                                  err,
+                                  "Invalid survey ID for images"
+                                );
+                                res.redirect("/visitor_home");
+                                return;
+                              });
+                          })
+                          .catch(err => {
+                            console.log(err, "Invalid survey ID for images");
+                            res.redirect("/visitor_home");
+                            return;
+                          });
                       })
                       .catch(err => {
                         console.log(

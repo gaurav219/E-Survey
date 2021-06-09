@@ -196,6 +196,12 @@
                     <h4 style="color: dodgerblue">
                       Averge Score : <%= surveyData.scoreOfTeaching[i-1] %>/5
                     </h4>
+                    <% if(comments[key]===undefined) { %>
+                    <h5>Visitor Comments : No comments.</h5>
+                    <% } %> <% if(comments[key]!==undefined) { %>
+                    <h5>Visitor Comments : <%= comments[key]%></h5>
+                    <% } %>
+
                     <h5>Questions-Marks Breakdown :</h5>
                   </div>
                   <div class="overflow-auto" style="height: 15rem; margin: 6%">
@@ -242,7 +248,9 @@
         </div>
       </section>
 
-      <section id="location" class="services section-bg">
+      <!-- Image Section -->
+
+      <section id="images" class="services section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>Images Uploaded</h2>
@@ -279,33 +287,9 @@
           <% } %>
         </div>
       </section>
+      <!-- End Image Section -->
 
-      <!-- Images Section -->
-      <section id="location" class="services section-bg">
-        <div class="container" data-aos="fade-up">
-          <div class="section-title">
-            <h2>Survey Location</h2>
-            <p>Location of the Survey ID : <b><%= surveyData.surveyID%></b></p>
-          </div>
-          <center>
-            <div data-aos="zoom-in" data-aos-delay="100">
-              <div class="icon-box">
-                <div class="icon"><i class="bx bx-current-location"></i></div>
-                <h6>
-                  Geo-Coordinates :
-                  <b
-                    >[<%= surveyData.location._lat %>,<%=
-                    surveyData.location._long %>]</b
-                  >
-                </h6>
-              </div>
-            </div>
-          </center>
-        </div>
-      </section>
-      <!-- End Images Section -->
-
-      <!-- Location Section-->
+      <!-- Location Section -->
       <section id="location" class="services section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">

@@ -33,12 +33,20 @@
 
     <!-- Mapbox GL CSS and JS  -->
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
     <style>
-      #map { position: absolute; top: 0; bottom: 0; width: 50%;  }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+      }
     </style>
   </head>
 
@@ -68,19 +76,24 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col-lg-6
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
-          <div class="content" style="color: white !important ;">
-            <h1>
-              Survey Data
-            </h1>
-            <h2>
-              Survey ID : <b><%= surveyData.surveyID%></b><br>
-              Date of Survey : <%= surveyData.dateOfSurvey %>
-            </h2>
-          </div>  
+            <div class="content" style="color: white !important">
+              <h1>Survey Data</h1>
+              <h2>
+                Survey ID : <b><%= surveyData.surveyID%></b><br />
+                Date of Survey : <%= surveyData.dateOfSurvey %>
+              </h2>
+            </div>
           </div>
           <div
             class="col-lg-6 order-1 order-lg-2 hero-img"
@@ -99,98 +112,159 @@
     <!-- End Hero -->
 
     <main id="main">
-        <!-- ======= Survey Questions Section ======= -->
-        <section id="faq" class="faq section-bg">
-          <div class="container" data-aos="fade-up">
-            <div class="section-title">
-              <h2>Sections</h2>
-              <p>
-                It includes different paramters to judge the teaching and learning process in an Insitute or College.
-              </p>
-            </div>
-  
-            <div class="faq-list">
-              <ul>
-                <% var i=1 %>
-                <% var sub_total=0 %>
-                <% for(var key in questions) { %>
-                <li data-aos="fade-up" data-aos-delay="100">
-                  <a data-toggle="collapse" class="collapsed" href="#faq-list-<%=i%>"
-                    ><h2><%= key %></h2>
-                    <i class="bx bx-chevron-down icon-show"></i
-                    ><i class="bx bx-chevron-up icon-close"></i
-                  ></a>
-                  <div
-                    id="faq-list-<%=i%>"
-                    class="collapse"
-                    data-parent=".faq-list"
-                  >
-                  <div style="margin-left: 6%;">
-                    <h4>Average Score  : <b style="color:rgb(2, 53, 131)"><%= surveyData.scoreOfTeaching[i-1] %></b></h4>
-                    <h5> Questions-Marks Breakdown :</h5>
-                  </div>            
-                      <div class="overflow-auto" style="height: 15rem;margin: 6%;">
-                        <table class="table table-hover">
-                          <thead class="thead-dark">
-                            <tr>
-                              <th scope="col"><h6>QNo.</h6></th>
-                              <th scope="col"><h6>Question</h6></th>
-                              <th scope="col"><h6>Score</h6></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <% for(var index=0; index < questions[key].Questions.length ; index++ ) { %>
-                                <tr>
-                                  <th scope="row"><%= index+1 %></th>
-                                  <th><h6><%= questions[key].Questions[index] %></h6></th>
-                                  <th><h6><%= ratings[i-1][index].toString().split('_')[1] %></h6></th>
-                                  <% var temp = parseFloat(ratings[i-1][index].toString().split('_')[1]) %>
-                                  <% sub_total += temp ; %>
-                                </tr>
-                          <% } %>
-                          <tr style="color: dodgerblue;">
-                            <th scope="row"></th>
-                            <th><h5>Total Score (Sum) </h5></th>
-                            <th><h5><%= sub_total %></h5></th>
-                          </tr>
-                        </tbody>
-                      </table>
-                      </div>
-                     
-                  </div>
-                </li>
-                <% i++;  %>
-                <% sub_total = 0 ; %>
-               <% } %>
-              </ul>
-            </div>
+      <!-- ======= Survey Questions Section ======= -->
+      <section id="faq" class="faq section-bg">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2>Sections</h2>
+            <p>
+              It includes different paramters to judge the teaching and learning
+              process in an Insitute or College.
+            </p>
           </div>
-        </section>
-        <!-- Button trigger modal -->
+
+          <div class="faq-list">
+            <ul>
+              <% var i=1 %> <% var sub_total=0 %> <% for(var key in questions) {
+              %>
+              <li data-aos="fade-up" data-aos-delay="100">
+                <a
+                  data-toggle="collapse"
+                  class="collapsed"
+                  href="#faq-list-<%=i%>"
+                  ><h2><%= key %></h2>
+                  <i class="bx bx-chevron-down icon-show"></i
+                  ><i class="bx bx-chevron-up icon-close"></i
+                ></a>
+                <div
+                  id="faq-list-<%=i%>"
+                  class="collapse"
+                  data-parent=".faq-list"
+                >
+                  <div style="margin-left: 6%">
+                    <h4>
+                      Average Score :
+                      <b style="color: rgb(2, 53, 131)"
+                        ><%= surveyData.scoreOfTeaching[i-1] %></b
+                      >
+                    </h4>
+                    <% if(comments[key]===undefined) { %>
+                    <h5>Visitor Comments : No comments.</h5>
+                    <% } %> <% if(comments[key]!==undefined) { %>
+                    <h5>Visitor Comments : <%= comments[key]%></h5>
+                    <% } %>
+                    <h5>Questions-Marks Breakdown :</h5>
+                  </div>
+                  <div class="overflow-auto" style="height: 15rem; margin: 6%">
+                    <table class="table table-hover">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col"><h6>QNo.</h6></th>
+                          <th scope="col"><h6>Question</h6></th>
+                          <th scope="col"><h6>Score</h6></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for(var index=0; index <
+                        questions[key].Questions.length ; index++ ) { %>
+                        <tr>
+                          <th scope="row"><%= index+1 %></th>
+                          <th>
+                            <h6><%= questions[key].Questions[index] %></h6>
+                          </th>
+                          <th>
+                            <h6>
+                              <%= ratings[i-1][index].toString().split('_')[1]
+                              %>
+                            </h6>
+                          </th>
+                          <% var temp =
+                          parseFloat(ratings[i-1][index].toString().split('_')[1])
+                          %> <% sub_total += temp ; %>
+                        </tr>
+                        <% } %>
+                        <tr style="color: dodgerblue">
+                          <th scope="row"></th>
+                          <th><h5>Total Score (Sum)</h5></th>
+                          <th><h5><%= sub_total %></h5></th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </li>
+              <% i++; %> <% sub_total = 0 ; %> <% } %>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Button trigger modal -->
+
+      <!-- Image Section -->
+
+      <section id="images" class="services section-bg">
+        <div class="container" data-aos="fade-up">
+          <div class="section-title">
+            <h2>Images Uploaded</h2>
+            <% if(imgData.length > 0) { %>
+            <p>Total Number of images uploaded: <b><%= imgData.length %></b></p>
+            <% } %> <% if(imgData.length === 0) { %>
+            <p>No Images were uploaded by the Visiting Officer.</p>
+            <% } %>
+          </div>
+          <% if(imgData.length > 0) { %>
+          <center>
+            <!-- Gallery -->
+            <div class="row" id="gallery">
+              <% for( let i = 0; i < imgData.length; i++ ) { %>
+              <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                <img
+                  src="<%= imgData[i]%>"
+                  class="w-100 shadow-1-strong rounded mb-4"
+                  alt=""
+                />
+              </div>
+              <% } %>
+            </div>
+            <!-- Gallery -->
+          </center>
+          <% } %> <% if(imgData.length === 0) { %>
+          <center>
+            <!-- Gallery -->
+            <div class="container">
+              <img src="../assets/img/no_image_uploaded.png" />
+            </div>
+            <!-- Gallery -->
+          </center>
+          <% } %>
+        </div>
+      </section>
+      <!-- End Image Section -->
+
       <section id="location" class="services section-bg">
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>Survey Location</h2>
-            <p>
-              Location of the Survey ID :  <b><%= surveyData.surveyID%></b>
-            </p>
+            <p>Location of the Survey ID : <b><%= surveyData.surveyID%></b></p>
           </div>
           <center>
-            <div  
-          data-aos="zoom-in"
-          data-aos-delay="100">
+            <div data-aos="zoom-in" data-aos-delay="100">
               <div class="icon-box">
                 <div class="icon"><i class="bx bx-current-location"></i></div>
-                <h6>Geo-Coordinates : <b>[<%= surveyData.location._lat %>,<%= surveyData.location._long %>]</b></h6>
+                <h6>
+                  Geo-Coordinates :
+                  <b
+                    >[<%= surveyData.location._lat %>,<%=
+                    surveyData.location._long %>]</b
+                  >
+                </h6>
               </div>
             </div>
           </center>
-        
         </div>
       </section>
       <!-- Location Section-->
       <!-- End Location Section -->
-
     </main>
     <!-- End #main -->
 
