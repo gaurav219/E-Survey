@@ -29,6 +29,7 @@ const questionsRef = db.collection("questions");
 const visitorDataRef = db.collection("Visiting_Officer_Data");
 const adminRef = db.collection("Admin");
 const surveysRef = db.collection("surveys");
+const surveyImagesRef = db.collection("images");
 const AnswerRef = db.collection("question_wise_ratings");
 const QueriesRef = db.collection("queries");
 // survey questions - Global Variables
@@ -726,12 +727,62 @@ router.get("/survey_data", (req, res) => {
                                 response.data()["Teaching Learning Process"]
                               );
 
-                              res.render("Admin/admin_surveyData.ejs", {
-                                surveyData: survey_Data,
-                                questions: questions,
-                                ratings: ratings,
-                              });
-                              return;
+                              // get images if present
+                              surveyImagesRef
+                                .doc(req.query.id)
+                                .get()
+                                .then(img_res => {
+                                  if (img_res.exists) {
+                                    console.log(
+                                      "Document data:",
+                                      img_res.data()
+                                    );
+                                    // get images
+                                    db.collection(
+                                      "/images/" + req.query.id + "/images"
+                                    )
+                                      .get()
+                                      .then(querySnapshot => {
+                                        let imgList = [];
+                                        querySnapshot.forEach(doc => {
+                                          imgList.push(doc.data().url);
+                                        });
+                                        console.log(imgList.length);
+                                        res.render(
+                                          "Admin/admin_surveyData.ejs",
+                                          {
+                                            surveyData: survey_Data,
+                                            questions: questions,
+                                            ratings: ratings,
+                                            imgData: imgList,
+                                          }
+                                        );
+                                        return;
+                                      })
+                                      .catch(err => {
+                                        console.log(err);
+                                        res.redirect("/admin_home");
+                                        return;
+                                      });
+                                  } else {
+                                    console.log("No images found.!");
+                                    res.render("Admin/admin_surveyData.ejs", {
+                                      surveyData: survey_Data,
+                                      questions: questions,
+                                      ratings: ratings,
+                                      imgData: [],
+                                    });
+                                    return;
+                                  }
+                                })
+                                .catch(err => {
+                                  console.log(
+                                    err,
+                                    "Invalid survey ID for images"
+                                  );
+                                  res.redirect("/admin_home");
+                                  return;
+                                });
                             })
                             .catch(err => {
                               console.log(

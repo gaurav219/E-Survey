@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
 
 const PORT = process.env.PORT || 9000;
@@ -14,7 +13,7 @@ app.set("view engine", "ejs");
 app.use(express.static("./public"));
 
 // setup body-parser urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 //Define routes
 app.use("/", require("./routes/admin"));
