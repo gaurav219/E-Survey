@@ -50,9 +50,13 @@
         <nav class="nav-menu d-none d-lg-block">
           <ul>
             <li><a href="/admin_home">Admin Home</a></li>
-            <li><a href="/admin_logout"><button class="btn btn-sm btn-danger">Logout</button></a></li>
+            <li>
+              <a href="/admin_logout"
+                ><button class="btn btn-sm btn-danger">Logout</button></a
+              >
+            </li>
           </ul>
-        </nav>   
+        </nav>
       </div>
     </header>
     <!-- End Header -->
@@ -62,29 +66,39 @@
       <div class="container">
         <div class="row">
           <div
-            class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+            class="
+              col-lg-6
+              d-flex
+              flex-column
+              justify-content-center
+              pt-4 pt-lg-0
+              order-2 order-lg-1
+            "
             data-aos="fade-up"
             data-aos-delay="200"
           >
             <center>
               <h1>Assign a New College Survey</h1>
-              <form style="width: 70%" method="POST" action="/assign_new_survey">
-                  <div class="form-group">
-                    <label for="firstname">College/Institute Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="college"
-                      name="college"
-                      list="collegeNames"
-                      placeholder="Maharaja Agrasen Institute of Technology"
-                      required
-                    />
-                    <datalist id="collegeNames">
-                      <% for(var i=0; i < collegesNames.length ; i++) { %>
-                      <option value="<%= collegesNames[i] %>">
-                      <% } %>  
-                    </datalist>
+              <form
+                style="width: 70%"
+                method="POST"
+                action="/assign_new_survey"
+              >
+                <div class="form-group">
+                  <label for="firstname">College/Institute Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="college"
+                    name="college"
+                    list="collegeNames"
+                    placeholder="Maharaja Agrasen Institute of Technology"
+                    required
+                  />
+                  <datalist id="collegeNames">
+                    <% for(var i=0; i < collegesNames.length ; i++) { %>
+                    <option value="<%= collegesNames[i] %>"><% } %></option>
+                  </datalist>
                 </div>
                 <div class="form-group">
                   <label for="visitorID">Visitor ID</label>
@@ -100,10 +114,8 @@
                   />
                   <datalist id="visitorIDs">
                     <% for(var i=0; i < visitor_list.length ; i++) { %>
-                    <option value="<%= visitor_list[i] %>">
-                    <% } %>  
+                    <option value="<%= visitor_list[i] %>"><% } %></option>
                   </datalist>
-                  
                 </div>
                 <div class="form-group">
                   <label for="dataOfSurvey">Data of Survey</label>
@@ -116,10 +128,24 @@
                     required
                   />
                 </div>
-                <button type="submit" class="btn btn-info">
-                  Assign
-                </button>
-               
+                <div class="form-group">
+                  <label for="firstname">Select the Survey type</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="type"
+                    name="type"
+                    list="SurveyType"
+                    placeholder="Select the Survey type"
+                    required
+                  />
+                  <datalist id="SurveyType">
+                    <option value="AICTE">AICTE</option>
+                    <option value="NBA">NBA</option>
+                    <option value="BOTH">Combined</option>
+                  </datalist>
+                </div>
+                <button type="submit" class="btn btn-info">Assign</button>
               </form>
             </center>
           </div>

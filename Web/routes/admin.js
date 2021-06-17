@@ -436,6 +436,7 @@ router.post("/assign_new_survey", (req, res) => {
                     dateOfSurvey: "",
                     location: collegeLocation,
                     scoreOfTeaching: [],
+                    type: [req.body.type],
                     status: "open",
                     visitorId: req.body.visitorID,
                   })
