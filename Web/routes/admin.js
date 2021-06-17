@@ -422,7 +422,10 @@ router.post("/assign_new_survey", (req, res) => {
               .get()
               .then(response => {
                 response.forEach(doc => {
-                  if (doc.data()) {
+                  if (
+                    doc.data().CollegeName.toLowerCase() ===
+                    req.body.college.toLowerCase()
+                  ) {
                     collegeLocation = doc.data().coordinates;
                   }
                 });
