@@ -35,12 +35,12 @@ app.get("/", async (req, res) => {
     const data = await response.json();
 
     let news = data.articles;
-    console.log(data.articles.length);
+    // console.log(data.articles.length);
     //console.log(news.length);
     if (!news) {
       news = [];
     } else {
-      news = news.filter(article => article.urlToImage !== null);
+      news = news.filter((article) => article.urlToImage !== null);
       console.log("Total news Result: " + news.length);
 
       if (news.length > 30) {

@@ -912,7 +912,7 @@ section {
 }
 
 .services .icon-box:hover p {
-  color:wheat
+  color: wheat;
 }
 
 .services .icon-box:hover .icon i {
@@ -1867,6 +1867,9 @@ section {
 }
 
 @media (max-width: 768px) {
+  #hero {
+    overflow: scroll;
+  }
   #footer .footer-bottom {
     padding-top: 20px;
     padding-bottom: 20px;
