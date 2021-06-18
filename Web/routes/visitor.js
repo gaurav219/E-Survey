@@ -284,7 +284,7 @@ router.get("/visitor_home", (req, res) => {
           });
           return;
         } else {
-          console.log(err.message, "Not a Visitor - Visitor Home");
+          console.log("Not a Visitor - Visitor Home");
           res.redirect("/");
           return;
         }
@@ -430,18 +430,18 @@ router.get("/survey_detail", (req, res) => {
                     res.redirect("/past_surveys");
                     return;
                   } else {
-                    // var date = new Date(survey_Data.dateOfSurvey.seconds * 1000);
-                    // survey_Data['DateOfSurvey'] = date;
                     survey_Data["surveyID"] = req.query.id;
-                    //console.log(survey_Data);
+
                     AnswerRef.doc(req.query.id)
                       .get()
                       .then(response => {
-                        var ratings = [];
-                        ratings.push(response.data()["College Environment"]);
-                        ratings.push(
-                          response.data()["Teaching Learning Process"]
-                        );
+                        let Question_wise_ratings = response.data();
+                        let ratings = {};
+                        let sections = Object.keys(Question_wise_ratings);
+                        for (let i = 0; i < sections.length; i++) {
+                          ratings[sections[i]] =
+                            Question_wise_ratings[sections[i]];
+                        }
 
                         // comments
                         commentsRef
@@ -476,6 +476,7 @@ router.get("/survey_detail", (req, res) => {
                                         ratings: ratings,
                                         imgData: imgList,
                                         comments,
+                                        sections,
                                       });
                                       return;
                                     })
@@ -492,6 +493,7 @@ router.get("/survey_detail", (req, res) => {
                                     ratings: ratings,
                                     imgData: [],
                                     comments,
+                                    sections,
                                   });
                                   return;
                                 }

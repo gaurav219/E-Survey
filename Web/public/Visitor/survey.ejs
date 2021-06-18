@@ -126,7 +126,7 @@
           <div class="faq-list">
             <ul>
               <% var i=1 %> <% var sub_total=0 %> <% for(var key in questions) {
-              %>
+              %> <% if(sections.includes(key)) { %>
               <li data-aos="fade-up" data-aos-delay="100">
                 <a
                   data-toggle="collapse"
@@ -142,12 +142,6 @@
                   data-parent=".faq-list"
                 >
                   <div style="margin-left: 6%">
-                    <h4>
-                      Average Score :
-                      <b style="color: rgb(2, 53, 131)"
-                        ><%= surveyData.scoreOfTeaching[i-1] %></b
-                      >
-                    </h4>
                     <% if(comments[key]===undefined) { %>
                     <h5>Visitor Comments : No comments.</h5>
                     <% } %> <% if(comments[key]!==undefined) { %>
@@ -155,7 +149,7 @@
                     <% } %>
                     <h5>Questions-Marks Breakdown :</h5>
                   </div>
-                  <div class="overflow-auto" style="height: 15rem; margin: 6%">
+                  <div class="overflow-auto" style="height: 35rem; margin: 2%">
                     <table class="table table-hover">
                       <thead class="thead-dark">
                         <tr>
@@ -165,24 +159,21 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% for(var index=0; index <
-                        questions[key].Questions.length ; index++ ) { %>
+                        <% for(var index=0 , temp=0; index <
+                        questions[key].Questions.length ; index++ ) { %> <% temp
+                        =
+                        parseFloat(ratings[key][index].toString().split('_')[1])
+                        %>
                         <tr>
                           <th scope="row"><%= index+1 %></th>
                           <th>
                             <h6><%= questions[key].Questions[index] %></h6>
                           </th>
                           <th>
-                            <h6>
-                              <%= ratings[i-1][index].toString().split('_')[1]
-                              %>
-                            </h6>
+                            <h6><%= temp %></h6>
                           </th>
-                          <% var temp =
-                          parseFloat(ratings[i-1][index].toString().split('_')[1])
-                          %> <% sub_total += temp ; %>
                         </tr>
-                        <% } %>
+                        <% sub_total += temp %> <% } %>
                         <tr style="color: dodgerblue">
                           <th scope="row"></th>
                           <th><h5>Total Score (Sum)</h5></th>
@@ -190,10 +181,21 @@
                         </tr>
                       </tbody>
                     </table>
+                    <h4 style="color: dodgerblue">
+                      <% let avg_score = sub_total /
+                      questions[key].Questions.length %> <% avg_score =
+                      avg_score.toFixed(2); %> Averge Score : <%= avg_score %> /
+                      5
+                    </h4>
+                    <h3 style="color: darkslategrey">
+                      <% let avg_percentage =(avg_score/5)*100 %> <%
+                      avg_percentage = avg_percentage.toFixed(2) %> Averge
+                      Percentage = <%= avg_percentage%> %
+                    </h3>
                   </div>
                 </div>
               </li>
-              <% i++; %> <% sub_total = 0 ; %> <% } %>
+              <% } %> <% i++; %> <% sub_total = 0 ; %> <% } %>
             </ul>
           </div>
         </div>

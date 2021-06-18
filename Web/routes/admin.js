@@ -732,7 +732,7 @@ router.get("/survey_data", (req, res) => {
                                   Question_wise_ratings[sections[i]];
                               }
 
-                              console.log(ratings);
+                              // console.log(ratings);
 
                               commentsRef
                                 .doc(req.query.id)
