@@ -724,13 +724,15 @@ router.get("/survey_data", (req, res) => {
                           AnswerRef.doc(req.query.id)
                             .get()
                             .then(response => {
-                              var ratings = [];
-                              ratings.push(
-                                response.data()["College Environment"]
-                              );
-                              ratings.push(
-                                response.data()["Teaching Learning Process"]
-                              );
+                              let Question_wise_ratings = response.data();
+                              let ratings = {};
+                              let sections = Object.keys(Question_wise_ratings);
+                              for (let i = 0; i < sections.length; i++) {
+                                ratings[sections[i]] =
+                                  Question_wise_ratings[sections[i]];
+                              }
+
+                              console.log(ratings);
 
                               commentsRef
                                 .doc(req.query.id)
@@ -769,6 +771,7 @@ router.get("/survey_data", (req, res) => {
                                                 ratings: ratings,
                                                 imgData: imgList,
                                                 comments,
+                                                sections,
                                               }
                                             );
                                             return;
@@ -788,6 +791,7 @@ router.get("/survey_data", (req, res) => {
                                             ratings: ratings,
                                             imgData: [],
                                             comments,
+                                            sections,
                                           }
                                         );
                                         return;
@@ -985,11 +989,8 @@ router.post("/generate_PDF", (req, res) => {
                         .get()
                         .then(Response => {
                           Response.forEach(doc => {
-                            //console.log(doc.id);
                             questions[doc.id] = doc.data();
                           });
-                          // var date = new Date(survey_Data.dateOfSurvey.seconds * 1000);
-                          // survey_Data['DateOfSurvey'] = date;
                           survey_Data["surveyID"] = req.query.id;
                           survey_Data["status"] = capitalize(
                             survey_Data["status"]
@@ -998,53 +999,107 @@ router.post("/generate_PDF", (req, res) => {
                           AnswerRef.doc(req.query.id)
                             .get()
                             .then(response => {
-                              var ratings = [];
-                              ratings.push(
-                                response.data()["College Environment"]
-                              );
-                              ratings.push(
-                                response.data()["Teaching Learning Process"]
-                              );
+                              let survey_res = response.data();
+                              let sections = Object.keys(survey_res);
 
-                              // res.json({
-                              // 	surveyData: survey_Data,
-                              // 	questions: questions,
-                              // 	ratings: ratings
-                              // });
-
-                              // console.log(
-                              // 	'--------------------------------------------------'
-                              // );
-
-                              let collegeEnvRatingBody = [];
-                              let teaching_LearningRatingBody = [];
-
-                              for (let i = 0; i < ratings.length; i++) {
-                                let temp_rating = ratings[i];
-                                let temp_arr = [];
-                                let temp_total = 0;
-                                for (let j = 0; j < temp_rating.length; j++) {
-                                  let question = "",
-                                    score = "";
-                                  let temp = temp_rating[j].toString();
-                                  question = temp.split("_")[0];
-                                  score = temp.split("_")[1];
-                                  temp_total += parseFloat(score);
-                                  temp_arr.push([question, score]);
+                              let survey_data = {};
+                              for (let i = 0; i < sections.length; i++) {
+                                let score = [],
+                                  questions = [],
+                                  total = 0;
+                                for (
+                                  let j = 0;
+                                  j < survey_res[sections[i]].length;
+                                  j++
+                                ) {
+                                  let temp =
+                                    survey_res[sections[i]][j].split("_");
+                                  questions.push(temp[0]);
+                                  let t_score = parseFloat(temp[1]);
+                                  total += t_score;
+                                  score.push(temp[1]);
                                 }
-                                temp_arr.push([
-                                  "Total Score",
-                                  temp_total + "/" + temp_rating.length * 5,
-                                ]);
-                                if (i === 0) {
-                                  collegeEnvRatingBody = temp_arr;
-                                } else if (i === 1) {
-                                  teaching_LearningRatingBody = temp_arr;
-                                }
+
+                                survey_data[sections[i]] = {
+                                  Questions: questions,
+                                  Ratings: score,
+                                  Total_Score: total,
+                                };
                               }
 
-                              // console.log(collegeEnvRatingBody);
-                              // console.log(teaching_LearningRatingBody);
+                              const current_date =
+                                new Date().toLocaleDateString("en-IN", {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "2-digit",
+                                });
+
+                              const curr_Date = new Date().toLocaleString(
+                                "en-US",
+                                {
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                }
+                              );
+                              let content_data = [
+                                { text: "E-Survey Report", style: "header" },
+                                `This is an Official documentation generated by E-survey and Dashboard **(for Admin Only).\n\n Date and Time of Report Generation: ${current_date} ${curr_Date} \n\n`,
+
+                                {
+                                  text: "Survey Details",
+                                  style: "subheader",
+                                },
+                                "\nSurvey ID : " +
+                                  survey_Data.surveyID.toString(),
+                                "\nVisitor ID : " +
+                                  survey_Data.visitorId.toString(),
+                                "\nCollege Name : " +
+                                  survey_Data.collegeName.toString(),
+                                "\nStatus : Completed",
+                                "\nDate of Survey : " +
+                                  survey_Data.dateOfSurvey.toString(),
+
+                                { text: "Ratings/Score", style: "subheader" },
+                              ];
+
+                              for (let i = 0; i < sections.length; i++) {
+                                tempBody = [];
+
+                                for (
+                                  let j = 0;
+                                  j < survey_data[sections[i]].Questions.length;
+                                  j++
+                                ) {
+                                  tempBody.push([
+                                    survey_data[sections[i]].Questions[j],
+                                    survey_data[sections[i]].Ratings[j],
+                                  ]);
+                                }
+
+                                content_data.push({
+                                  text: sections[i],
+                                  style: "section_title",
+                                });
+                                content_data.push({
+                                  text:
+                                    "Total Score : " +
+                                    survey_data[sections[i]].Total_Score +
+                                    "/" +
+                                    survey_data[sections[i]].Questions.length *
+                                      5,
+                                });
+                                content_data.push({
+                                  text: "\nQuestions-Marks Breakdown :",
+                                });
+                                content_data.push({
+                                  style: "tableExample",
+                                  table: {
+                                    widths: ["*", "auto"],
+                                    body: tempBody,
+                                  },
+                                });
+                              }
 
                               let docDefinition = {
                                 watermark: {
@@ -1055,68 +1110,7 @@ router.post("/generate_PDF", (req, res) => {
                                   italics: false,
                                 },
 
-                                content: [
-                                  { text: "E-Survey Report", style: "header" },
-                                  `This is an Official documentation generated by E-survey and Dashboard **(for Admin Only).\n\n Date and Time of Report Generation: ${new Date().toLocaleDateString(
-                                    "en-IN",
-                                    {
-                                      year: "numeric",
-                                      month: "short",
-                                      day: "2-digit",
-                                    }
-                                  )} ${new Date().toLocaleString("en-US", {
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                    hour12: true,
-                                  })}\n\n`,
-
-                                  {
-                                    text: "Survey Details",
-                                    style: "subheader",
-                                  },
-                                  "\nSurvey ID : " +
-                                    survey_Data.surveyID.toString(),
-                                  "\nVisitor ID : " +
-                                    survey_Data.visitorId.toString(),
-                                  "\nCollege Name : " +
-                                    survey_Data.collegeName.toString(),
-                                  "\nStatus : Completed",
-                                  "\nDate of Survey : " +
-                                    survey_Data.dateOfSurvey.toString(),
-
-                                  { text: "Ratings/Score", style: "subheader" },
-                                  "It includes different sections to judge the teaching and learning process in an Insitute or College.",
-                                  {
-                                    text: "College Environment",
-                                    style: "section_title",
-                                  },
-                                  "Average Score : " +
-                                    survey_Data.scoreOfTeaching[0] +
-                                    "/5",
-                                  "\nQuestions-Marks Breakdown :",
-                                  {
-                                    style: "tableExample",
-                                    table: {
-                                      widths: ["*", "auto"],
-                                      body: collegeEnvRatingBody,
-                                    },
-                                  },
-                                  {
-                                    text: "Teaching Learning Process ",
-                                    style: "section_title",
-                                  },
-                                  "Average Score : " +
-                                    survey_Data.scoreOfTeaching[1] +
-                                    "/5",
-                                  "\nQuestions-Marks Breakdown :",
-                                  {
-                                    style: "tableExample",
-                                    table: {
-                                      widths: ["*", "auto"],
-                                      body: teaching_LearningRatingBody,
-                                    },
-                                  },
-                                ],
+                                content: content_data,
                                 styles: {
                                   header: {
                                     fontSize: 30,
@@ -1164,9 +1158,9 @@ router.post("/generate_PDF", (req, res) => {
                                   data.toString("utf-8"),
                                   "base64"
                                 );
+
                                 res.end(download);
                               });
-
                               return;
                             })
                             .catch(err => {
