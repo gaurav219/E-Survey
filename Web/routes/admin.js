@@ -47,32 +47,32 @@ pdfMake.vfs = vfsFonts.pdfMake.vfs;
 // get the list of colleges from FireStore
 collegesRef
   .get()
-  .then(snapshot => {
-    snapshot.forEach(doc => {
+  .then((snapshot) => {
+    snapshot.forEach((doc) => {
       //console.log(doc.data().CollegeName);
       collegesNames.push(doc.data().CollegeName);
     });
     // console.log(collegesNames);
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err, "getListOfColleges");
   });
 
 // get the list of visitors from FireStore
 visitorDataRef
   .get()
-  .then(snapshot => {
-    snapshot.forEach(doc => {
+  .then((snapshot) => {
+    snapshot.forEach((doc) => {
       visitor_list.push(doc.id);
     });
     // console.log(visitor_list);
   })
-  .catch(err => {
+  .catch((err) => {
     console.log(err, "getListOfVisitors");
   });
 
 //Capital first letter of a string
-const capitalize = s => {
+const capitalize = (s) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
@@ -92,8 +92,8 @@ router.get("/visitor_signUp", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             res.render("Admin/visitor_signup.ejs");
@@ -101,7 +101,7 @@ router.get("/visitor_signUp", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Visitor SignUp Admin UnAuth ");
         res.redirect("/admin_login");
         return;
@@ -127,7 +127,7 @@ router.post("/visitor_signUp", (req, res) => {
   visitorDataRef
     .doc(req.body.email)
     .set(new_Visitor_Data)
-    .then(err => {
+    .then((err) => {
       if (err) {
         console.log(err, "VISITOR ERROR");
         res.redirect("/visitor_signUp");
@@ -138,7 +138,7 @@ router.post("/visitor_signUp", (req, res) => {
         return;
       }
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e, "Error setting a Visitor");
       return;
     });
@@ -161,8 +161,8 @@ router.post("/admin_login", (req, res) => {
             var user = firebase.auth().currentUser;
             adminRef
               .get()
-              .then(snapshot => {
-                snapshot.forEach(doc => {
+              .then((snapshot) => {
+                snapshot.forEach((doc) => {
                   var temp_username = doc.id;
                   if (temp_username === user.email) {
                     res.redirect("/admin_home");
@@ -170,21 +170,22 @@ router.post("/admin_login", (req, res) => {
                   }
                 });
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err.message, "Not an Admin - Admin Login");
                 res.redirect("/admin_login");
                 return;
               });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err.message, "Invalid Credentials - Admin Login");
             res.render("Admin/admin_login.ejs", {
-              msg: err.message.toString(),
+              alert_msg: err.message.toString(),
+              key,
             });
             return;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "InComplete SignOut - admin login");
         return;
       });
@@ -199,8 +200,8 @@ router.post("/admin_login", (req, res) => {
         var user = firebase.auth().currentUser;
         adminRef
           .get()
-          .then(snapshot => {
-            snapshot.forEach(doc => {
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
               var temp_username = doc.id;
               if (temp_username === user.email) {
                 res.redirect("/admin_home");
@@ -208,15 +209,18 @@ router.post("/admin_login", (req, res) => {
               }
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err.message, "Not an Admin - Admin Login");
             res.redirect("/admin_login");
             return;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Credentials - Admins Login");
-        res.render("Admin/admin_login.ejs", { msg: err.message.toString() });
+        res.render("Admin/admin_login.ejs", {
+          alert_msg: err.message.toString(),
+          key,
+        });
         return;
       });
   }
@@ -232,7 +236,7 @@ router.get("/admin_logout", (req, res) => {
       res.redirect("/admin_login");
       return;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err.message, "Incomplete Logout");
       res.redirect("/");
     });
@@ -243,8 +247,8 @@ router.get("/admin_home", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             res.render("Admin/admin_home.ejs", {
@@ -255,7 +259,7 @@ router.get("/admin_home", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - Home");
         res.redirect("/admin_login");
         return;
@@ -275,16 +279,16 @@ router.get("/visiting_Officer_list", (req, res) => {
 
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             console.log("USER IS ADMIN");
             var Visiting_Officer_Data = [];
             visitorDataRef
               .get()
-              .then(result => {
-                result.forEach(tempdata => {
+              .then((result) => {
+                result.forEach((tempdata) => {
                   Visiting_Officer_Data.push(tempdata.data());
                 });
 
@@ -294,7 +298,7 @@ router.get("/visiting_Officer_list", (req, res) => {
                 });
                 return;
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(
                   err.message,
                   "Invalid Admin -  List of Visiting Officers"
@@ -304,7 +308,7 @@ router.get("/visiting_Officer_list", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - List of Visiting Officers");
         res.redirect("/admin_login");
         return;
@@ -321,15 +325,15 @@ router.get("/remove_officers", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
+      .then((snapshot) => {
         var Visiting_Officer_Data = [];
         visitorDataRef
           .get()
-          .then(result => {
-            result.forEach(tempdata => {
+          .then((result) => {
+            result.forEach((tempdata) => {
               Visiting_Officer_Data.push(tempdata.data());
             });
-            snapshot.forEach(doc => {
+            snapshot.forEach((doc) => {
               var temp_username = doc.id;
               if (temp_username === user.email) {
                 console.log(Visiting_Officer_Data);
@@ -340,7 +344,7 @@ router.get("/remove_officers", (req, res) => {
               }
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(
               err.message,
               "Invalid Visitor - Remove Visiting Officers"
@@ -348,7 +352,7 @@ router.get("/remove_officers", (req, res) => {
             return;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin -  Remove Visiting Officers");
         res.redirect("/admin_login");
         return;
@@ -369,7 +373,7 @@ router.get("/removeOfficer/:id", (req, res) => {
       res.redirect("/remove_officers");
       return;
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e.message, "Invalid Visitor - Remove Visiting Officers");
       res.redirect("/remove_officers");
     });
@@ -381,8 +385,8 @@ router.get("/assign_new_survey", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             console.log(collegesNames);
@@ -394,7 +398,7 @@ router.get("/assign_new_survey", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - New Survey");
         res.redirect("/admin_login");
         return;
@@ -410,8 +414,8 @@ router.post("/assign_new_survey", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             var assignDate = firebase.firestore.Timestamp.fromDate(
@@ -420,8 +424,8 @@ router.post("/assign_new_survey", (req, res) => {
             var collegeLocation = [];
             collegesRef
               .get()
-              .then(response => {
-                response.forEach(doc => {
+              .then((response) => {
+                response.forEach((doc) => {
                   if (
                     doc.data().CollegeName.toLowerCase() ===
                     req.body.college.toLowerCase()
@@ -463,7 +467,7 @@ router.post("/assign_new_survey", (req, res) => {
                     return;
                   });
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(
                   err.message,
                   "College Data not Fetched - New Survey POST"
@@ -474,7 +478,7 @@ router.post("/assign_new_survey", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - New Survey - POST");
         res.redirect("/admin_login");
         return;
@@ -491,15 +495,15 @@ router.get("/visitor_data", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             // res.send(req.query.id)
             visitorDataRef
               .doc(req.query.id)
               .get()
-              .then(doc => {
+              .then((doc) => {
                 if (doc.exists) {
                   res.render("Admin/visitorProfile.ejs", {
                     user_data: doc.data(),
@@ -510,7 +514,7 @@ router.get("/visitor_data", (req, res) => {
                   return;
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err.message, "Invalid Visitor - Visitor Data");
                 res.redirect("/");
                 return;
@@ -518,7 +522,7 @@ router.get("/visitor_data", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - Visitor Data");
         res.redirect("/admin_login");
         return;
@@ -535,23 +539,23 @@ router.get("/show_Surveys", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
+      .then((snapshot) => {
         var All_Surveys = [];
         surveysRef
           .get()
-          .then(result => {
-            result.forEach(tempdata => {
+          .then((result) => {
+            result.forEach((tempdata) => {
               var tempData = tempdata.data();
               tempData["id"] = tempdata.id;
               All_Surveys.push(tempData);
             });
-            snapshot.forEach(doc => {
+            snapshot.forEach((doc) => {
               var temp_username = doc.id;
               if (temp_username === user.email) {
                 // console.log(All_Surveys);
                 var Pending_Surveys = [],
                   Completed_Surveys = [];
-                All_Surveys.forEach(survey => {
+                All_Surveys.forEach((survey) => {
                   if (survey.status == "open") {
                     var date = new Date(survey.assignDate.seconds * 1000);
                     survey["assignDateOfSurvey"] = date;
@@ -587,13 +591,13 @@ router.get("/show_Surveys", (req, res) => {
               }
             });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err.message, "Invalid Survey - All Surveys Data");
             res.redirect("/admin_home");
             return;
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - All Surveys Data");
         res.redirect("/admin_login");
         return;
@@ -613,31 +617,33 @@ router.get("/show_Queries", (req, res) => {
 
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             console.log("USER IS ADMIN");
             var Queries = [];
             QueriesRef.get()
-              .then(result => {
-                result.forEach(tempdata => {
+              .then((result) => {
+                result.forEach((tempdata) => {
                   const query = tempdata.data();
                   query["id"] = tempdata.id;
                   //   console.log(tempdata.data(), "tempddata");
                   Queries.push(query);
                 });
                 let rejected = Queries.filter(
-                  query => query.status === "Rejected"
+                  (query) => query.status === "Rejected"
                 );
                 let approved = Queries.filter(
-                  query => query.status === "Approved"
+                  (query) => query.status === "Approved"
                 );
                 let pending = Queries.filter(
-                  query => query.status === "Pending"
+                  (query) => query.status === "Pending"
                 );
 
-                Queries = Queries.filter(query => query.status !== "Rejected");
+                Queries = Queries.filter(
+                  (query) => query.status !== "Rejected"
+                );
                 //console.log(Queries);
                 res.render("Admin/show_Queries.ejs", {
                   data: Queries,
@@ -647,14 +653,14 @@ router.get("/show_Queries", (req, res) => {
                 });
                 return;
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log(err.message, "Invalid Admin -  List of Queries");
                 return;
               });
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - List of Queries");
         res.redirect("/admin_login");
         return;
@@ -671,8 +677,8 @@ router.get("/survey_data", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             // if the Survey ID in query is empty ""
@@ -683,7 +689,7 @@ router.get("/survey_data", (req, res) => {
               surveysRef
                 .doc(req.query.id)
                 .get()
-                .then(doc => {
+                .then((doc) => {
                   if (!doc.exists) {
                     res.redirect("/");
                     return;
@@ -709,8 +715,8 @@ router.get("/survey_data", (req, res) => {
                       //res.send(survey_Data)
                       questionsRef
                         .get()
-                        .then(Response => {
-                          Response.forEach(doc => {
+                        .then((Response) => {
+                          Response.forEach((doc) => {
                             //console.log(doc.id);
                             questions[doc.id] = doc.data();
                           });
@@ -723,7 +729,7 @@ router.get("/survey_data", (req, res) => {
                           //console.log(survey_Data);
                           AnswerRef.doc(req.query.id)
                             .get()
-                            .then(response => {
+                            .then((response) => {
                               let Question_wise_ratings = response.data();
                               let ratings = {};
                               let sections = Object.keys(Question_wise_ratings);
@@ -737,7 +743,7 @@ router.get("/survey_data", (req, res) => {
                               commentsRef
                                 .doc(req.query.id)
                                 .get()
-                                .then(commentsRes => {
+                                .then((commentsRes) => {
                                   let comments = [];
                                   if (commentsRes.exists) {
                                     comments = commentsRes.data();
@@ -746,7 +752,7 @@ router.get("/survey_data", (req, res) => {
                                   surveyImagesRef
                                     .doc(req.query.id)
                                     .get()
-                                    .then(img_res => {
+                                    .then((img_res) => {
                                       if (img_res.exists) {
                                         console.log(
                                           "Document data:",
@@ -757,9 +763,9 @@ router.get("/survey_data", (req, res) => {
                                           "/images/" + req.query.id + "/images"
                                         )
                                           .get()
-                                          .then(querySnapshot => {
+                                          .then((querySnapshot) => {
                                             let imgList = [];
-                                            querySnapshot.forEach(doc => {
+                                            querySnapshot.forEach((doc) => {
                                               imgList.push(doc.data().url);
                                             });
                                             //console.log(imgList.length);
@@ -776,7 +782,7 @@ router.get("/survey_data", (req, res) => {
                                             );
                                             return;
                                           })
-                                          .catch(err => {
+                                          .catch((err) => {
                                             console.log(err);
                                             res.redirect("/admin_home");
                                             return;
@@ -797,7 +803,7 @@ router.get("/survey_data", (req, res) => {
                                         return;
                                       }
                                     })
-                                    .catch(err => {
+                                    .catch((err) => {
                                       console.log(
                                         err,
                                         "Invalid survey ID for images"
@@ -806,7 +812,7 @@ router.get("/survey_data", (req, res) => {
                                       return;
                                     });
                                 })
-                                .catch(err => {
+                                .catch((err) => {
                                   console.log(
                                     err,
                                     "Invalid survey ID for images"
@@ -815,7 +821,7 @@ router.get("/survey_data", (req, res) => {
                                   return;
                                 });
                             })
-                            .catch(err => {
+                            .catch((err) => {
                               console.log(
                                 err,
                                 "Invalid Answers - Single Survey Data"
@@ -824,7 +830,7 @@ router.get("/survey_data", (req, res) => {
                               return;
                             });
                         })
-                        .catch(err => {
+                        .catch((err) => {
                           console.log(
                             err,
                             "Invalid Questions - Single Survey Data"
@@ -835,7 +841,7 @@ router.get("/survey_data", (req, res) => {
                     }
                   }
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err, "Invalid Survey Data - Single Survey Data");
                   res.redirect("/admin_home");
                 });
@@ -843,7 +849,7 @@ router.get("/survey_data", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, "Invalid Admin - Single Survey Data");
         res.redirect("/admin_login");
         return;
@@ -860,8 +866,8 @@ router.get("/add_college", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             res.render("Admin/admin_add_college.ejs");
@@ -869,7 +875,7 @@ router.get("/add_college", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, "Invalid Answers - Add College Data");
         res.redirect("/");
         return;
@@ -886,8 +892,8 @@ router.post("/add_college", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             var lat = parseFloat(req.body.latitude);
@@ -917,7 +923,7 @@ router.post("/add_college", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, "Invalid Answers - Add College Data - POST");
         res.redirect("/admin_login");
         return;
@@ -941,7 +947,7 @@ router.get("/getEmailVerified", (req, res) => {
           res.redirect("/visitor_home");
           return;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err, "Invalid Email verification-Visitor");
           res.redirect("/");
         });
@@ -957,8 +963,8 @@ router.post("/generate_PDF", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             // if the Survey ID in query is empty ""
@@ -969,7 +975,7 @@ router.post("/generate_PDF", (req, res) => {
               surveysRef
                 .doc(req.query.id)
                 .get()
-                .then(doc => {
+                .then((doc) => {
                   if (!doc.exists) {
                     res.redirect("/");
                     return;
@@ -987,8 +993,8 @@ router.post("/generate_PDF", (req, res) => {
                       //res.send(survey_Data)
                       questionsRef
                         .get()
-                        .then(Response => {
-                          Response.forEach(doc => {
+                        .then((Response) => {
+                          Response.forEach((doc) => {
                             questions[doc.id] = doc.data();
                           });
                           survey_Data["surveyID"] = req.query.id;
@@ -998,7 +1004,7 @@ router.post("/generate_PDF", (req, res) => {
                           //console.log(survey_Data);
                           AnswerRef.doc(req.query.id)
                             .get()
-                            .then(response => {
+                            .then((response) => {
                               let survey_res = response.data();
                               let sections = Object.keys(survey_res);
 
@@ -1012,8 +1018,9 @@ router.post("/generate_PDF", (req, res) => {
                                   j < survey_res[sections[i]].length;
                                   j++
                                 ) {
-                                  let temp =
-                                    survey_res[sections[i]][j].split("_");
+                                  let temp = survey_res[sections[i]][j].split(
+                                    "_"
+                                  );
                                   questions.push(temp[0]);
                                   let t_score = parseFloat(temp[1]);
                                   total += t_score;
@@ -1027,12 +1034,14 @@ router.post("/generate_PDF", (req, res) => {
                                 };
                               }
 
-                              const current_date =
-                                new Date().toLocaleDateString("en-IN", {
+                              const current_date = new Date().toLocaleDateString(
+                                "en-IN",
+                                {
                                   year: "numeric",
                                   month: "short",
                                   day: "2-digit",
-                                });
+                                }
+                              );
 
                               const curr_Date = new Date().toLocaleString(
                                 "en-US",
@@ -1139,7 +1148,7 @@ router.post("/generate_PDF", (req, res) => {
                               const curr_date = new Date();
 
                               const pdfDoc = pdfMake.createPdf(docDefinition);
-                              pdfDoc.getBase64(data => {
+                              pdfDoc.getBase64((data) => {
                                 res.writeHead(200, {
                                   "Content-Type": "application/pdf",
                                   "Content-Disposition": `attachment; filename=${
@@ -1163,7 +1172,7 @@ router.post("/generate_PDF", (req, res) => {
                               });
                               return;
                             })
-                            .catch(err => {
+                            .catch((err) => {
                               console.log(
                                 err,
                                 "Invalid Answers - Single Survey Data"
@@ -1172,7 +1181,7 @@ router.post("/generate_PDF", (req, res) => {
                               return;
                             });
                         })
-                        .catch(err => {
+                        .catch((err) => {
                           console.log(
                             err,
                             "Invalid Questions - Single Survey Data"
@@ -1183,7 +1192,7 @@ router.post("/generate_PDF", (req, res) => {
                     }
                   }
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err, "Invalid Survey Data - Single Survey Data");
                   res.redirect("/admin_home");
                 });
@@ -1191,7 +1200,7 @@ router.post("/generate_PDF", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err, "Invalid Admin - Single Survey Data");
         res.redirect("/admin_login");
         return;
@@ -1208,8 +1217,8 @@ router.get("/query", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             if (req.query.id.length == 0) {
@@ -1218,7 +1227,7 @@ router.get("/query", (req, res) => {
             } else {
               QueriesRef.doc(req.query.id)
                 .get()
-                .then(result => {
+                .then((result) => {
                   let data = result.data();
                   data["id"] = req.query.id;
                   console.log(data);
@@ -1228,7 +1237,7 @@ router.get("/query", (req, res) => {
                   });
                   return;
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(err.message, "Invalid Admin -  Query ID ");
                   res.redirect("/admin_home");
                   return;
@@ -1237,7 +1246,7 @@ router.get("/query", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - List of Queries");
         res.redirect("/admin_login");
         return;
@@ -1253,8 +1262,8 @@ router.get("/request_response/:id", (req, res) => {
   if (user) {
     adminRef
       .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
           var temp_username = doc.id;
           if (temp_username === user.email) {
             if (req.params.id.length == 0) {
@@ -1286,7 +1295,7 @@ router.get("/request_response/:id", (req, res) => {
           }
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message, "Invalid Admin - Respond Query");
         res.redirect("/admin_login");
         return;
