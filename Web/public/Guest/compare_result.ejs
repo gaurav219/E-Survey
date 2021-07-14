@@ -40,6 +40,16 @@
       td {
         text-align: center;
       }
+
+        @media screen and (max-width: 600px) {
+
+        #table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+
     </style>
   </head>
 
@@ -111,7 +121,7 @@
               <%= data.collegeData1.CollegeName %> vs <%=
               data.collegeData2.CollegeName %>
             </h2>
-            <table class="table table-hover">
+            <table id="table" class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col"><h3>Paramter</h3></th>

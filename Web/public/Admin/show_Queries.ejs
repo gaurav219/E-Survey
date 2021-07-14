@@ -33,6 +33,25 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+
+    <style>
+       
+        @media screen and (max-width: 600px) {
+
+        .table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+
+        #pie-chart {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+        /* style="margin-left: 6vw" */
+    </style>
   </head>
 
   <body>
@@ -97,7 +116,7 @@
           <h2>Statistical Data based on Student Queries.</h2>
         </div>
         <div class="container">
-          <div style="margin-left: 6vw" class="row justify-content-center">
+          <div id="pie-chart" style="margin-left: 6vw" class="row justify-content-center">
             <!-- CHARTS  -->
             <h2 id="msg" style="visibility: hidden">No Pending Queries</h2>
             <div class="col-lg-10" id="pie"></div>
@@ -182,7 +201,7 @@
           <h2>List of <b style="color: green">Approved</b> Queries</h2>
         </div>
         <div class="row content">
-          <table class="table table-hover">
+          <table id="table" class="table table-hover">
             <thead class="thead-dark">
               <tr>
                 <!-- <th scope="col">SNo</th> -->

@@ -36,6 +36,17 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <style>
+
+        @media screen and (max-width: 600px) {
+
+        #table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -90,7 +101,7 @@
           </div>
           
           <div class="row content">
-            <table class="table table-hover">
+            <table id="table" class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">SNo</th>

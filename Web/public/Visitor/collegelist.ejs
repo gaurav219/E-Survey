@@ -56,6 +56,16 @@
         if (d.head) d.head.appendChild(s);
       })(document, window, "Chatra");
     </script>
+    <style>
+        @media screen and (max-width: 600px) {
+
+        #table {
+          display: block;
+          overflow-x: auto;
+          white-space: nowrap;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -111,7 +121,7 @@
           <div class="row content">
             <input type="text" alt="Search" id="search" class="form-control" name="search" placeholder="Search your college" />
             <br><br>
-            <table class="table table-hover">
+            <table id="table" class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">SNo</th>
