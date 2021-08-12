@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#30bbbe"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="#000">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/appName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="E Survey"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/search"-->
+                <!--                    android:layout_width="40dp"-->
+                <!--                    android:layout_height="40dp"-->
+                <!--                    android:layout_alignParentEnd="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:layout_marginEnd="4dp"-->
+                <!--                    android:src="@drawable/ic_search_white_24dp" />-->
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbarlayout"
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:id="@+id/surveyLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/imagePending"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorPrimary"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="32dp"
+                    android:src="@drawable/surveyicon" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@+id/imagePending"
+                android:background="@color/colorPrimary"
+                android:gravity="start|center_vertical"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:text="Pending Surveys"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+            <RelativeLayout
+                android:id="@+id/imageComplete"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@+id/button1"
+                android:layout_marginTop="16dp"
+                android:background="#3fb059"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="32dp"
+                    android:src="@drawable/checked" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@id/button1"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@+id/imageComplete"
+                android:background="#3fb059"
+                android:gravity="center_vertical|start"
+                android:paddingStart="32dp"
+                android:paddingEnd="16dp"
+                android:text="Completed Surveys"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+
+        </RelativeLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/surveyLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical">-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/button1"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="100dp"-->
+        <!--                android:layout_margin="16dp"-->
+        <!--                android:background="@color/colorPrimary"-->
+        <!--                android:text="Pending Surveys"-->
+        <!--                android:textColor="#fff" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/button2"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="100dp"-->
+        <!--                android:layout_below="@id/button1"-->
+        <!--                android:layout_margin="16dp"-->
+        <!--                android:background="#3fb059"-->
+        <!--                android:text="Previous Surveys"-->
+        <!--                android:textColor="#fff" />-->
+        <!--        </LinearLayout>-->
+
+        <RelativeLayout
+            android:id="@+id/permissionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Permission Required"
+                android:src="@drawable/es_permission" />
+
+            <Button
+                android:id="@+id/allowButton"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="#000"
+                android:text="ALLOW"
+                android:textColor="#d8de3f"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/survey"
+            android:layout_below="@+id/surveyLayout"/>
+
+        <!--    <androidx.recyclerview.widget.RecyclerView-->
+        <!--        android:id="@+id/recyclerView"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content" />-->
+    </RelativeLayout>
+
+</RelativeLayout>
