@@ -1,6 +1,10 @@
 # Major Project 2021
 
-E-Survey and Report Dashboard
+<h2>E-Survey and Report Dashboard</h2>
+
+To bring in paradigm shift, the teacher needs feedback, review and support. In the existing system, there is no check for visit compliance. No data is available pertaining to visits for supporting the teacher to make data driven decision, for example training diagnosing the academic issues, curriculum revision etc.
+
+In this context, we aim to develop a <strong>E-Platform (Web-App) and Android App </strong> for automating the monitoring the feedback process. Also, to make the data and report graphically interactive & expressive. Analyze and Work on the Feedback and Query support for the College student regarding issues such as Career Guidance, Financial support etc.
 
 ## Team
 
