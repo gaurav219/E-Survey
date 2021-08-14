@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">E Survey</string>
+    <string name="survey_ref">surveys</string>
+
+    <string name="verif_dialog">Your account is not verified. Only verified account can access the app.
+             \nIf you think this is a mistake drop a mail at sahilsbi98@gmail.com</string>
+
+    <string name="openDrawer">Navigation Drawer Open</string>
+    <string name="closeDrawer">Close Navigation Drawer</string>
+</resources>

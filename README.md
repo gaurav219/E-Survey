@@ -44,6 +44,7 @@ npm install
 ### Android
 
 ```
+APK link: https://drive.google.com/file/d/1qsoGqSrbOBBjKORqBqQkil235L9gybbs/view?usp=sharing
 ```
 ### Web
 

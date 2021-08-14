@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "694874005037",
+    "firebase_url": "https://survey-form-sih-2020.firebaseio.com",
+    "project_id": "survey-form-sih-2020",
+    "storage_bucket": "survey-form-sih-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694874005037:android:9974345d0f3c34baa322a4",
+        "android_client_info": {
+          "package_name": "com.cseip19.esurvey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694874005037-96p7sfu98m185aitk983bur0miapugkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG67GY0EMuqVt3Z8U_tczWuNPoD3m0-Ak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694874005037-96p7sfu98m185aitk983bur0miapugkt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
