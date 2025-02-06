@@ -1,6 +1,5 @@
-# Major Project 2021
 
-<h2>E-Survey and Report Dashboard</h2>
+# E-Survey and Report Dashboard</h2>
 
 To bring in paradigm shift, the teacher needs feedback, review and support. In the existing system, there is no check for visit compliance. No data is available pertaining to visits for supporting the teacher to make data driven decision, for example training diagnosing the academic issues, curriculum revision etc.
 
